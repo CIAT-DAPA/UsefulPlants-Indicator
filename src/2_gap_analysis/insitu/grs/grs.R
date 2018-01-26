@@ -1,8 +1,6 @@
 ##########################################  Start Install Packages  ###############################################
 
-# install.packages(c("raster","sp","rgdal","rgeos","dismo","FactoMineR","car","factoextra","ggplot2","reshape2","ade4","ff","spatstat"))
-# install.packages(c("sdm","shapefiles","caret"))
-# install.packages("velox")
+# install.packages(c("raster","sp","rgdal","rgeos","sf","shapefiles"))
 
 ##########################################   End Install Packages  ###############################################
 
@@ -13,9 +11,6 @@
 require(raster)
 require(rgdal)
 require(sf)
-require(tidyverse)
-require(tmaptools)
-require(velox)
 
 ##########################################   End Requirements  ###############################################
 
@@ -50,8 +45,10 @@ species.list = list.dirs(species.dir,full.names = FALSE, recursive = FALSE)
 # @return (void): This function does not return nothing
 calculate_grs = function(specie){
   
-  #
-  specie.dir = paste0(species.dir, specie)
+  print(paste0("Start ",specie))
+  
+  # Set the global
+  specie.dir = paste0(species.dir, specie, "/")
   specie = gsub(".csv", "", specie)
   
   # Load the specie raster (specie distribution)
@@ -59,8 +56,12 @@ calculate_grs = function(specie){
   # Remove the zeros (0) from raster
   specie.distribution[which(specie.distribution[]==0)]<-NA
   
+  print("Loaded the specie distribution file (raster)")
+  
   # Intersect betwenn specie distribution and protected areas
   overlay = pa.raster * specie.distribution
+  
+  print("Intersected the specie distribution and global protected areas")
   
   # Get pixels with data from intersect
   a = which(!is.na(overlay[]))
@@ -79,21 +80,33 @@ calculate_grs = function(specie){
   # Calculate proportion area
   proportion = (overlay.area / specie.area) * 100
   
-  # Join the results
-  df <- data.frame(specie_distribution_area = specie.area, species_protected_area_area = overlay.area, proportion = proportion, units = c("km2"))
+  print("Calculated the areas and proportions")
   
+  # Join the results
+  df <- data.frame(specie_distribution_a = specie.area, species_protected_area_a = overlay.area, units_a = c("km2"), proportion = proportion, units_proportion = c("percentage"))
+  
+  # Create output dirs
+  if(!dir.exists(paste0(specie.dir,"gap_analysis"))){
+    dir.create(paste0(specie.dir,"gap_analysis"))
+  }
+  if(!dir.exists(paste0(specie.dir,"gap_analysis/insitu"))){
+    dir.create(paste0(specie.dir,"gap_analysis/insitu"))
+  }
   # Save the results
-  species.output = paste0(specie.dir,"grs")
+  species.output = paste0(specie.dir,"gap_analysis/insitu/grs")
   dir.create(species.output)
   write.csv(df, paste0(species.output,"/result.csv"), row.names = FALSE, quote = FALSE)
-  writeRaster(ovr, paste0(species.output,"/intersect.tif"))
+  writeRaster(overlay, paste0(species.output,"/intersect.tif"))
   
   # Remove temp files
   removeTmpFiles(h=0)
+  
+  print(paste0("End ",specie))
 }
 ##########################################    End Functions    ###############################################
 
 
 ##########################################   Start Process    ###############################################
 
-lapply(species.list[10],calculate_grs)
+# specie = species.list[10]
+# lapply(species.list[1],calculate_grs)
