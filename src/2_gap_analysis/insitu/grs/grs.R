@@ -12,6 +12,7 @@ require(raster)
 require(rgdal)
 require(sf)
 library(snowfall)
+library(plyr)
 
 ##########################################   End Requirements  ###############################################
 
@@ -29,7 +30,7 @@ pa.raster = raster(pa.path)
 # Remove the zeros (0) from raster
 pa.raster[which(pa.raster[] == 0)] <- NA
 # Load the species list to execute process
-species.dir = "ENMeval_2/outputs/"
+species.dir = "ENMeval_4/outputs/"
 species.list = list.dirs(species.dir,full.names = FALSE, recursive = FALSE)
 
 ##########################################   End Set Parameters  ###############################################
@@ -124,15 +125,18 @@ calculate_grs = function(specie){
 
 ##########################################   Start Process    ###############################################
 
-# sfInit(parallel = T, cpus = 20)
-# sfLibrary(raster)
-# sfLibrary(rgdal)
-# sfLibrary(sf)
-# sfExportAll()
-# sfExport("calculate_grs")
-# 
-# sfLapply(species.list,calculate_grs)
+sfInit(parallel = T, cpus = 20)
+sfLibrary(raster)
+sfLibrary(rgdal)
+sfLibrary(sf)
+sfExportAll()
+sfExport("calculate_grs")
+
+result = sfLapply(species.list,calculate_grs)
 
 # specie = species.list[7]
 # lapply(species.list[7],calculate_grs)
-result = lapply(species.list,calculate_grs)
+#result = lapply(species.list,calculate_grs)
+
+df <- ldply(result, data.frame)
+write.csv(df, paste0("C:/Users/HSOTELO/Desktop/summary.csv"), row.names = FALSE, quote = FALSE)
