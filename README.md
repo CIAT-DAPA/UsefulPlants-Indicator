@@ -13,6 +13,35 @@ Project Management of the Aich13 Indicators for non-cultivated plant species wit
 * lower case
 * no spaces, only underlines
 
+## File structure
+
+```
+src/
+├── 0_cleaning/
+├── 1_modeling/
+│   ├── 1_1_maxent/
+|   │   ├── calibration
+|   │   ├── run
+|   │   └── evaluation
+│   └── 1_2_alternatives
+|       ├── ca50
+|       ├── gdm
+|       └── convexhull
+├── 2_gap_analysis
+│   ├── ex_situ
+|   │   ├── ca50_g
+|   │   ├── srs
+|   │   ├── grs
+|   │   ├── ers
+|   │   └── fps
+│   └── in_situ
+|   │   ├── grs
+|   │   ├── ers
+|   │   └── fps
+└── 3_indicator
+
+```
+
 ## Git branching
 
 * **master**: only for releases, don't touch!
