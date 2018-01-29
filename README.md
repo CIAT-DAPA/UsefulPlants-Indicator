@@ -35,9 +35,9 @@ src/
 |   │   ├── ers
 |   │   └── fps
 │   └── in_situ
-|   │   ├── grs
-|   │   ├── ers
-|   │   └── fps
+|       ├── grs
+|       ├── ers
+|       └── fps
 └── 3_indicator
 
 ```
