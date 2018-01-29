@@ -1,7 +1,7 @@
-# aichi13
-Project Management of the Aich13 indicators
+# Aichi13
+Project Management of the Aich13 Indicators for non-cultivated plant species with economical use
 
-## Documentation standard
+## Fucntions documentation standard
 
 ```r
 # Function description
@@ -9,7 +9,7 @@ Project Management of the Aich13 indicators
 # @return (type) result description
 ```
 
-## File names
+## File names standard
 * lower case
 * no spaces, only underlines
 
@@ -19,11 +19,11 @@ Project Management of the Aich13 indicators
 * **develop**: current development, changes to share with the team
 * **issue##**: your current resolving issue, document first the issue
 
-## Data sources
+## Variables sources
 
 | Variable |  Name | Source |
 | ------------- | ------------- |------------- | 
-|Elevation | [SRTM 90m Digital Elevation Data](http://srtm.csi.cgiar.org/) | CGIAR|
+|elevation | [SRTM 90m Digital Elevation Data](http://srtm.csi.cgiar.org/) | CGIAR|
 |Bioclimatic variables |   [WorldClim Version2](http://worldclim.org/version2) | WordlClim|
 |solar radiation| [WorldClim Version2](http://worldclim.org/version2) | WordlClim|
 |wind speed| [WorldClim Version2](http://worldclim.org/version2) | WordlClim|
@@ -38,9 +38,6 @@ Project Management of the Aich13 indicators
 | GENESYS  | ciat.20171127.csv.gz  | GENESYS Original occurrence records   |
 | CWR| cwr.zip  |Crop Wild Relatives database of CIAT   |
 | COUNTRY  | countryISO.csv  |Country names, ISO 3166-1 alpha-3 and alpha-2  |
-
-
-
 
 
 ## Modeling parameters
