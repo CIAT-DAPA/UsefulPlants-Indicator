@@ -44,7 +44,10 @@ species.list = list.dirs(species.dir,full.names = FALSE, recursive = FALSE)
 # the area from the specie distribution, overlay and the proportion between both.
 # It creates two files with the result (result.csv, intersect.tif)
 # @param (string) specie: Code of the specie
-# @return (void): This function does not return nothing
+# @return (data.frame): This function return a dataframe with the results about the process. 
+#                       It has three columns, the first has the specie code; the second has a status
+#                       of process, if value is "TRUE" the process finished good, if the result is "FALSE"
+#                       the process had a error; the third column has a description about process
 calculate_grs = function(specie){
   
   message = "Ok"
@@ -125,6 +128,7 @@ calculate_grs = function(specie){
 
 ##########################################   Start Process    ###############################################
 
+# Set a configuration to parallel the execution of function
 sfInit(parallel = T, cpus = 20)
 sfLibrary(raster)
 sfLibrary(rgdal)
@@ -132,11 +136,13 @@ sfLibrary(sf)
 sfExportAll()
 sfExport("calculate_grs")
 
+# Run function in parallel for all species
 result = sfLapply(species.list,calculate_grs)
 
 # specie = species.list[7]
 # lapply(species.list[7],calculate_grs)
-#result = lapply(species.list,calculate_grs)
+# result = lapply(species.list,calculate_grs)
 
+# Get the results for all species
 df <- ldply(result, data.frame)
 write.csv(df, paste0("C:/Users/HSOTELO/Desktop/summary.csv"), row.names = FALSE, quote = FALSE)
