@@ -1,7 +1,7 @@
 # Aichi13
 Project Management of the Aich13 Indicators for non-cultivated plant species with economical use
 
-## Fucntions documentation standard
+## Functions documentation standard
 
 ```r
 # Function description
@@ -48,16 +48,6 @@ src/
 * **develop**: current development, changes to share with the team
 * **issue##**: your current resolving issue, document first the issue
 
-## Variables sources
-
-| Variable |  Name | Source |
-| ------------- | ------------- |------------- | 
-|elevation | [SRTM 90m Digital Elevation Data](http://srtm.csi.cgiar.org/) | CGIAR|
-|bioclimatic variables |   [WorldClim Version2](http://worldclim.org/version2) | WordlClim|
-|solar radiation| [WorldClim Version2](http://worldclim.org/version2) | WordlClim|
-|wind speed| [WorldClim Version2](http://worldclim.org/version2) | WordlClim|
-|water vapor pressure| [WorldClim Version2](http://worldclim.org/version2) | WordlClim|
-
 ## Data files
 
 | Folder  | File|  Description |
@@ -67,6 +57,16 @@ src/
 | GENESYS  | genesys_zip | GENESYS Original occurrence records   |
 | CWR| cwr.zip  |Crop Wild Relatives database of CIAT   |
 | COUNTRY  | countryISO.csv  |Country names, ISO 3166-1 alpha-3 and alpha-2  |
+
+## Modeling variables sources
+
+| Variable |  Name | Source |
+| ------------- | ------------- |------------- | 
+|elevation | [SRTM 90m Digital Elevation Data](http://srtm.csi.cgiar.org/) | CGIAR|
+|bioclimatic variables |   [WorldClim Version2](http://worldclim.org/version2) | WordlClim|
+|solar radiation| [WorldClim Version2](http://worldclim.org/version2) | WordlClim|
+|wind speed| [WorldClim Version2](http://worldclim.org/version2) | WordlClim|
+|water vapor pressure| [WorldClim Version2](http://worldclim.org/version2) | WordlClim|
 
 
 ## Modeling parameters
