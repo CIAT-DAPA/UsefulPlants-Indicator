@@ -27,18 +27,18 @@ src/
 |       ├── ca50
 |       ├── gdm
 |       └── convexhull
-├── 2_gap_analysis
-│   ├── ex_situ
+├── 2_gap_analysis/
+│   ├── ex_situ/
 |   │   ├── ca50_g
 |   │   ├── srs
 |   │   ├── grs
 |   │   ├── ers
 |   │   └── fps
-│   └── in_situ
+│   └── in_situ/
 |       ├── grs
 |       ├── ers
 |       └── fps
-└── 3_indicator
+└── 3_indicator/
 
 ```
 
@@ -53,7 +53,7 @@ src/
 | Variable |  Name | Source |
 | ------------- | ------------- |------------- | 
 |elevation | [SRTM 90m Digital Elevation Data](http://srtm.csi.cgiar.org/) | CGIAR|
-|Bioclimatic variables |   [WorldClim Version2](http://worldclim.org/version2) | WordlClim|
+|bioclimatic variables |   [WorldClim Version2](http://worldclim.org/version2) | WordlClim|
 |solar radiation| [WorldClim Version2](http://worldclim.org/version2) | WordlClim|
 |wind speed| [WorldClim Version2](http://worldclim.org/version2) | WordlClim|
 |water vapor pressure| [WorldClim Version2](http://worldclim.org/version2) | WordlClim|
@@ -64,7 +64,7 @@ src/
 | ------------- | ------------- | ------------- |
 | WEP  | WEP.csv  | World Economic Plants databse |
 | GBIF  | gbif.zip |GBIF download of Plantae from 1950 to date |
-| GENESYS  | ciat.20171127.csv.gz  | GENESYS Original occurrence records   |
+| GENESYS  | genesys_zip | GENESYS Original occurrence records   |
 | CWR| cwr.zip  |Crop Wild Relatives database of CIAT   |
 | COUNTRY  | countryISO.csv  |Country names, ISO 3166-1 alpha-3 and alpha-2  |
 
