@@ -8,11 +8,11 @@
 ##########################################  Start Requirements  ###############################################
 
 # Load the libraries
-require(raster)
+# require(raster)
 require(rgdal)
 require(sf)
-library(snowfall)
-library(plyr)
+# library(snowfall)
+# library(plyr)
 
 ##########################################   End Requirements  ###############################################
 
@@ -20,8 +20,8 @@ library(plyr)
 ##########################################  Start Set Parameters  ###############################################
 
 # Global configuration
-rasterOptions(tmpdir = "D:/TEMP/hsotelo")
-setwd("//dapadfs/Projects_cluster_9/aichi/")
+# rasterOptions(tmpdir = "D:/TEMP/hsotelo")
+# setwd("//dapadfs/Projects_cluster_9/aichi/")
 
 # # Set the path of the file with global protected areas
 # pa.path = "parameters/protected_areas/raster/areas_protected_geographic.tif"
@@ -30,8 +30,8 @@ setwd("//dapadfs/Projects_cluster_9/aichi/")
 # # Remove the zeros (0) from raster
 # pa.raster[which(pa.raster[] == 0)] <- NA
 # Load the species list to execute process
-species.dir = "ENMeval_4/outputs/"
-species.list = list.dirs(species.dir,full.names = FALSE, recursive = FALSE)
+# species.dir = "ENMeval_4/outputs/"
+# species.list = list.dirs(species.dir,full.names = FALSE, recursive = FALSE)
 
 ##########################################   End Set Parameters  ###############################################
 
@@ -62,8 +62,7 @@ calculate_grs = function(specie){
     print(paste0("Start ",specie))
     
     # Set the global
-    specie.dir = paste0(species.dir, specie, "/")
-    #specie = gsub(".csv", "", specie)
+    specie.dir = paste0(species.dir, specie, "/", run_version, "/")
     specie.distribution = NULL
     
     # Search the raster file (specie distribution) from alternative model
@@ -81,7 +80,7 @@ calculate_grs = function(specie){
       # Join the results
       df <- data.frame(specie_distribution_a = c(0), species_protected_area_a = c(0), units_a = c("km2"), proportion = c(0), units_proportion = c("percentage"))
       # Save the results
-      save_results(df,NULL)
+      save_results_grs(df,NULL,specie.dir)
       return (data.frame(specie = specie, status = status, message = "The specie does not have distribution model"))
     }
     # Remove the zeros (0) from raster
@@ -94,7 +93,7 @@ calculate_grs = function(specie){
     specie.mask.stack = stack(specie.mask.path)
     specie.mask = specie.mask.stack[1]
     # Remove differents values from raster to get only the native area
-    specie.mask[which(specie.mask[]!=0)]<-1
+    specie.mask[which(specie.mask[]>=0)]<-1
     
     print("Loaded the native area of the specie (mask)")
     
@@ -131,7 +130,7 @@ calculate_grs = function(specie){
     df <- data.frame(specie_distribution_a = specie.area, species_protected_area_a = overlay.area, units_a = c("km2"), proportion = proportion, units_proportion = c("percentage"))
     
     # Save the results
-    save_results(df,overlay)
+    save_results_grs(df,overlay, specie.dir)
     return (data.frame(specie = specie, status = status, message = message))
   },
   error = function(e) {
@@ -143,7 +142,7 @@ calculate_grs = function(specie){
     df <- data.frame(specie_distribution_a = c(0), species_protected_area_a = c(0), units_a = c("km2"), proportion = c(0), units_proportion = c("percentage"))
     
     # Save the results
-    save_results(df,NULL)
+    save_results_grs(df,NULL, specie.dir)
     
     return (data.frame(specie = specie, status = status, message = message[[1]]))
   }, finally = {
@@ -160,7 +159,7 @@ calculate_grs = function(specie){
 # @param (data.frame) df; Data.frame with the analysis of protected areas
 # @param (raster) overlay: Intersect between specie distribution and protected areas
 # @return (void)
-save_results = function(df,overlay){
+save_results_grs = function(df,overlay,specie.dir){
   # Create output dirs
   if(!dir.exists(paste0(specie.dir,"gap_analysis"))){
     dir.create(paste0(specie.dir,"gap_analysis"))
@@ -169,10 +168,10 @@ save_results = function(df,overlay){
     dir.create(paste0(specie.dir,"gap_analysis/insitu"))
   }
   # Save the results
-  species.output = paste0(specie.dir,"gap_analysis/insitu/")
-  write.csv(df, paste0(species.output,"/grs_result.csv"), row.names = FALSE, quote = FALSE)
+  specie.output = paste0(specie.dir,"gap_analysis/insitu/")
+  write.csv(df, paste0(specie.output,"/grs_result.csv"), row.names = FALSE, quote = FALSE)
   if(!is.null(overlay)){
-    writeRaster(overlay, paste0(species.output,"/grs_intersect.tif"),overwrite=T )  
+    writeRaster(overlay, paste0(specie.output,"/grs_intersect.tif"),overwrite=T )  
   }
 }
 ##########################################    End Functions    ###############################################
