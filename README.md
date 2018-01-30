@@ -33,11 +33,11 @@ src/
 |   │   ├── srs
 |   │   ├── grs
 |   │   ├── ers
-|   │   └── fps
+|   │   └── fcs
 │   └── in_situ/
 |       ├── grs
 |       ├── ers
-|       └── fps
+|       └── fcs
 └── 3_indicator/
 
 ```
