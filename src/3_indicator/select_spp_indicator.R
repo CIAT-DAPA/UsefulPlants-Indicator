@@ -5,12 +5,14 @@
 # The output is returned as a data.frame.
 # @param (string) iso_list: vector with list of country ISOs
 # @param (string) opt: which field(s) to calculate indicator for (min, max, mean)
-# @param (string) config_file: path to config file
 # @return (data.frame): This function returns a data frame proportions of spp in each category,
 #                       and with final indicator aggregated for the selected country
-select_spp_indicator <- function(iso_list="ALL", opt=c("min","max","mean"), config_file) {
+select_spp_indicator <- function(iso_list="ALL", opt=c("min","max","mean")) {
+  #load global config
+  config(dirs=T)
+  
   #load list of species-by-country
-  wep_list <- read.csv(paste(wd,"/indicator/WEP_taxonkey_distribution.csv",sep=""),sep="\t",header=T)
+  wep_list <- read.csv(paste(root,"/indicator/WEP_taxonkey_distribution.csv",sep=""),sep="\t",header=T)
   
   #select species following given filter
   if (toupper(iso_list) == "ALL") {
@@ -21,7 +23,7 @@ select_spp_indicator <- function(iso_list="ALL", opt=c("min","max","mean"), conf
   }
   
   #filter above list of species following those that have fcs_combined.csv
-  spp_exist <- lapply(spp_list, FUN=function(x) {file.exists(paste(wd,"/gap_analysis/",x,"/",version,"/gap_analysis/combined/fcs_combined.csv",sep=""))})
+  spp_exist <- lapply(spp_list, FUN=function(x) {file.exists(paste(root,"/gap_analysis/",x,"/",run_version,"/gap_analysis/combined/fcs_combined.csv",sep=""))})
   spp_exist <- unlist(unlist(spp_exist))
   spp_list <- spp_list[which(spp_exist)]
   
@@ -32,7 +34,7 @@ select_spp_indicator <- function(iso_list="ALL", opt=c("min","max","mean"), conf
     fname <- paste(paste(c("indicator",iso_list),collapse="_"),".csv",sep="")
     
     #calculate indicator for species list
-    indic_df <- calc_indicator(spp_list, opt, config_file=NULL, fname)
+    indic_df <- calc_indicator(spp_list, opt, fname)
   }
   
   #return object
@@ -40,7 +42,6 @@ select_spp_indicator <- function(iso_list="ALL", opt=c("min","max","mean"), conf
 }
 
 #testing function
-#wd <- "~/nfs/workspace_cluster_9/Aichi13" #change to reading from config file
-#version <- "v1"
+#base_dir <- "~/nfs"
 #iso_list <- c("CN")
-#indic_iso <- select_spp_indicator(iso_list="CN", opt=c("min","max","mean"), config_file)
+#indic_iso <- select_spp_indicator(iso_list="CN", opt=c("min","max","mean"))
