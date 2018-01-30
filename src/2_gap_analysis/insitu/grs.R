@@ -23,9 +23,6 @@ library(plyr)
 rasterOptions(tmpdir = "D:/TEMP/hsotelo")
 setwd("//dapadfs/Projects_cluster_9/aichi/")
 
-# It is a global factor to limits the goal of conservation to a percentage
-# 0 <= a <= 1
-a = 1.0;
 # Set the path of the file with global protected areas
 pa.path = "WDPA/areas_protected_geographic.tif"
 # Load the raster file with global protected areas
@@ -53,7 +50,11 @@ species.list = list.dirs(species.dir,full.names = FALSE, recursive = FALSE)
 #                       the process had a error; the third column has a description about process
 calculate_grs = function(specie){
   
-  # Defined vars
+  # It is a global factor to limits the goal of conservation to a percentage
+  # 0 <= a <= 1
+  a = 1.0;
+  
+  # Defined vars about process
   message = "Ok"
   status = TRUE
   
@@ -62,19 +63,30 @@ calculate_grs = function(specie){
     
     # Set the global
     specie.dir = paste0(species.dir, specie, "/")
-    specie = gsub(".csv", "", specie)
+    #specie = gsub(".csv", "", specie)
+    specie.distribution = NULL
     
-    # Load the specie raster (specie distribution)
-    specie.distribution = raster(paste0(specie.dir, "concenso_mss.tif"))
+    # Search the raster file (specie distribution) from alternative model
+    # if the file doesn't exists, it takes the raster from maxent model
+    alternative.path = paste0(specie.dir,"modelling/alternatives/buffer_total.pdf")
+    maxent.path = paste0(specie.dir,"modelling/maxent/concenso_mss.tif")
+    if(file.exists(alternative.path)){
+      specie.distribution = raster(alternative.path)
+    }
+    else{
+      specie.distribution = raster(maxent.path)
+    }
     # Remove the zeros (0) from raster
     specie.distribution[which(specie.distribution[]==0)]<-NA
     
     print("Loaded the specie distribution file (raster)")
     
     # Load the specie mask of native area
-    specie.mask = raster(paste0(specie.dir, "concenso_mss.tif"))
-    # Remove the zeros (0) from raster
-    specie.mask[which(specie.mask[]==0)]<-NA
+    specie.mask.path = paste0(specie.dir,"bioclim/crop_narea.rds")
+    specie.mask.stack = stack(specie.mask.path)
+    specie.mask = specie.mask.stack[1]
+    # Remove differents values from raster to get only the native area
+    specie.mask[which(specie.mask[]!=0)]<-1
     
     print("Loaded the native area of the specie (mask)")
     
@@ -118,13 +130,13 @@ calculate_grs = function(specie){
       dir.create(paste0(specie.dir,"gap_analysis/insitu"))
     }
     # Save the results
-    species.output = paste0(specie.dir,"gap_analysis/insitu/grs")
+    species.output = paste0(specie.dir,"gap_analysis/insitu/")
     dir.create(species.output)
-    write.csv(df, paste0(species.output,"/result.csv"), row.names = FALSE, quote = FALSE)
-    writeRaster(overlay, paste0(species.output,"/intersect.tif"),overwrite=T )
+    write.csv(df, paste0(species.output,"/grs_result.csv"), row.names = FALSE, quote = FALSE)
+    writeRaster(overlay, paste0(species.output,"/grs_intersect.tif"),overwrite=T )
     return (data.frame(specie = specie, status = status, message = message))
     
-  }, 
+  },
   error = function(e) {
     
     message = e
@@ -143,21 +155,21 @@ calculate_grs = function(specie){
 
 ##########################################   Start Process    ###############################################
 
-# Set a configuration to parallel the execution of function
-sfInit(parallel = T, cpus = 20)
-sfLibrary(raster)
-sfLibrary(rgdal)
-sfLibrary(sf)
-sfExportAll()
-sfExport("calculate_grs")
-
-# Run function in parallel for all species
-result = sfLapply(species.list,calculate_grs)
-
-# specie = species.list[7]
-# lapply(species.list[7],calculate_grs)
-# result = lapply(species.list,calculate_grs)
-
-# Get the results for all species
-df <- ldply(result, data.frame)
-write.csv(df, paste0("C:/Users/HSOTELO/Desktop/summary.csv"), row.names = FALSE, quote = FALSE)
+# # Set a configuration to parallel the execution of function
+# sfInit(parallel = T, cpus = 20)
+# sfLibrary(raster)
+# sfLibrary(rgdal)
+# sfLibrary(sf)
+# sfExportAll()
+# sfExport("calculate_grs")
+# 
+# # Run function in parallel for all species
+# result = sfLapply(species.list,calculate_grs)
+# 
+# # specie = species.list[7]
+# # lapply(species.list[7],calculate_grs)
+# # result = lapply(species.list,calculate_grs)
+# 
+# # Get the results for all species
+# df <- ldply(result, data.frame)
+# write.csv(df, paste0("C:/Users/HSOTELO/Desktop/summary.csv"), row.names = FALSE, quote = FALSE)
