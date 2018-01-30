@@ -31,20 +31,23 @@ config <- function(dirs=F, cleaning=F, insitu=F, exsitu=F) {
   ####################################### 2. GAP ANALYSIS ################################################
   ######## EX SITU #######
   if (exsitu) {
-    #...
+     bio_dir <<- paste0(par_dir, "/biolayer_2.5/raster")
+    
   }
   
   ######## IN SITU #######
   if (insitu) {
+    species.dir <<- gap_dir
+    
     #PATH TO PROTECTED AREAS RASTER
     pa.path <<- paste0(par_dir, "/protected_areas/raster/areas_protected_geographic.tif")
-    #pa.raster = raster(pa.path)
+    pa.raster <<- raster(pa.path)
   }
   
   ######## BOTH IN-SITU AND EX-SITU #######
   if (insitu | exsitu) {
     #PATH TO WWF WORLD ECOREGIONS
-    eco.path <<- "parameters/ecosystems/raster/wwf_eco_terr_geo.tif"
-    #eco.raster = raster(eco.path)
+    eco.path <<-paste0(par_dir, "/ecosystems/raster/wwf_eco_terr_geo.tif")
+    eco.raster = raster(eco.path)
   }
 }
