@@ -23,12 +23,12 @@ library(plyr)
 rasterOptions(tmpdir = "D:/TEMP/hsotelo")
 setwd("//dapadfs/Projects_cluster_9/aichi/")
 
-# Set the path of the file with global protected areas
-pa.path = "WDPA/areas_protected_geographic.tif"
-# Load the raster file with global protected areas
-pa.raster = raster(pa.path)
-# Remove the zeros (0) from raster
-pa.raster[which(pa.raster[] == 0)] <- NA
+# # Set the path of the file with global protected areas
+# pa.path = "parameters/protected_areas/raster/areas_protected_geographic.tif"
+# # Load the raster file with global protected areas
+# pa.raster = raster(pa.path)
+# # Remove the zeros (0) from raster
+# pa.raster[which(pa.raster[] == 0)] <- NA
 # Load the species list to execute process
 species.dir = "ENMeval_4/outputs/"
 species.list = list.dirs(species.dir,full.names = FALSE, recursive = FALSE)
@@ -73,8 +73,16 @@ calculate_grs = function(specie){
     if(file.exists(alternative.path)){
       specie.distribution = raster(alternative.path)
     }
-    else{
+    else if(file.exists(maxent.path)){
       specie.distribution = raster(maxent.path)
+    }
+    else{
+      print("The specie doesn't have model distribution")
+      # Join the results
+      df <- data.frame(specie_distribution_a = c(0), species_protected_area_a = c(0), units_a = c("km2"), proportion = c(0), units_proportion = c("percentage"))
+      # Save the results
+      save_results(df,NULL)
+      return (data.frame(specie = specie, status = status, message = "The specie does not have distribution model"))
     }
     # Remove the zeros (0) from raster
     specie.distribution[which(specie.distribution[]==0)]<-NA
@@ -122,25 +130,21 @@ calculate_grs = function(specie){
     # Join the results
     df <- data.frame(specie_distribution_a = specie.area, species_protected_area_a = overlay.area, units_a = c("km2"), proportion = proportion, units_proportion = c("percentage"))
     
-    # Create output dirs
-    if(!dir.exists(paste0(specie.dir,"gap_analysis"))){
-      dir.create(paste0(specie.dir,"gap_analysis"))
-    }
-    if(!dir.exists(paste0(specie.dir,"gap_analysis/insitu"))){
-      dir.create(paste0(specie.dir,"gap_analysis/insitu"))
-    }
     # Save the results
-    species.output = paste0(specie.dir,"gap_analysis/insitu/")
-    dir.create(species.output)
-    write.csv(df, paste0(species.output,"/grs_result.csv"), row.names = FALSE, quote = FALSE)
-    writeRaster(overlay, paste0(species.output,"/grs_intersect.tif"),overwrite=T )
+    save_results(df,overlay)
     return (data.frame(specie = specie, status = status, message = message))
-    
   },
   error = function(e) {
     
     message = e
     status = FALSE
+    
+    # Join the results
+    df <- data.frame(specie_distribution_a = c(0), species_protected_area_a = c(0), units_a = c("km2"), proportion = c(0), units_proportion = c("percentage"))
+    
+    # Save the results
+    save_results(df,NULL)
+    
     return (data.frame(specie = specie, status = status, message = message[[1]]))
   }, finally = {
     
@@ -149,6 +153,27 @@ calculate_grs = function(specie){
     
     print(paste0("End ",specie))
   })
+}
+
+# This function save the results of analysis grs.
+# This saves the raster of the intersect and analysis table
+# @param (data.frame) df; Data.frame with the analysis of protected areas
+# @param (raster) overlay: Intersect between specie distribution and protected areas
+# @return (void)
+save_results = function(df,overlay){
+  # Create output dirs
+  if(!dir.exists(paste0(specie.dir,"gap_analysis"))){
+    dir.create(paste0(specie.dir,"gap_analysis"))
+  }
+  if(!dir.exists(paste0(specie.dir,"gap_analysis/insitu"))){
+    dir.create(paste0(specie.dir,"gap_analysis/insitu"))
+  }
+  # Save the results
+  species.output = paste0(specie.dir,"gap_analysis/insitu/")
+  write.csv(df, paste0(species.output,"/grs_result.csv"), row.names = FALSE, quote = FALSE)
+  if(!is.null(overlay)){
+    writeRaster(overlay, paste0(species.output,"/grs_intersect.tif"),overwrite=T )  
+  }
 }
 ##########################################    End Functions    ###############################################
 
