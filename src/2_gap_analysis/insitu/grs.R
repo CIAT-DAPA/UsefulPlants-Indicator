@@ -23,6 +23,9 @@ library(plyr)
 rasterOptions(tmpdir = "D:/TEMP/hsotelo")
 setwd("//dapadfs/Projects_cluster_9/aichi/")
 
+# It is a global factor to limits the goal of conservation to a percentage
+# 0 <= a <= 1
+a = 1.0;
 # Set the path of the file with global protected areas
 pa.path = "WDPA/areas_protected_geographic.tif"
 # Load the raster file with global protected areas
@@ -50,6 +53,7 @@ species.list = list.dirs(species.dir,full.names = FALSE, recursive = FALSE)
 #                       the process had a error; the third column has a description about process
 calculate_grs = function(specie){
   
+  # Defined vars
   message = "Ok"
   status = TRUE
   
@@ -67,19 +71,30 @@ calculate_grs = function(specie){
     
     print("Loaded the specie distribution file (raster)")
     
-    # Intersect betwenn specie distribution and protected areas
-    origin(pa.raster) <- origin(specie.distribution)
-    overlay = pa.raster * specie.distribution
+    # Load the specie mask of native area
+    specie.mask = raster(paste0(specie.dir, "concenso_mss.tif"))
+    # Remove the zeros (0) from raster
+    specie.mask[which(specie.mask[]==0)]<-NA
     
-    print("Intersected the specie distribution and global protected areas")
+    print("Loaded the native area of the specie (mask)")
+    
+    # Intersect between specie distribution and mask
+    origin(specie.distribution) <- origin(specie.mask)
+    overlay.distribution = specie.distribution * specie.mask
+    
+    # Intersect between specie distribution (native area) and protected areas
+    origin(pa.raster) <- origin(overlay.distribution)
+    overlay = pa.raster * overlay.distribution
+    
+    print("Intersected the specie distribution (native area) and global protected areas")
     
     # Get pixels with data from intersect
     a = which(!is.na(overlay[]))
     # Get pixels with data from specie distribution
-    b = which(!is.na(specie.distribution[]))
+    b = which(!is.na(overlay.distribution[]))
     
     # Calculating the area in kilometer for each pixel
-    area = res(specie.distribution)[1] * res(specie.distribution)[2]
+    area = res(overlay.distribution)[1] * res(overlay.distribution)[2]
     gra = 111.11*111.11
     res = area * gra 
     
@@ -88,7 +103,7 @@ calculate_grs = function(specie){
     specie.area <- length(b) * res
     
     # Calculate proportion area
-    proportion = (overlay.area / specie.area) * 100
+    proportion = (overlay.area / (a*specie.area) ) * 100
     
     print("Calculated the areas and proportions")
     
