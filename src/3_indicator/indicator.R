@@ -1,16 +1,17 @@
 ##########################################   Start Functions    ###############################################
 # This function takes a species list and binds together all species to finally
-# calculate the proportion of species in certain category / categories (HP, MP, LP, SC).
-# The output is returned as a value. Calculate proportion of species in each category.
+# calculate the proportion of species in all categories (HP, MP, LP, SC).
+# The output is returned as a value.
 # @param (string) sp_list: vector with list species IDs
 # @param (string) opt: which field(s) to calculate indicator for (min, max, mean)
-# @param (string) config_file: path to config file
-# @return (data.frame): This function returns a data frame with the combined FCS of the ex-situ and in-situ
-#                       gap analysis. It contains four columns: Species_ID, FCSex, FCSin, FCSc_min, 
-#                       FCSc_max, FCSc_mean, and the priority class (HP, MP, LP, SC) for each combined version.
-calc_indicator <- function(sp_list, opt=c("min","max","mean"), config_file, filename="indicator.csv") {
+# @return (data.frame): This function returns a data frame with the indicator requested
+#                       for the list of species provided.
+calc_indicator <- function(sp_list, opt=c("min","max","mean"), filename="indicator.csv") {
+  #load global config
+  config(dirs=T)
+  
   #go through species list and load files into a data.frame
-  data_all <- lapply(sp_list, FUN=function(x) {read.csv(paste(wd,"/gap_analysis/",x,"/",version,"/gap_analysis/combined/fcs_combined.csv",sep=""))})
+  data_all <- lapply(sp_list, FUN=function(x) {read.csv(paste(root,"/gap_analysis/",x,"/",run_version,"/gap_analysis/combined/fcs_combined.csv",sep=""))})
   data_all <- do.call(rbind, data_all)
   
   #make final counts for species list
@@ -35,14 +36,13 @@ calc_indicator <- function(sp_list, opt=c("min","max","mean"), config_file, file
   out_df$P_LP_SC <- out_df$N_LP_SC / nrow(data_all) * 100
   
   #save file
-  write.csv(out_df, paste(wd,"/indicator/",filename,sep=""), row.names=F)
+  write.csv(out_df, paste(root,"/indicator/",filename,sep=""), row.names=F)
   
   #return data.frame
   return(out_df)
 }
 
 #testing function
-#wd <- "~/nfs/workspace_cluster_9/Aichi13" #change to reading from config file
-#version <- "v1"
-#indic_df <- calc_indicator(sp_list=c("2686262","2686263","2686264"), opt=c("min","max","mean"), config_file=NULL, filename="indicator.csv")
+#base_dir <- "~/nfs"
+#indic_df <- calc_indicator(sp_list=c("2686262","7230716","2686276"), opt=c("min","max","mean"), filename="indicator.csv")
 

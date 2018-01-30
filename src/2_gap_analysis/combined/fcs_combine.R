@@ -3,15 +3,17 @@
 # It searches the species, then loads the summary.csv from both ex-situ and in-situ 
 # then computes the FCSc and outputs a file fcs_combined.csv
 # @param (string) species: species ID
-# @param (string) config_file: path to config file
 # @return (data.frame): This function returns a data frame with the combined FCS of the ex-situ and in-situ
 #                       gap analysis. It contains four columns: Species_ID, FCSex, FCSin, FCSc_min, 
 #                       FCSc_max, FCSc_mean, and the priority class (HP, MP, LP, SC) for each combined version.
-fcs_combine <- function(species, config_file) {
+fcs_combine <- function(species) {
+  #load global config
+  config(dirs=T)
+  
   #in-situ and ex-situ summary files
-  sp_dir <- paste(wd,"/gap_analysis/",species,sep="")
-  file_in <- paste(sp_dir,"/",version,"/gap_analysis/insitu/summary.csv",sep="")
-  file_ex <- paste(sp_dir,"/",version,"/gap_analysis/exsitu/summary.csv",sep="")
+  sp_dir <- paste(root,"/gap_analysis/",species,sep="")
+  file_in <- paste(sp_dir,"/",run_version,"/gap_analysis/insitu/summary.csv",sep="")
+  file_ex <- paste(sp_dir,"/",run_version,"/gap_analysis/exsitu/summary.csv",sep="")
   
   #read data from in-situ and ex-situ files
   data_in <- read.csv(file_in, sep=",", header=T)
@@ -57,7 +59,7 @@ fcs_combine <- function(species, config_file) {
   }
   
   #create output directory if it doesnt exist
-  comb_dir <- paste(sp_dir,"/",version,"/gap_analysis/combined",sep="")
+  comb_dir <- paste(sp_dir,"/",run_version,"/gap_analysis/combined",sep="")
   if (!file.exists(comb_dir)) {dir.create(comb_dir)}
   
   #save output file and return
@@ -66,6 +68,5 @@ fcs_combine <- function(species, config_file) {
 }
 
 #testing function
-#wd <- "~/nfs/workspace_cluster_9/Aichi13" #change to reading from config file
-#version <- "v1"
-#fcsc <- fcs_combine("2686262",config_file=NULL)
+#base_dir <- "~/nfs"
+#fcsc <- fcs_combine("2686262")
