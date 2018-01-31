@@ -1,4 +1,4 @@
-#Maria Victoria 
+#Maria Victoria Diaz
 #CIAT, 2018
 
 # This function makes the main directories which will be used in each step of the analysis.
