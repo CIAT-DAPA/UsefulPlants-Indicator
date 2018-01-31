@@ -10,7 +10,7 @@
 # Load the libraries
 # require(raster)
 require(rgdal)
-require(sf)
+# require(sf)
 # library(snowfall)
 # library(plyr)
 
@@ -21,7 +21,7 @@ require(sf)
 
 # Global configuration
 # rasterOptions(tmpdir = "D:/TEMP/hsotelo")
-# setwd("//dapadfs/Projects_cluster_9/aichi/")
+# setwd("//dapadfs/Workspace_cluster_9/Aichi13/")
 
 # # Set the path of the file with global protected areas
 # pa.path = "parameters/protected_areas/raster/areas_protected_geographic.tif"
@@ -30,7 +30,7 @@ require(sf)
 # # Remove the zeros (0) from raster
 # pa.raster[which(pa.raster[] == 0)] <- NA
 # Load the species list to execute process
-# species.dir = "ENMeval_4/outputs/"
+# species.dir = "gap_analysis/"
 # species.list = list.dirs(species.dir,full.names = FALSE, recursive = FALSE)
 
 ##########################################   End Set Parameters  ###############################################
@@ -89,11 +89,11 @@ calculate_grs = function(specie){
     print("Loaded the specie distribution file (raster)")
     
     # Load the specie mask of native area
-    specie.mask.path = paste0(specie.dir,"bioclim/crop_narea.rds")
-    specie.mask.stack = stack(specie.mask.path)
-    specie.mask = specie.mask.stack[1]
+    specie.mask.path = paste0(specie.dir,"bioclim/crop_narea.RDS")
+    load(specie.mask.path)
+    specie.mask = biolayers_cropc[[1]]
     # Remove differents values from raster to get only the native area
-    specie.mask[which(specie.mask[]>=0)]<-1
+    specie.mask[which(!is.na(specie.mask[]))]<-1
     
     print("Loaded the native area of the specie (mask)")
     
@@ -105,22 +105,32 @@ calculate_grs = function(specie){
     origin(pa.raster) <- origin(overlay.distribution)
     overlay = pa.raster * overlay.distribution
     
+    # Intersect between specie in protected areas and world mask in areas
+    origin(world.area) <- origin(overlay)
+    overlay.area = world.area * overlay
+    
+    # Intersect between specie distribution areas and world mask in areas
+    origin(world.area) <- origin(specie.distribution)
+    overlay.specie.area = world.area * specie.distribution
+    
     print("Intersected the specie distribution (native area) and global protected areas")
     
-    # Get pixels with data from intersect
-    a = which(!is.na(overlay[]))
-    # Get pixels with data from specie distribution
-    b = which(!is.na(overlay.distribution[]))
-    
-    # Calculating the area in kilometer for each pixel
-    area = res(overlay.distribution)[1] * res(overlay.distribution)[2]
-    gra = 111.11*111.11
-    res = area * gra 
-    
+    # # Get pixels with data from intersect
+    # a = which(!is.na(overlay[]))
+    # # Get pixels with data from specie distribution
+    # b = which(!is.na(overlay.distribution[]))
+    # 
+    # # Calculating the area in kilometer for each pixel
+    # area = res(overlay.distribution)[1] * res(overlay.distribution)[2]
+    # gra = 111.11*111.11
+    # res = area * gra 
+    # 
     # Calculate areas for the specie distribution and intersect
-    overlay.area <- length(a) * res
-    specie.area <- length(b) * res
+    # overlay.area <- length(a) * res
+    # specie.area <- length(b) * res
     
+    overlay.area = sum(overlay.area[],na.rm=T)
+    specie.area = sum(overlay.specie.area[], na.rm=T) 
     # Calculate proportion area
     proportion = (overlay.area / (a*specie.area) ) * 100
     
@@ -192,7 +202,7 @@ save_results_grs = function(df,overlay,specie.dir){
 # result = sfLapply(species.list,calculate_grs)
 # 
 # # specie = species.list[7]
-# # lapply(species.list[7],calculate_grs)
+# # lapply("2686262",calculate_grs)
 # # result = lapply(species.list,calculate_grs)
 # 
 # # Get the results for all species
