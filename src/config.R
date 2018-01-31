@@ -14,16 +14,17 @@
 config <- function(dirs=T, cleaning=F, insitu=F, exsitu=F, modeling=F) {
   #version
   run_version <<- "v1"
-  #require
+  
+  #load packages
   require(raster)
   
   ###FOLDERS FOR RUNNING##
   if (dirs) {
-    root<<-paste(base_dir,"/workspace_cluster_9/Aichi13",sep="")
-    gap_dir<<-paste0(root, "/gap_analysis");if(!file.exists(gap_dir)){dir.create(gap_dir)}
-    par_dir<<-paste0(root, "/parameters");if(!file.exists(par_dir)){dir.create(par_dir)}
-    occ_dir<<-paste0(par_dir,"/","occurrences");if(!file.exists(occ_dir)){dir.create(occ_dir)}
-    scr_dir<-paste0(gap_dir,"/","_scripts");if(!file.exists(scr_dir)){dir.create(scr_dir)}
+    root <<- paste(base_dir,"/workspace_cluster_9/Aichi13",sep="")
+    gap_dir <<- paste0(root, "/gap_analysis");if(!file.exists(gap_dir)){dir.create(gap_dir)}
+    par_dir <<- paste0(root, "/parameters");if(!file.exists(par_dir)){dir.create(par_dir)}
+    occ_dir <<- paste0(par_dir,"/","occurrences");if(!file.exists(occ_dir)){dir.create(occ_dir)}
+    scr_dir <<- paste0(gap_dir,"/","_scripts");if(!file.exists(scr_dir)){dir.create(scr_dir)}
   }
   
   ####################################### 0.CLEANING ################################################
@@ -49,19 +50,16 @@ config <- function(dirs=T, cleaning=F, insitu=F, exsitu=F, modeling=F) {
     #elev <- raster(paste0(par_dir,"/biolayer_2.5/raster/",bio))
     #msk <- raster(paste0(par_dir,"/world_mask/raster/mask.tif"))
     #rst_dir <-clim_dir
-    
-    
-    
-    
   }
   
   ####################################### 2. GAP ANALYSIS ################################################
   
   ######## EX SITU #######
-  #used by functions: CropMask.R, BufferPoints.R
+  #used by functions: CropMask.R, buffer_points.R, grs.R, ers.R
   if (exsitu) {
     clim_dir <<- paste0(par_dir, "/biolayer_2.5/raster") 
-    msk_global <<- raster(paste0(par_dir,"/world_mask/raster/mask.tif")) 
+    msk_global <<- raster(paste0(par_dir,"/world_mask/raster/mask.tif"))
+    global_area <<- raster(paste0(par_dir,"/world_mask/raster/area.tif")) 
   }
   
   ######## IN SITU #######
@@ -69,9 +67,7 @@ config <- function(dirs=T, cleaning=F, insitu=F, exsitu=F, modeling=F) {
   
   if (insitu) {
     #GLOBAL CONFIGURATION
-    
     rasterOptions(tmpdir = "D:/TEMP/hsotelo")
-    
     species.dir <<- gap_dir
     
     #PATH TO PROTECTED AREAS RASTER
@@ -81,14 +77,13 @@ config <- function(dirs=T, cleaning=F, insitu=F, exsitu=F, modeling=F) {
     #LOAD THE MASK OF THE WORLD
     world.area.path <<- paste0(par_dir,"/world_mask/raster/area.tif")
     world.area <<- raster(world.area.path)
-    
   }
   
   ######## BOTH IN-SITU AND EX-SITU #######
   if (insitu | exsitu) {
     #PATH TO WWF WORLD ECOREGIONS
     eco.path <<-paste0(par_dir, "/ecosystems/raster/wwf_eco_terr_geo.tif")
-    eco.raster <-raster(eco.path)
+    eco.raster <<- raster(eco.path)
   }
   
   

@@ -29,7 +29,7 @@ srs_exsitu <- function(species) {
                        NH=counts$totalHRecords,
                        NH_COORDS=counts$totalHUseful,
                        SRS=srs)
-  write.csv(out_df,paste(sp_dir,"/",run_version,"/gap_analysis/exsitu/srs.csv",sep=""),row.names=F)
+  write.csv(out_df,paste(sp_dir,"/",run_version,"/gap_analysis/exsitu/srs_result.csv",sep=""),row.names=F)
   
   #return object
   return(out_df)

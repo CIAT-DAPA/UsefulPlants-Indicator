@@ -15,8 +15,11 @@ grs_exsitu <- function(species) {
   #directory for species
   sp_dir <- paste(gap_dir,"/",species,"/",run_version,sep="")
   
+  #load counts
+  sp_counts <- read.csv(paste(gap_dir,"/",species,"/counts.csv",sep=""),sep="\t")
+  
   #run only for spp with occ file
-  if (file.exists(paste(occ_dir,"/no_sea/",species,".csv",sep=""))) {
+  if (file.exists(paste(occ_dir,"/no_sea/",species,".csv",sep="")) & sp_counts$totalHUseful != 0) {
     #load occurrence points
     occ_data <- read.csv(paste(occ_dir,"/no_sea/",species,".csv",sep=""),header=T)
     
@@ -70,7 +73,7 @@ grs_exsitu <- function(species) {
   
   #create data.frame with output
   out_df <- data.frame(ID=species, SPP_AREA_km2=pa_area, G_AREA_km2=gbuf_area, GRS=grs)
-  write.csv(out_df,paste(sp_dir,"/gap_analysis/exsitu/grs.csv",sep=""),row.names=F)
+  write.csv(out_df,paste(sp_dir,"/gap_analysis/exsitu/grs_result.csv",sep=""),row.names=F)
   
   #return object
   return(out_df)
