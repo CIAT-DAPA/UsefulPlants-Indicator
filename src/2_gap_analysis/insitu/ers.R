@@ -69,11 +69,10 @@ calculate_ers = function(specie){
     # to do the gap analysis insitu
     alternative.path = paste0(specie.dir,"modeling/alternatives/buffer_total.tif")
     maxent.path = paste0(specie.dir,"modeling/maxent/concenso_mss.tif")
-    model.selected = read.csv("modeling/maxent/eval_metrics.csv", header = T, sep=",")
+    model.selected = read.csv(paste0(specie.dir,"modeling/maxent/eval_metrics.csv"), header = T, sep=",")
     if(model.selected$VALID == TRUE){
       specie.distribution = raster(maxent.path)
-    }
-    else{
+    } else{
       specie.distribution = raster(alternative.path) 
     }
     # else{

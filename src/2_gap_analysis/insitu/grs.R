@@ -69,11 +69,10 @@ calculate_grs = function(specie){
     # to do the gap analysis insitu
     alternative.path = paste0(specie.dir,"modeling/alternatives/buffer_total.tif")
     maxent.path = paste0(specie.dir,"modeling/maxent/concenso_mss.tif")
-    model.selected = read.csv("modeling/maxent/eval_metrics.csv", header = T, sep=",")
+    model.selected = read.csv(paste0(specie.dir,"modeling/maxent/eval_metrics.csv"), header = T, sep=",")
     if(model.selected$VALID == TRUE){
       specie.distribution = raster(maxent.path)
-    }
-    else{
+    } else{
       specie.distribution = raster(alternative.path) 
     }
     # else{
@@ -108,7 +107,7 @@ calculate_grs = function(specie){
     
     # Intersect between specie in protected areas and world mask in areas
     origin(world.area) <- origin(overlay)
-    overlay.area = world.area * overlay
+    overlay.intersect = world.area * overlay
     
     # Intersect between specie distribution areas and world mask in areas
     origin(world.area) <- origin(specie.distribution)
@@ -130,7 +129,7 @@ calculate_grs = function(specie){
     # overlay.area <- length(a) * res
     # specie.area <- length(b) * res
     
-    overlay.area = sum(overlay.area[],na.rm=T)
+    overlay.area = sum(overlay.intersect[],na.rm=T)
     specie.area = sum(overlay.specie.area[], na.rm=T) 
     # Calculate proportion area
     proportion = (overlay.area / (a*specie.area) ) * 100
@@ -141,7 +140,7 @@ calculate_grs = function(specie){
     df <- data.frame(specie_distribution_a = specie.area, species_protected_area_a = overlay.area, units_a = c("km2"), proportion = proportion, units_proportion = c("percentage"))
     
     # Save the results
-    save_results_grs(df,overlay.area, specie.dir)
+    save_results_grs(df,overlay.intersect, specie.dir)
     return (data.frame(specie = specie, status = status, message = message))
   },
   error = function(e) {
