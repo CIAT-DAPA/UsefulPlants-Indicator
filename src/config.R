@@ -1,7 +1,17 @@
 #Maria Victoria 
+#CIAT 2018
+
+# This function makes the main directories which will be used in each step of the analysis.
+# @param (string) dirs: TRUE by default.
+# @param (string) cleaning: FALSE by default. TRUE when the 0_STEP: CLEANING are gonna be executed.
+# @param (string) modeling: FALSE by default. TRUE when the 1_STEP: MODELING are gonna be executed. 
+# @param (string) exsitu: FALSE by default. TRUE when the 2.1_STEP:EXSITU GAP ANALYSIS are gonna be executed.
+# @param (string) insitu: FALSE by default. TRUE when the 2.2_STEP:INSITU GAP ANALYSIS are gonna be executed.
+# @return (data.frame): This function return the directories which will be used in all master code development.
+
 #NOTE: base_dir will have to be specified in the master code
 
-config <- function(dirs=F, cleaning=F, insitu=F, exsitu=F, modeling=F) {
+config <- function(dirs=T, cleaning=F, insitu=F, exsitu=F, modeling=F) {
   #version
   run_version <<- "v1"
   #require
@@ -38,7 +48,7 @@ config <- function(dirs=F, cleaning=F, insitu=F, exsitu=F, modeling=F) {
     clim_dir <<- paste0(par_dir, "/biolayer_2.5/raster")
     #bio <<- list.files(bio_dir)
     #elev <- raster(paste0(par_dir,"/biolayer_2.5/raster/",bio))
-    #msk <- raster(paste0(par_dir,"/world_mask/raster/mask.tif"))
+    msk <- raster(paste0(par_dir,"/world_mask/raster/mask.tif"))
     rst_dir <-clim_dir
     
   }
@@ -50,7 +60,7 @@ config <- function(dirs=F, cleaning=F, insitu=F, exsitu=F, modeling=F) {
   if (exsitu) {
      folderout <<- paste0(occ_dir,"/","no_sea")
      clim_dir <<- paste0(par_dir, "/biolayer_2.5/raster") 
-     #msk <- raster(paste0(par_dir,"/world_mask/raster/mask.tif")) 
+     msk <- raster(paste0(par_dir,"/world_mask/raster/mask.tif")) 
    }
   
   ######## IN SITU #######
@@ -71,22 +81,13 @@ config <- function(dirs=F, cleaning=F, insitu=F, exsitu=F, modeling=F) {
     world.area.path <<- paste0(par_dir,"/world_mask/raster/area.tif")
     world.area <<- raster(world.area.path)
     
-    #OUTPUT FOLDERS
     
-    if(!dir.exists(paste0(specie.dir,"gap_analysis"))){
-      dir.create(paste0(specie.dir,"gap_analysis"))
-    }
-    if(!dir.exists(paste0(specie.dir,"gap_analysis/insitu"))){
-      dir.create(paste0(specie.dir,"gap_analysis/insitu"))
-    }
-    species.output <<- paste0(specie.dir, "gap_analysis/insitu")
-    
-  }
-  
   ######## BOTH IN-SITU AND EX-SITU #######
   if (insitu | exsitu) {
     #PATH TO WWF WORLD ECOREGIONS
     eco.path <<-paste0(par_dir, "/ecosystems/raster/wwf_eco_terr_geo.tif")
     eco.raster <-raster(eco.path)
   }
+  }
+  
 }
