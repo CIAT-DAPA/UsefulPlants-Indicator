@@ -2,12 +2,12 @@
 #CIAT 2018
 
 # This function makes the main directories which will be used in each step of the analysis.
-# @param (string) dirs: TRUE by default.
-# @param (string) cleaning: FALSE by default. TRUE when the 0_STEP: CLEANING is executed.
-# @param (string) modeling: FALSE by default. TRUE when the 1_STEP: MODELING is executed. 
-# @param (string) exsitu: FALSE by default. TRUE when the 2.1_STEP:EXSITU GAP ANALYSIS is executed.
-# @param (string) insitu: FALSE by default. TRUE when the 2.2_STEP:INSITU GAP ANALYSIS is executed.
-# @return (data.frame): This function return the directories which will be used in all master code development.
+# @param (logical) dirs: TRUE by default.
+# @param (logical) cleaning: FALSE by default. TRUE when the 0_STEP: CLEANING is executed.
+# @param (logical) modeling: FALSE by default. TRUE when the 1_STEP: MODELING is executed. 
+# @param (logical) exsitu: FALSE by default. TRUE when the 2.1_STEP:EXSITU GAP ANALYSIS is executed.
+# @param (logical) insitu: FALSE by default. TRUE when the 2.2_STEP:INSITU GAP ANALYSIS is executed.
+# @return (dir): This function return the directories which will be used in all master code development.
 
 #NOTE: base_dir will have to be specified in the master code
 
@@ -81,6 +81,7 @@ config <- function(dirs=T, cleaning=F, insitu=F, exsitu=F, modeling=F) {
     world.area.path <<- paste0(par_dir,"/world_mask/raster/area.tif")
     world.area <<- raster(world.area.path)
     
+  }
     
   ######## BOTH IN-SITU AND EX-SITU #######
   if (insitu | exsitu) {
@@ -88,6 +89,6 @@ config <- function(dirs=T, cleaning=F, insitu=F, exsitu=F, modeling=F) {
     eco.path <<-paste0(par_dir, "/ecosystems/raster/wwf_eco_terr_geo.tif")
     eco.raster <-raster(eco.path)
   }
-  }
+  
   
 }
