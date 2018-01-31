@@ -63,24 +63,14 @@ config <- function(dirs=F, cleaning=F, insitu=F, exsitu=F, modeling=F) {
     rasterOptions(tmpdir = "D:/TEMP/hsotelo")
     
     species.dir <<- gap_dir
-    specie <<-list.files(species.dir)
-    species.list <<- list.dirs(species.dir,full.names = FALSE, recursive = FALSE)
-    specie.dir <<- paste0(species.dir, specie, "/", run_version, "/")
     
     #PATH TO PROTECTED AREAS RASTER
     pa.path <<- paste0(par_dir, "/protected_areas/raster/areas_protected_geographic.tif")
     pa.raster <<- raster(pa.path)
     
-    #PATH TO MODELING ALTERNATIVES
-    alternative.path <<- paste0(specie.dir, "modelling/alternatives/buffer_total.pdf")
-    maxent.path <<- paste0(specie.dir,"modelling/maxent/concenso_mss.tif")
-    
-    #LOAD THE MASK OF THE SPECIE NATIVE AREA
-    specie.mask.path <<- paste0(specie.dir,"bioclim/crop_narea.rds")
-    
     #LOAD THE MASK OF THE WORLD
-    world.mask.path <<- paste0(par_dir,"/world_mask/raster/area.tif")
-    world.area <<- raster(world.mask.path)
+    world.area.path <<- paste0(par_dir,"/world_mask/raster/area.tif")
+    world.area <<- raster(world.area.path)
     
     #OUTPUT FOLDERS
     
@@ -92,10 +82,6 @@ config <- function(dirs=F, cleaning=F, insitu=F, exsitu=F, modeling=F) {
     }
     species.output <<- paste0(specie.dir, "gap_analysis/insitu")
     
-    #PATH TO RESULTS INSITU ANALYSIS
-    grs.path <- paste0(specie.dir, "gap_analysis/insitu/grs_result.csv")
-    ers.path <- paste0(specie.dir, "gap_analysis/insitu/ers_result.csv")
-   
   }
   
   ######## BOTH IN-SITU AND EX-SITU #######
