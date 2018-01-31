@@ -37,7 +37,7 @@ config <- function(dirs=F, cleaning=F, insitu=F, exsitu=F, modeling=F) {
     clim_dir <<- paste0(par_dir, "/biolayer_2.5/raster")
     #bio <<- list.files(bio_dir)
     #elev <- raster(paste0(par_dir,"/biolayer_2.5/raster/",bio))
-    msk <- raster(paste0(par_dir,"/world_mask/raster/mask.tif"))
+    #msk <- raster(paste0(par_dir,"/world_mask/raster/mask.tif"))
     rst_dir <-clim_dir
     
   }
@@ -77,6 +77,10 @@ config <- function(dirs=F, cleaning=F, insitu=F, exsitu=F, modeling=F) {
     
     #LOAD THE MASK OF THE SPECIE NATIVE AREA
     specie.mask.path <<- paste0(specie.dir,"bioclim/crop_narea.rds")
+    
+    #LOAD THE MASK OF THE WORLD
+    world.mask.path <<- paste0(par_dir,"/world_mask/raster/area.tif")
+    world.area <<- raster(world.mask.path)
     
     #OUTPUT FOLDERS
     
