@@ -4,6 +4,8 @@
 config <- function(dirs=F, cleaning=F, insitu=F, exsitu=F, modeling=F) {
   #version
   run_version <<- "v1"
+  #require
+  require(raster)
   
   ###FOLDERS FOR RUNNING##
   if (dirs) {
@@ -17,7 +19,6 @@ config <- function(dirs=F, cleaning=F, insitu=F, exsitu=F, modeling=F) {
   ####################################### 0.CLEANING ################################################
   # used by functions: clean_sea.R  and split_occs_srs.R #####
   if (cleaning) {
-    require(raster)
     ##INPUT FILES TO CLEAN SEA##
     folderin <<- paste0(occ_dir, "/raw")
     
@@ -31,7 +32,7 @@ config <- function(dirs=F, cleaning=F, insitu=F, exsitu=F, modeling=F) {
     }
                       
   ####################################### 1. MODELING ################################################
-  #it's used by the functions: ElevationSlope.R , FunctionMaxent.R
+  #it will be adjusted in accordance with the modeling scripts
   
   if(modeling){
     clim_dir <<- paste0(par_dir, "/biolayer_2.5/raster")
@@ -41,8 +42,6 @@ config <- function(dirs=F, cleaning=F, insitu=F, exsitu=F, modeling=F) {
     rst_dir <-clim_dir
     
   }
-  
-  
   
   ####################################### 2. GAP ANALYSIS ################################################
  
