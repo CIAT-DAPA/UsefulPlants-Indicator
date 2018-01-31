@@ -40,9 +40,9 @@ require(sf)
 
 # This function calculate the GRS by every specie.
 # It searches the specie, then load the specie distribution from raster file. 
-# With the specie distribution intersectes with the protected areas raster and calculate
+# With the specie distribution intersectes with the native area, then with the protected areas raster and calculate
 # the area from the specie distribution, overlay and the proportion between both.
-# It creates two files with the result (result.csv, intersect.tif)
+# It creates two files with the result (grs_result.csv, grs_intersect.tif)
 # @param (string) specie: Code of the specie
 # @return (data.frame): This function return a dataframe with the results about the process. 
 #                       It has three columns, the first has the specie code; the second has a status
@@ -58,17 +58,17 @@ calculate_grs = function(specie){
   message = "Ok"
   status = TRUE
   
+  # Set the global
+  specie.dir = paste0(species.dir, specie, "/", run_version, "/")
+  specie.distribution = NULL
+  
   tryCatch({
     print(paste0("Start ",specie))
     
-    # Set the global
-    specie.dir = paste0(species.dir, specie, "/", run_version, "/")
-    specie.distribution = NULL
-    
     # Search the raster file (specie distribution) from alternative model
     # if the file doesn't exists, it takes the raster from maxent model
-    alternative.path = paste0(specie.dir,"modelling/alternatives/buffer_total.pdf")
-    maxent.path = paste0(specie.dir,"modelling/maxent/concenso_mss.tif")
+    alternative.path = paste0(specie.dir,"modeling/alternatives/buffer_total.tif")
+    maxent.path = paste0(specie.dir,"modeling/maxent/concenso_mss.tif")
     if(file.exists(alternative.path)){
       specie.distribution = raster(alternative.path)
     }
@@ -158,6 +158,7 @@ calculate_grs = function(specie){
 # This saves the raster of the intersect and analysis table
 # @param (data.frame) df; Data.frame with the analysis of protected areas
 # @param (raster) overlay: Intersect between specie distribution and protected areas
+# @param (string) specie.dir: Path where the files should be saved
 # @return (void)
 save_results_grs = function(df,overlay,specie.dir){
   # Create output dirs

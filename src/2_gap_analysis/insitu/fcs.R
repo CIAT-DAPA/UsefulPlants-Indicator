@@ -13,7 +13,7 @@
 ##########################################  Start Set Parameters  ###############################################
 
 # Global configuration
-setwd("//dapadfs/Projects_cluster_9/aichi/")
+# setwd("//dapadfs/Projects_cluster_9/aichi/")
 
 # # Set the path of the file with global protected areas
 # pa.path = "parameters/protected_areas/raster/areas_protected_geographic.tif"
@@ -22,8 +22,8 @@ setwd("//dapadfs/Projects_cluster_9/aichi/")
 # # Remove the zeros (0) from raster
 # pa.raster[which(pa.raster[] == 0)] <- NA
 # Load the species list to execute process
-species.dir = "ENMeval_4/outputs/"
-species.list = list.dirs(species.dir,full.names = FALSE, recursive = FALSE)
+# species.dir = "ENMeval_4/outputs/"
+# species.list = list.dirs(species.dir,full.names = FALSE, recursive = FALSE)
 # # Set the path of the file with global ecosystem
 # eco.path = "parameters/ecosystems/raster/wwf_eco_terr_geo.tif"
 # eco.raster = raster(eco.path)
@@ -34,7 +34,8 @@ species.list = list.dirs(species.dir,full.names = FALSE, recursive = FALSE)
 ##########################################   Start Functions    ###############################################
 
 # This function calculate the FCS by every specie.
-# It searches the specie, then load the result 
+# It searches the specie, then load the result from grs and ers (insitu) and calculate
+# the FCS
 # @param (string) specie: Code of the specie
 # @return (data.frame): This function return a dataframe with the results about the process. 
 #                       It has three columns, the first has the specie code; the second has a status
@@ -46,12 +47,12 @@ calculate_fcs = function(specie){
   message = "Ok"
   status = TRUE
   
+  # Set the global
+  specie.dir = paste0(species.dir, specie, "/")
+  
   tryCatch({
     print(paste0("Start ",specie))
-    
-    # Set the global
-    specie.dir = paste0(species.dir, specie, "/")
-    
+  
     # Read results of insitu analysis
     grs.path = paste0(specie.dir, "gap_analysis/insitu/grs_result.csv")
     ers.path = paste0(specie.dir, "gap_analysis/insitu/ers_result.csv")
@@ -71,7 +72,7 @@ calculate_fcs = function(specie){
     df <- data.frame(ID = specie, GRS = grs.value, ERS = ers.value, FCS = fcs.value)
     
     # Save the results
-    save_results_fcs(df)
+    save_results_fcs(df,specie.dir)
     return (data.frame(specie = specie, status = status, message = message))
   },
   error = function(e) {
@@ -80,10 +81,10 @@ calculate_fcs = function(specie){
     status = FALSE
     
     # Join the results
-    df <- data.frame(ID = specie, GRS = 0, ERS = 0, FCS = 0)
+    df <- data.frame(ID = c(specie), GRS = c(0), ERS = c(0), FCS = c(0))
     
     # Save the results
-    save_results_fcs(df)
+    save_results_fcs(df,specie.dir)
     
     return (data.frame(specie = specie, status = status, message = message[[1]]))
   }, finally = {
@@ -97,8 +98,9 @@ calculate_fcs = function(specie){
 
 # This function save the results of analysis ers.
 # @param (data.frame) df; Data.frame with the analysis of FCS
+# @param (string) specie.dir: Path where the files should be saved
 # @return (void)
-save_results_fcs = function(df){
+save_results_fcs = function(df,specie.dir){
   # Create output dirs
   if(!dir.exists(paste0(specie.dir,"gap_analysis"))){
     dir.create(paste0(specie.dir,"gap_analysis"))
@@ -107,8 +109,8 @@ save_results_fcs = function(df){
     dir.create(paste0(specie.dir,"gap_analysis/insitu"))
   }
   # Save the results
-  species.output = paste0(specie.dir,"gap_analysis/insitu/")
-  write.csv(df, paste0(species.output,"/summary.csv"), row.names = FALSE, quote = FALSE)
+  specie.output = paste0(specie.dir,"gap_analysis/insitu/")
+  write.csv(df, paste0(specie.output,"/summary.csv"), row.names = FALSE, quote = FALSE)
 }
 ##########################################    End Functions    ###############################################
 
