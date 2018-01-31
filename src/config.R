@@ -3,10 +3,10 @@
 
 # This function makes the main directories which will be used in each step of the analysis.
 # @param (string) dirs: TRUE by default.
-# @param (string) cleaning: FALSE by default. TRUE when the 0_STEP: CLEANING is to be executed.
-# @param (string) modeling: FALSE by default. TRUE when the 1_STEP: MODELING is to be executed. 
-# @param (string) exsitu: FALSE by default. TRUE when the 2.1_STEP:EXSITU GAP ANALYSIS is to be executed.
-# @param (string) insitu: FALSE by default. TRUE when the 2.2_STEP:INSITU GAP ANALYSIS is to be executed.
+# @param (string) cleaning: FALSE by default. TRUE when the 0_STEP: CLEANING is executed.
+# @param (string) modeling: FALSE by default. TRUE when the 1_STEP: MODELING is executed. 
+# @param (string) exsitu: FALSE by default. TRUE when the 2.1_STEP:EXSITU GAP ANALYSIS is executed.
+# @param (string) insitu: FALSE by default. TRUE when the 2.2_STEP:INSITU GAP ANALYSIS is executed.
 # @return (data.frame): This function return the directories which will be used in all master code development.
 
 #NOTE: base_dir will have to be specified in the master code
