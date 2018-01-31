@@ -5,6 +5,7 @@
 # @param (data.frame) xy: presence locations
 # @param (raster) mask: mask that gives the native area (for geographic extent and resolution)
 # @param (numeric) buff_dist: distance of buffer in degree or km (as needed)
+# @param (string) format: output file format
 # @param (string) filename: output file name
 # @return (raster): rasterized buffer
 create_buffers <- function(xy, msk, buff_dist=0.5, format="GTiff", filename) {
@@ -46,14 +47,13 @@ create_buffers <- function(xy, msk, buff_dist=0.5, format="GTiff", filename) {
   return(buffer_rs)
 }
 
-
 # testing the function
 # base_dir <- "~/nfs"
 # source("~/Repositories/aichi13/src/config.R")
-# config(dirs=T)
+# config(dirs=T, )
 # xy <- read.csv(paste(gap_dir,"/2686262/",run_version,"/occurrences/2686262.csv",sep=""))[,c("lon","lat")]
 # load(paste(gap_dir,"/2686262/",run_version,"/bioclim/crop_narea.RDS",sep=""))
 # msk <- biolayers_cropc[[1]]; rm(biolayers_cropc)
 # msk[which(!is.na(msk[]))] <- 1
-# create_buffers <- function(xy, msk, buff_dist=0.5, format="GTiff", filename=paste(gap_dir,"/2686262/",run_version,"/modeling/alternatives/ca50_total.tif",sep=""))
+# x <- create_buffers(xy, msk, buff_dist=0.5, format="GTiff", filename=paste(gap_dir,"/2686262/",run_version,"/modeling/alternatives/ca50_total_narea.tif",sep=""))
 

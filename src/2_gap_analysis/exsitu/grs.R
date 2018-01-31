@@ -7,6 +7,16 @@
 #                       gap analysis. It contains four columns: Species_ID, FCSex, FCSin, FCSc_min, 
 #                       FCSc_max, FCSc_mean, and the priority class (HP, MP, LP, SC) for each combined version.
 
+base_dir <- "~/nfs"
+source("~/Repositories/aichi13/src/config.R")
+species <- "2686262"
+
+grs_exsitu <- function(species) {
+  config(dirs=T,exsitu=T)
+  occ_data <- read.csv(paste(occ_dir,"/no_sea/",species,".csv",sep=""),header=T)
+  
+}
+
 #sp_list=c("2686262","7230716","2686276")
 
 ##== calculate size of distributional range ==# (sizeDR2)

@@ -38,8 +38,7 @@ config <- function(dirs=T, cleaning=F, insitu=F, exsitu=F, modeling=F) {
     ##OUTPUT FOLDER IN clean_sea FUNCTION, AND INPUT IN split_occs_srs FUNCTION##
     folderout <<- paste0(occ_dir,"/","no_sea")
     if(!file.exists(folderout)){dir.create(folderout)}
-    
-    }
+  }
                       
   ####################################### 1. MODELING ################################################
   #it will be adjusted in accordance with the modeling scripts
@@ -58,9 +57,8 @@ config <- function(dirs=T, cleaning=F, insitu=F, exsitu=F, modeling=F) {
    ######## EX SITU #######
    #used by functions: CropMask.R, BufferPoints.R
   if (exsitu) {
-     folderout <<- paste0(occ_dir,"/","no_sea")
      clim_dir <<- paste0(par_dir, "/biolayer_2.5/raster") 
-     msk_global <- raster(paste0(par_dir,"/world_mask/raster/mask.tif")) 
+     msk_global <<- raster(paste0(par_dir,"/world_mask/raster/mask.tif")) 
    }
   
   ######## IN SITU #######
