@@ -7,14 +7,27 @@ library(tidyverse)
 library(dismo)
 library(velox)
 
+# Important scripts
 # Obtain optimum parameters: Using ENMevaluate
-source("//dapadfs/Projects_cluster_9/aichi/scripts/CreateMXArgs.R")
+source("//dapadfs/Projects_cluster_9/aichi/scripts/CreateMXArgs.R") # URL
+source("do_projections.R") # URL
 
+# --------------------------------------------------------------------- #
+# Function
+# --------------------------------------------------------------------- #
+# Vary through species
+
+# Inputs
 # Load calibration results
-load("//dapadfs/Projects_cluster_9/aichi/ENMeval_4/outputs/2979057.csv/2979057.csv.RData")
+load(paste0(gap_dir, "/2653304/", run_version, "/modeling/maxent/2653304.csv.RData"))
 
 # Define output folder
-crossValDir <- "//dapadfs/Projects_cluster_9/aichi/ENMeval_4/outputs/2979057.csv/modeling_results"
+# crossValDir <- "//dapadfs/Projects_cluster_9/aichi/ENMeval_4/outputs/2979057.csv/modeling_results"
+crossValDir <- paste0(gap_dir, "/2653304/", run_version, "/modeling/maxent")
+
+# Native area to project
+# load("//dapadfs/Projects_cluster_9/aichi/ENMeval_4/outputs/2979057.csv/narea/crop_narea.RDS")
+load(paste0(gap_dir, "/2653304/", run_version, "/bioclim/crop_narea.RDS"))
 
 # Fitting final model
 tryCatch(expr = {
@@ -31,8 +44,7 @@ error = function(e){
   return("Done\n")
 })
 
-# Native area to project
-load("//dapadfs/Projects_cluster_9/aichi/ENMeval_4/outputs/2979057.csv/narea/crop_narea.RDS")
+
 
 # Extract climate data
 system.time(expr = {
@@ -46,7 +58,7 @@ system.time(expr = {
 #   pnts2 <- as.data.frame(pnts2)
 # })
 
-source("do_projections.R")
+
 
 setwd(crossValDir)
 
@@ -76,11 +88,19 @@ for(i in 1:5){
   system(paste("java", j.size, "-cp", maxentApp, "density.Project", lambdaFile, projLayers, outGrid, "nowarnings", "fadebyclamping", "-r", "-a", "-z"), wait=TRUE)
 }
 
-javaFold_0 <- raster::raster("C:/Users/HAACHICANOY/Desktop/fold0.asc")
-
 lambdaFile <- paste0("C:/Users/HAACHICANOY/Downloads/Model2/species_0.lambdas")
 outGrid <- paste0("C:/Users/HAACHICANOY/Desktop/fold0.asc")
 system(paste("java", j.size, "-cp", maxentApp, "density.Project", lambdaFile, projLayers, outGrid, "nowarnings", "fadebyclamping", "-r", "-a", "-z"), wait=TRUE)
+
+javaFold_0 <- raster::raster("C:/Users/HAACHICANOY/Desktop/fold0.asc")
+javaFold_1 <- raster::raster("C:/Users/HAACHICANOY/Desktop/fold1.asc")
+
+summary(javaFold_0[!is.na(javaFold_0[])] - pred[[1]][!is.na(pred[[1]][])])
+summary(javaFold_0[!is.na(javaFold_0[])] - pred2[[1]][!is.na(pred2[[1]][])])
+
+summary(javaFold_1[!is.na(javaFold_1[])] - pred[[2]][!is.na(pred[[2]][])])
+summary(javaFold_1[!is.na(javaFold_1[])] - pred2[[2]][!is.na(pred2[[2]][])])
+
 
 # ================================================================================================================================= #
 # Another calibration approach
