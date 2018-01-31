@@ -54,21 +54,19 @@ config <- function(dirs=T, cleaning=F, insitu=F, exsitu=F, modeling=F) {
   
   ####################################### 2. GAP ANALYSIS ################################################
  
-   ######## EX SITU #######
-   #used by functions: CropMask.R, BufferPoints.R
+  ######## EX SITU #######
+  #used by functions: CropMask.R, buffer_points.R, grs.R
   if (exsitu) {
-     clim_dir <<- paste0(par_dir, "/biolayer_2.5/raster") 
-     msk_global <<- raster(paste0(par_dir,"/world_mask/raster/mask.tif")) 
+    clim_dir <<- paste0(par_dir, "/biolayer_2.5/raster") 
+    msk_global <<- raster(paste0(par_dir,"/world_mask/raster/mask.tif")) 
+    global_area <<- raster(paste0(par_dir,"/world_mask/raster/area.tif"))
    }
   
   ######## IN SITU #######
   #used by functions: ers.R , grs.R and fcs.R
-  
   if (insitu) {
     #GLOBAL CONFIGURATION
-    
     rasterOptions(tmpdir = "D:/TEMP/hsotelo")
-    
     species.dir <<- gap_dir
     
     #PATH TO PROTECTED AREAS RASTER
@@ -85,7 +83,7 @@ config <- function(dirs=T, cleaning=F, insitu=F, exsitu=F, modeling=F) {
   if (insitu | exsitu) {
     #PATH TO WWF WORLD ECOREGIONS
     eco.path <<-paste0(par_dir, "/ecosystems/raster/wwf_eco_terr_geo.tif")
-    eco.raster <-raster(eco.path)
+    eco.raster <<- raster(eco.path)
   }
   
   
