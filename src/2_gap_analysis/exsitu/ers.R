@@ -1,11 +1,11 @@
 ##########################################   Start Functions    ###############################################
-# This function calculates the ex-situ GRS. It loads occurrences if they exist, then
+# This function calculates the ex-situ ERS It loads occurrences if they exist, then
 # loads the presence/absence surface, creates the G buffer (i.e. CA50) and finally
-# outputs the GRS and areas in a data.frame (which is written into a file).
+# outputs the ERS and # eco classes in a data.frame (which is written into a file).
 # @param (string) species: species ID
-# @return (data.frame): This function returns a data frame with GRS and areas of G buffer (i.e. CA50)
-#                       and of the presence/absence surface.
-grs_exsitu <- function(species) {
+# @return (data.frame): This function returns a data frame with ERS, # eco classes 
+#                       of G buffer (i.e. CA50) and of the presence/absence surface.
+ers_exsitu <- function(species) {
   #packages
   require(raster)
   
@@ -30,6 +30,7 @@ grs_exsitu <- function(species) {
     } else {
       pa_spp <- raster(paste(sp_dir,"/modeling/alternatives/ca50_total_narea.tif",sep=""))
     }
+    pa_spp[which(pa_spp[] == 0)] <- NA
     
     #select G samples and validate if G >= 1
     occ_g <- unique(occ_data[which(occ_data$type == "G"),c("lon","lat")])
@@ -47,37 +48,39 @@ grs_exsitu <- function(species) {
         g_buffer <- raster(paste(sp_dir,"/gap_analysis/exsitu/ca50_g_narea_pa.tif",sep=""))
       }
       
-      #calculate area of presence/absence (note area in km2)
-      pa_area <- crop(global_area, pa_spp)
-      pa_area <- pa_spp * pa_area
-      pa_area <- sum(pa_area[], na.rm=T) #in km2
+      #calculate number of classes for presence/absence
+      pa_nclass <- crop(eco.raster, pa_spp)
+      pa_nclass <- pa_spp * pa_nclass
+      pa_nclass <- length(unique(pa_nclass[],na.rm=T))
       
       #calculate area of g_buffer
-      gbuf_area <- crop(global_area, g_buffer)
-      gbuf_area <- g_buffer * gbuf_area
-      gbuf_area <- sum(gbuf_area[], na.rm=T) #in km2
+      g_buffer[which(g_buffer[] == 0)] <- NA
+      gbuf_nclass <- crop(eco.raster, g_buffer)
+      gbuf_nclass <- g_buffer * gbuf_nclass
+      gbuf_nclass <- length(unique(gbuf_nclass[],na.rm=T))
     } else {
-      gbuf_area <- 0
+      gbuf_nclass <- 0
     }
     
-    #calculate GRS
-    grs <- min(c(100, gbuf_area/pa_area*100))
+    #calculate ERS
+    ers <- min(c(100, gbuf_nclass/pa_nclass*100))
   } else {
-    grs <- 0
-    g_area <- 0
-    pa_area <- NA
+    ers <- 0
+    gbuf_nclass <- 0
+    pa_nclass <- NA
   }
   
   #create data.frame with output
-  out_df <- data.frame(ID=species, SPP_AREA_km2=pa_area, G_AREA_km2=gbuf_area, GRS=grs)
-  write.csv(out_df,paste(sp_dir,"/gap_analysis/exsitu/grs.csv",sep=""),row.names=F)
+  out_df <- data.frame(ID=species, SPP_N_ECO=pa_nclass, G_N_ECO=gbuf_nclass, ERS=ers)
+  write.csv(out_df,paste(sp_dir,"/gap_analysis/exsitu/ers.csv",sep=""),row.names=F)
   
   #return object
   return(out_df)
 }
 
-# testing the function
-# base_dir <- "~/nfs"
-# source("~/Repositories/aichi13/src/config.R")
-# source("~/Repositories/aichi13/src/1_modeling/1_2_alternatives/create_buffers.R")
-# grs_sp <- grs_exsitu("2686262")
+#testing the function
+#base_dir <- "~/nfs"
+#source("~/Repositories/aichi13/src/config.R")
+#source("~/Repositories/aichi13/src/1_modeling/1_2_alternatives/create_buffers.R")
+#ers_exsitu("2686262")
+
