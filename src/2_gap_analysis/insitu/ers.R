@@ -30,7 +30,7 @@ require(sf)
 # # Remove the zeros (0) from raster
 # pa.raster[which(pa.raster[] == 0)] <- NA
 # Load the species list to execute process
-# species.dir = "ENMeval_4/outputs/"
+# species.dir = "gap_analysis/"
 # species.list = list.dirs(species.dir,full.names = FALSE, recursive = FALSE)
 # # Set the path of the file with global ecosystem
 # eco.path = "parameters/ecosystems/raster/wwf_eco_terr_geo.tif"
@@ -59,7 +59,7 @@ calculate_ers = function(specie){
   status = TRUE
   
   # Set the global
-  specie.dir = paste0(species.dir, specie, "/")
+  specie.dir = paste0(species.dir, specie, "/", run_version, "/")
   specie.distribution = NULL
   
   tryCatch({
@@ -89,11 +89,11 @@ calculate_ers = function(specie){
     print("Loaded the specie distribution file (raster)")
     
     # Load the specie mask of native area
-    specie.mask.path = paste0(specie.dir,"bioclim/crop_narea.rds")
-    specie.mask.stack = stack(specie.mask.path)
-    specie.mask = specie.mask.stack[1]
+    specie.mask.path = paste0(specie.dir,"bioclim/crop_narea.RDS")
+    load(specie.mask.path)
+    specie.mask = biolayers_cropc[[1]]
     # Remove differents values from raster to get only the native area
-    specie.mask[which(specie.mask[]>=0)]<-1
+    specie.mask[which(!is.na(specie.mask[]))]<-1
     
     print("Loaded the native area of the specie (mask)")
     
@@ -122,7 +122,7 @@ calculate_ers = function(specie){
     df <- data.frame(specie_distribution_ecosystem_count = eco.specie.distribution.count, specie_distribution_ecosystem_pa_count = eco.specie.distribution.pa.count, proportion = proportion)
     
     # Save the results
-    save_results_ers(df,NULL,NULL, specie.dir)
+    save_results_ers(df,overlay.eco,overlay.eco.pa, specie.dir)
     return (data.frame(specie = specie, status = status, message = message))
   },
   error = function(e) {
