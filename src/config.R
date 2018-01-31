@@ -37,11 +37,42 @@ config <- function(dirs=F, cleaning=F, insitu=F, exsitu=F) {
   
   ######## IN SITU #######
   if (insitu) {
+    #GLOBAL CONFIGURATION
+    rasterOptions(tmpdir = "D:/TEMP/hsotelo")
+    
     species.dir <<- gap_dir
+    specie <<-list.files(species.dir)
+    species.list <<- list.dirs(species.dir,full.names = FALSE, recursive = FALSE)
+    specie.dir <<- paste0(species.dir, specie, "/")
     
     #PATH TO PROTECTED AREAS RASTER
     pa.path <<- paste0(par_dir, "/protected_areas/raster/areas_protected_geographic.tif")
     pa.raster <<- raster(pa.path)
+    
+    #PATH TO MODELING ALTERNATIVES
+    alternative.path <<- paste0(specie.dir, run_version, "modelling/alternatives/buffer_total.pdf")
+    maxent.path <<- paste0(specie.dir,run_version,"modelling/maxent/concenso_mss.tif")
+    
+    # LOAD THE MASK OF THE SPECIE NATIVE AREA
+    specie.mask.path <<- paste0(specie.dir,run_version,"bioclim/crop_narea.rds")
+    
+    #OUTPUT FOLDERS
+    
+    if(!dir.exists(paste0(specie.dir,specie, run_version,"/gap_analysis"))){
+      dir.create(paste0(specie.dir,"gap_analysis"))
+    }
+    if(!dir.exists(paste0(specie.dir,specie, run_version,"/gap_analysis/insitu"))){
+      dir.create(paste0(specie.dir,"gap_analysis/insitu"))
+    }
+    species.output <<- paste0(specie.dir, specie, run_version,"/gap_analysis/insitu")
+    #species.output.ers <<- paste0(specie.dir, specie, run_version,"gap_analysis/insitu/ers")
+    
+    #why did not you create a folder to save grs? indicators will be saved together?
+    
+    #PATH TO RESULTS INSITU ANALYSIS
+    grs.path = paste0(specie.dir, specie, run_version,"/gap_analysis/insitu/grs_result.csv")
+    ers.path = paste0(specie.dir, specie, run_version,"/gap_analysis/insitu/ers_result.csv")
+   
   }
   
   ######## BOTH IN-SITU AND EX-SITU #######
