@@ -1,5 +1,5 @@
 #Maria Victoria 
-#CIAT 2018
+#CIAT, 2018
 
 # This function makes the main directories which will be used in each step of the analysis.
 # @param (logical) dirs: TRUE by default.
@@ -60,7 +60,7 @@ config <- function(dirs=T, cleaning=F, insitu=F, exsitu=F, modeling=F) {
   if (exsitu) {
      folderout <<- paste0(occ_dir,"/","no_sea")
      clim_dir <<- paste0(par_dir, "/biolayer_2.5/raster") 
-     msk <- raster(paste0(par_dir,"/world_mask/raster/mask.tif")) 
+     msk_global <- raster(paste0(par_dir,"/world_mask/raster/mask.tif")) 
    }
   
   ######## IN SITU #######
