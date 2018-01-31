@@ -65,24 +65,25 @@ calculate_ers = function(specie){
   tryCatch({
     print(paste0("Start ",specie))
     
-    # Search the raster file (specie distribution) from alternative model
-    # if the file doesn't exists, it takes the raster from maxent model
-    alternative.path = paste0(specie.dir,"modeling/alternatives/buffer_total.pdf")
+    # Validation if the maxent model is good or not
+    # to do the gap analysis insitu
+    alternative.path = paste0(specie.dir,"modeling/alternatives/buffer_total.tif")
     maxent.path = paste0(specie.dir,"modeling/maxent/concenso_mss.tif")
-    if(file.exists(alternative.path)){
-      specie.distribution = raster(alternative.path)
-    }
-    else if(file.exists(maxent.path)){
+    model.selected = read.csv("modeling/maxent/eval_metrics.csv", header = T, sep=",")
+    if(model.selected$VALID == TRUE){
       specie.distribution = raster(maxent.path)
     }
     else{
-      print("The specie doesn't have model distribution")
-      # Join the results
-      df <- data.frame(specie_distribution_ecosystem_count = c(0), specie_distribution_ecosystem_pa_count = c(0), proportion = c(0))
-      # Save the results
-      save_results_ers(df,NULL,NULL, specie.dir)
-      return (data.frame(specie = specie, status = status, message = "The specie does not have distribution model"))
+      specie.distribution = raster(alternative.path) 
     }
+    # else{
+    #   print("The specie doesn't have model distribution")
+    #   # Join the results
+    #   df <- data.frame(specie_distribution_ecosystem_count = c(0), specie_distribution_ecosystem_pa_count = c(0), proportion = c(0))
+    #   # Save the results
+    #   save_results_ers(df,NULL,NULL, specie.dir)
+    #   return (data.frame(specie = specie, status = status, message = "The specie does not have distribution model"))
+    # }
     # Remove the zeros (0) from raster
     specie.distribution[which(specie.distribution[]==0)]<-NA
     
@@ -97,9 +98,13 @@ calculate_ers = function(specie){
     
     print("Loaded the native area of the specie (mask)")
     
+    # Intersect between specie distribution and mask
+    origin(specie.distribution) <- origin(specie.mask)
+    overlay.distribution = specie.distribution * specie.mask
+    
     # Intersect between specie distribution and ecosystem
-    origin(eco.raster) <- origin(specie.distribution)
-    overlay.eco = eco.raster * specie.distribution
+    origin(eco.raster) <- origin(overlay.distribution)
+    overlay.eco = eco.raster * overlay.distribution
     
     print("Intersected the specie distribution and ecosystem")
     

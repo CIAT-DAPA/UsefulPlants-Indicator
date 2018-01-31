@@ -65,24 +65,25 @@ calculate_grs = function(specie){
   tryCatch({
     print(paste0("Start ",specie))
     
-    # Search the raster file (specie distribution) from alternative model
-    # if the file doesn't exists, it takes the raster from maxent model
+    # Validation if the maxent model is good or not
+    # to do the gap analysis insitu
     alternative.path = paste0(specie.dir,"modeling/alternatives/buffer_total.tif")
     maxent.path = paste0(specie.dir,"modeling/maxent/concenso_mss.tif")
-    if(file.exists(alternative.path)){
-      specie.distribution = raster(alternative.path)
-    }
-    else if(file.exists(maxent.path)){
+    model.selected = read.csv("modeling/maxent/eval_metrics.csv", header = T, sep=",")
+    if(model.selected$VALID == TRUE){
       specie.distribution = raster(maxent.path)
     }
     else{
-      print("The specie doesn't have model distribution")
-      # Join the results
-      df <- data.frame(specie_distribution_a = c(0), species_protected_area_a = c(0), units_a = c("km2"), proportion = c(0), units_proportion = c("percentage"))
-      # Save the results
-      save_results_grs(df,NULL,specie.dir)
-      return (data.frame(specie = specie, status = status, message = "The specie does not have distribution model"))
+      specie.distribution = raster(alternative.path) 
     }
+    # else{
+    #   print("The specie doesn't have model distribution")
+    #   # Join the results
+    #   df <- data.frame(specie_distribution_a = c(0), species_protected_area_a = c(0), units_a = c("km2"), proportion = c(0), units_proportion = c("percentage"))
+    #   # Save the results
+    #   save_results_grs(df,NULL,specie.dir)
+    #   return (data.frame(specie = specie, status = status, message = "The specie does not have distribution model"))
+    # }
     # Remove the zeros (0) from raster
     specie.distribution[which(specie.distribution[]==0)]<-NA
     
@@ -140,7 +141,7 @@ calculate_grs = function(specie){
     df <- data.frame(specie_distribution_a = specie.area, species_protected_area_a = overlay.area, units_a = c("km2"), proportion = proportion, units_proportion = c("percentage"))
     
     # Save the results
-    save_results_grs(df,overlay, specie.dir)
+    save_results_grs(df,overlay.area, specie.dir)
     return (data.frame(specie = specie, status = status, message = message))
   },
   error = function(e) {
