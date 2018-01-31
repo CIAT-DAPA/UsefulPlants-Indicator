@@ -7,6 +7,8 @@
 #                       gap analysis. It contains four columns: Species_ID, FCSex, FCSin, FCSc_min, 
 #                       FCSc_max, FCSc_mean, and the priority class (HP, MP, LP, SC) for each combined version.
 
+#sp_list=c("2686262","7230716","2686276")
+
 ##== calculate size of distributional range ==# (sizeDR2)
 #source(paste(src.dir,"/008.sizeDR2.R",sep=""))
 #sizeDRProcess(inputDir=crop_dir, ncpu=2, crop=crop)
