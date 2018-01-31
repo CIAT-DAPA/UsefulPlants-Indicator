@@ -48,7 +48,7 @@ calculate_fcs = function(specie){
   status = TRUE
   
   # Set the global
-  specie.dir = paste0(species.dir, specie, "/")
+  specie.dir = paste0(species.dir, specie, "/", run_version, "/")
   
   tryCatch({
     print(paste0("Start ",specie))
@@ -62,8 +62,8 @@ calculate_fcs = function(specie){
     
     print("Loaded files")
     
-    grs.value = grs$proportion[0]
-    ers.value = ers$proportion[0]
+    grs.value = grs$proportion
+    ers.value = ers$proportion
     fcs.value = (grs.value + ers.value)/2
     
     print("Calculated FCS")
