@@ -47,16 +47,13 @@ create_buffers <- function(xy, msk, buff_dist=0.5, format="GTiff", filename) {
 }
 
 
+# testing the function
 # base_dir <- "~/nfs"
 # source("~/Repositories/aichi13/src/config.R")
 # config(dirs=T)
-# sp_coords <- read.csv(paste(gap_dir,"/2686262/",run_version,"/occurrences/2686262.csv",sep=""))
-# xy <- sp_coords[,c("lon","lat")]
+# xy <- read.csv(paste(gap_dir,"/2686262/",run_version,"/occurrences/2686262.csv",sep=""))[,c("lon","lat")]
 # load(paste(gap_dir,"/2686262/",run_version,"/bioclim/crop_narea.RDS",sep=""))
 # msk <- biolayers_cropc[[1]]; rm(biolayers_cropc)
 # msk[which(!is.na(msk[]))] <- 1
-# buff_dist <- 0.5
-# filename <- paste(gap_dir,"/2686262/",run_version,"/modeling/alternatives/ca50_total.tif",sep="")
-# format <- "GTiff"
-
+# create_buffers <- function(xy, msk, buff_dist=0.5, format="GTiff", filename=paste(gap_dir,"/2686262/",run_version,"/modeling/alternatives/ca50_total.tif",sep=""))
 
