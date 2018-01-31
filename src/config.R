@@ -1,5 +1,5 @@
 #Maria Victoria 
-#CIAT 2018
+#CIAT, 2018
 
 # This function makes the main directories which will be used in each step of the analysis.
 # @param (string) dirs: TRUE by default.
