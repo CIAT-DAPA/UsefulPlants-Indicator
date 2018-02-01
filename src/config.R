@@ -51,10 +51,10 @@ config <- function(dirs=T, cleaning=F, insitu=F, exsitu=F, modeling=F, premodeli
   if (premodeling) {
     clim_dir <<- paste0(par_dir, "/biolayer_2.5/raster")
     biolayers <<- stack(paste(clim_dir, "/", list.files(clim_dir, pattern = '\\.tif$'), sep=""))
-    #countries_sh <<- paste0(par_dir, "/gadm/shapefile")
     load(file=paste0(par_dir, "/gadm/shapefile/gadm28ISO.RDS"))
+    countries_sh <<- countries_sh
     layer_name <<- "gadm28ISO"
-    tkdist <<- read.csv(paste0(par_dir,"/WEP/WEP_taxonkey_distribution_ISO3.csv"), header=T)
+    tkdist <<- read.csv(paste0(par_dir,"/WEP/WEP_taxonkey_distribution_ISO3.csv"), sep="\t", header=T)
   }
   
   ####################################### 1. MODELING ################################################
