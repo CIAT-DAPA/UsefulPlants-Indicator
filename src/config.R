@@ -46,14 +46,12 @@ config <- function(dirs=T, cleaning=F, insitu=F, exsitu=F, modeling=F, premodeli
   ####################################### PRE MODELING ################################################
   #used by nat_area_mask.R and  nat_area_shp.R  functions
   
-  if(premodeling){
-    
-    outfol <<- gap_dir
+  if (premodeling) {
     clim_dir <<- paste0(par_dir, "/biolayer_2.5/raster")
+    biolayers <<- stack(paste(clim_dir, "/", list.files(clim_dir, pattern = '\\.tif$'), sep=""))
     countries_sh <<- paste0(par_dir, "/gadm/shapefile") 
     layer_name <<- "gadm28ISO"
     tkdist <<- read.csv(paste0(par_dir, "/WEP/WEP_taxonkey_distribution_ISO3.csv"), header=T)
-    
   }
   
   ####################################### 1. MODELING ################################################
@@ -82,7 +80,7 @@ config <- function(dirs=T, cleaning=F, insitu=F, exsitu=F, modeling=F, premodeli
   
   if (insitu) {
     #GLOBAL CONFIGURATION
-    rasterOptions(tmpdir = "D:/TEMP/hsotelo")
+    #rasterOptions(tmpdir = "D:/TEMP/hsotelo")
     species.glob.dir <<- gap_dir
     
     # "a" is global factor to limit the goal of conservation to a fraction of total

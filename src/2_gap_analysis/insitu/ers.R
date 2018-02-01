@@ -172,11 +172,11 @@ save_results_ers = function(df,overlay.ecosystem, overlay.pa, species.dir){
   # Save the results
   species.output = paste0(species.dir,"gap_analysis/insitu/")
   write.csv(df, paste0(species.output,"/ers_result.csv"), row.names = FALSE, quote = FALSE)
-  if(!is.null(overlay.ecosystem) & !file.exists(paste0(species.output,"/ers_pa_narea_ecosystems.tif"))){
-    writeRaster(overlay.ecosystem, paste0(species.output,"/ers_pa_narea_ecosystems.tif"),overwrite=F)  
+  if(!is.null(overlay.ecosystem)){
+    writeRaster(overlay.ecosystem, paste0(species.output,"/ers_pa_narea_ecosystems.tif"),overwrite=T)  
   }
-  if(!is.null(overlay.pa) & !file.exists(paste0(species.output,"/ers_pa_PAs_narea_ecosystems.tif"))){
-    writeRaster(overlay.pa, paste0(species.output,"/ers_pa_PAs_narea_ecosystems.tif"),overwrite=F)  
+  if(!is.null(overlay.pa)){
+    writeRaster(overlay.pa, paste0(species.output,"/ers_pa_PAs_narea_ecosystems.tif"),overwrite=T)  
   }
 }
 ##########################################    End Functions    ###############################################

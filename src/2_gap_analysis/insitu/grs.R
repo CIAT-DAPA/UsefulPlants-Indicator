@@ -181,8 +181,8 @@ save_results_grs = function(df, overlay, species.dir){
   # Save the results
   species.output = paste0(species.dir,"gap_analysis/insitu/")
   write.csv(df, paste0(species.output,"/grs_result.csv"), row.names = FALSE, quote = FALSE)
-  if(!is.null(overlay) & !file.exists(paste0(species.output,"/grs_pa_PAs_narea_areakm2.tif"))) {
-    writeRaster(overlay, paste0(species.output,"/grs_pa_PAs_narea_areakm2.tif"),overwrite=F)  
+  if (!is.null(overlay)) {
+    writeRaster(overlay, paste0(species.output,"/grs_pa_PAs_narea_areakm2.tif"),overwrite=T)  
   }
 }
 ##########################################    End Functions    ###############################################
