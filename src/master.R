@@ -12,8 +12,10 @@ master_run <- function(species, base_dir, repo_dir) {
   config(dirs=T)
   
   #step 1-create native area
+  nat_area <- somefunction(xx)
   
   #step 2-crop bioclim
+  
   
   #step 3-modeling
   
