@@ -1,4 +1,4 @@
-#Maria Victoria 
+#Maria Victoria Diaz
 #CIAT, 2018
 
 # This function makes the main directories which will be used in each step of the analysis.
@@ -14,16 +14,17 @@
 config <- function(dirs=T, cleaning=F, insitu=F, exsitu=F, modeling=F) {
   #version
   run_version <<- "v1"
-  #require
+  
+  #load packages
   require(raster)
   
   ###FOLDERS FOR RUNNING##
   if (dirs) {
-    root<<-paste(base_dir,"/workspace_cluster_9/Aichi13",sep="")
-    gap_dir<<-paste0(root, "/gap_analysis");if(!file.exists(gap_dir)){dir.create(gap_dir)}
-    par_dir<<-paste0(root, "/parameters");if(!file.exists(par_dir)){dir.create(par_dir)}
-    occ_dir<<-paste0(par_dir,"/","occurrences");if(!file.exists(occ_dir)){dir.create(occ_dir)}
-    scr_dir<-paste0(gap_dir,"/","_scripts");if(!file.exists(scr_dir)){dir.create(scr_dir)}
+    root <<- paste(base_dir,"/workspace_cluster_9/Aichi13",sep="")
+    gap_dir <<- paste0(root, "/gap_analysis");if(!file.exists(gap_dir)){dir.create(gap_dir)}
+    par_dir <<- paste0(root, "/parameters");if(!file.exists(par_dir)){dir.create(par_dir)}
+    occ_dir <<- paste0(par_dir,"/","occurrences");if(!file.exists(occ_dir)){dir.create(occ_dir)}
+    scr_dir <<- paste0(gap_dir,"/","_scripts");if(!file.exists(scr_dir)){dir.create(scr_dir)}
   }
   
   ####################################### 0.CLEANING ################################################
@@ -39,31 +40,31 @@ config <- function(dirs=T, cleaning=F, insitu=F, exsitu=F, modeling=F) {
     folderout <<- paste0(occ_dir,"/","no_sea")
     if(!file.exists(folderout)){dir.create(folderout)}
   }
-                      
+  
   ####################################### 1. MODELING ################################################
   #it will be adjusted in accordance with the modeling scripts
   
   if(modeling){
-    clim_dir <<- paste0(par_dir, "/biolayer_2.5/raster")
+    #clim_dir <<- paste0(par_dir, "/biolayer_2.5/raster")
     #bio <<- list.files(bio_dir)
     #elev <- raster(paste0(par_dir,"/biolayer_2.5/raster/",bio))
-    msk <- raster(paste0(par_dir,"/world_mask/raster/mask.tif"))
-    rst_dir <-clim_dir
-    
+    #msk <- raster(paste0(par_dir,"/world_mask/raster/mask.tif"))
+    #rst_dir <-clim_dir
   }
   
   ####################################### 2. GAP ANALYSIS ################################################
- 
+  
   ######## EX SITU #######
-  #used by functions: CropMask.R, buffer_points.R, grs.R
+  #used by functions: CropMask.R, buffer_points.R, grs.R, ers.R
   if (exsitu) {
     clim_dir <<- paste0(par_dir, "/biolayer_2.5/raster") 
-    msk_global <<- raster(paste0(par_dir,"/world_mask/raster/mask.tif")) 
-    global_area <<- raster(paste0(par_dir,"/world_mask/raster/area.tif"))
-   }
+    msk_global <<- raster(paste0(par_dir,"/world_mask/raster/mask.tif"))
+    global_area <<- raster(paste0(par_dir,"/world_mask/raster/area.tif")) 
+  }
   
   ######## IN SITU #######
   #used by functions: ers.R , grs.R and fcs.R
+  
   if (insitu) {
     #GLOBAL CONFIGURATION
     rasterOptions(tmpdir = "D:/TEMP/hsotelo")
@@ -76,9 +77,8 @@ config <- function(dirs=T, cleaning=F, insitu=F, exsitu=F, modeling=F) {
     #LOAD THE MASK OF THE WORLD
     world.area.path <<- paste0(par_dir,"/world_mask/raster/area.tif")
     world.area <<- raster(world.area.path)
-    
   }
-    
+  
   ######## BOTH IN-SITU AND EX-SITU #######
   if (insitu | exsitu) {
     #PATH TO WWF WORLD ECOREGIONS
