@@ -50,4 +50,3 @@ c1 <- makeCluster(ncores)
 clusterEvalQ(c1, lapply(c("shapefiles", "raster", "rgeos", "rgdal"), library, character.only= TRUE))
 clusterExport(c1, c("outfol", "ocurs"))
 parLapply(c1, ocurs[1:200], cropsC)
-
