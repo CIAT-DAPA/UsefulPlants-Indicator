@@ -9,7 +9,7 @@
 
 # Load the libraries
 # require(raster)
-require(rgdal)
+# require(rgdal)
 # require(sf)
 # library(snowfall)
 # library(plyr)
@@ -41,7 +41,7 @@ require(rgdal)
 
 ##########################################   Start Functions    ###############################################
 
-# This function calculate the ERS by every specie.
+# This function calculate the ERS by every species.
 # It searches the specie, then load the specie distribution from raster file. 
 # With the specie distribution intersectes with the native area, then with ecosystems raster, with this
 # new raster makes a new intersectes with protected areas and calculate the number of ecosystems
@@ -53,75 +53,85 @@ require(rgdal)
 #                       It has three columns, the first has the specie code; the second has a status
 #                       of process, if value is "TRUE" the process finished good, if the result is "FALSE"
 #                       the process had a error; the third column has a description about process
-calculate_ers = function(specie, debug = FALSE){
-
+calculate_ers = function(species, debug=F){
+  #required packages
+  require(rgdal)
+  
+  #source config
+  config(dirs=T, insitu=T)
+  
   # Defined vars about process
   message = "Ok"
   status = TRUE
   
   # Set the global
-  specie.dir = paste0(species.dir, specie, "/", run_version, "/")
-  specie.distribution = NULL
+  species.dir = paste0(species.glob.dir, "/", species, "/", run_version, "/")
+  species.distribution = NULL
   
   tryCatch({
-    print(paste0("Start ",specie))
+    #print(paste0("Start ",species))
     
     # Validation if the maxent model is good or not
-    # to do the gap analysis insitu
-    alternative.path = paste0(specie.dir,"modeling/alternatives/buffer_total.tif")
-    maxent.path = paste0(specie.dir,"modeling/maxent/concenso_mss.tif")
-    model.selected = read.csv(paste0(specie.dir,"modeling/maxent/eval_metrics.csv"), header = T, sep=",")
-    if(model.selected$VALID == TRUE){
-      specie.distribution = raster(maxent.path)
+    # to do the insitu gap analysis
+    alternative.path = paste0(species.dir,"modeling/alternatives/ca50_total_narea.tif")
+    maxent.path = paste0(species.dir,"modeling/maxent/spdist_median.tif")
+    model.selected = read.csv(paste0(species.dir,"modeling/maxent/eval_metrics.csv"), header = T, sep=",")
+    if(model.selected$VALID){
+      species.distribution = raster(maxent.path)
     } else{
-      specie.distribution = raster(alternative.path) 
+      species.distribution = raster(alternative.path) 
     }
     
     # Remove the zeros (0) from raster
-    specie.distribution[which(specie.distribution[]==0)]<-NA
+    species.distribution[which(species.distribution[]==0)] <- NA
     
-    print("Loaded the specie distribution file (raster)")
+    #print("Loaded the species distribution file (raster)")
     
     # Load the specie mask of native area
-    specie.mask.path = paste0(specie.dir,"bioclim/crop_narea.RDS")
-    load(specie.mask.path)
-    specie.mask = biolayers_cropc[[1]]
+    #species.mask.path = paste0(species.dir,"bioclim/crop_narea.RDS")
+    #load(species.mask.path)
+    #species.mask = biolayers_cropc[[1]]
     # Remove differents values from raster to get only the native area
-    specie.mask[which(!is.na(specie.mask[]))]<-1
+    #species.mask[which(!is.na(species.mask[]))]<-1
+    species.mask <- raster(paste(species.dir,"bioclim/narea_mask.tif",sep=""))
     
-    print("Loaded the native area of the specie (mask)")
+    #print("Loaded the native area of the species (mask)")
     
-    # Intersect between specie distribution and mask
-    origin(specie.distribution) <- origin(specie.mask)
-    overlay.distribution = specie.distribution * specie.mask
+    # Intersect between species distribution and mask
+    origin(species.distribution) <- origin(species.mask)
+    overlay.distribution <- species.distribution * species.mask
     
-    # Intersect between specie distribution and ecosystem
+    # Intersect between species distribution and ecosystem
     origin(eco.raster) <- origin(overlay.distribution)
-    overlay.eco = eco.raster * overlay.distribution
+    overlay.eco <- eco.raster * overlay.distribution
     
-    print("Intersected the specie distribution and ecosystem")
+    #print("Intersected the species distribution and ecosystem")
     
     # Intersect between overlay eco specie  and protected areas
     origin(pa.raster) <- origin(overlay.eco)
     overlay.eco.pa = pa.raster * overlay.eco
     
-    print("Intersected the overlapping (specie distribution and ecosystems) and global protected areas")
+    #print("Intersected the overlapping (species distribution and ecosystems) and global protected areas")
     
-    # Intersect between for the specie distribution and intersect
-    eco.specie.distribution.count = length(unique(overlay.eco))
-    eco.specie.distribution.pa.count  = length(unique(overlay.eco.pa))
+    # Intersect between for the species distribution and intersect
+    eco.species.distribution.count = length(unique(overlay.eco[],na.rm=T))
+    eco.species.distribution.pa.count  = length(unique(overlay.eco.pa[],na.rm=T))
     
     # Calculate proportion number ecosystems
-    proportion = (eco.specie.distribution.pa.count / (eco.specie.distribution.count) ) * 100
+    proportion = min(c(100, (eco.species.distribution.pa.count / (eco.species.distribution.count)) * 100))
     
-    print("Calculated ecosystems numbers")
+    #print("Calculated ecosystems numbers")
     
     # Join the results
-    df <- data.frame(ID=specie, SPP_N_ECO = eco.specie.distribution.count, G_N_ECO = eco.specie.distribution.pa.count, ERS = proportion)
+    df <- data.frame(ID=species, SPP_N_ECO = eco.species.distribution.count, SPP_WITHIN_PA_N_ECO = eco.species.distribution.pa.count, ERS = proportion)
     
     # Save the results
-    save_results_ers(df,overlay.eco,overlay.eco.pa, specie.dir, debug)
-    return (data.frame(specie = specie, status = status, message = message))
+    if (debug) {
+      save_results_ers(df, overlay.eco, overlay.eco.pa, species.dir)
+    } else {
+      save_results_ers(df, NULL, NULL, species.dir)
+    }
+    return (data.frame(species = species, status = status, message = message))
   },
   error = function(e) {
     
@@ -129,45 +139,44 @@ calculate_ers = function(specie, debug = FALSE){
     status = FALSE
     
     # Join the results
-    df <- data.frame(ID=specie, SPP_N_ECO = 0, G_N_ECO = 0, ERS = 0)
+    df <- data.frame(ID=species, SPP_N_ECO = NA, SPP_WITHIN_PA_N_ECO = NA, ERS = NA)
     
     # Save the results
-    save_results_ers(df,NULL,NULL, specie.dir, debug)
+    save_results_ers(df, NULL, NULL, species.dir, debug)
     
-    return (data.frame(specie = specie, status = status, message = message[[1]]))
+    return (data.frame(species = species, status = status, message = message[[1]]))
   }, finally = {
     
     # Remove temp files
     removeTmpFiles(h=0)
     
-    print(paste0("End ",specie))
+    #print(paste0("End ",species))
   })
 }
 
 # This function save the results of analysis grs.
 # This saves the raster of the intersect and analysis table
-# @param (data.frame) df; Data.frame with the analysis of protected areas
-# @param (raster) overlay.ecosystem: Intersect between specie distribution and ecosystem
-# @param (raster) overlay.pa: Intersect between specie distribution ecosystem and protected areas
-# @param (string) specie.dir: Path where the files should be saved
-# @param (bool) save: Specifies whether to save the raster files. By default is FALSE
+# @param (data.frame) df: data.frame with the analysis of protected areas
+# @param (raster) overlay.ecosystem: Intersect between species distribution and ecosystem
+# @param (raster) overlay.pa: Intersect between species distribution ecosystem and protected areas
+# @param (string) species.dir: Path where the files should be saved
 # @return (void)
-save_results_ers = function(df,overlay.ecosystem, overlay.pa, specie.dir, save){
+save_results_ers = function(df,overlay.ecosystem, overlay.pa, species.dir){
   # Create output dirs
-  if(!dir.exists(paste0(specie.dir,"gap_analysis"))){
-    dir.create(paste0(specie.dir,"gap_analysis"))
+  if(!dir.exists(paste0(species.dir,"gap_analysis"))){
+    dir.create(paste0(species.dir,"gap_analysis"))
   }
-  if(!dir.exists(paste0(specie.dir,"gap_analysis/insitu"))){
-    dir.create(paste0(specie.dir,"gap_analysis/insitu"))
+  if(!dir.exists(paste0(species.dir,"gap_analysis/insitu"))){
+    dir.create(paste0(species.dir,"gap_analysis/insitu"))
   }
   # Save the results
-  specie.output = paste0(specie.dir,"gap_analysis/insitu/")
-  write.csv(df, paste0(specie.output,"/ers_result.csv"), row.names = FALSE, quote = FALSE)
-  if(!is.null(overlay.ecosystem)  & save){
-    writeRaster(overlay.ecosystem, paste0(specie.output,"/ers_specie_ecosystems.tif"),overwrite=T )  
+  species.output = paste0(species.dir,"gap_analysis/insitu/")
+  write.csv(df, paste0(species.output,"/ers_result.csv"), row.names = FALSE, quote = FALSE)
+  if(!is.null(overlay.ecosystem)){
+    writeRaster(overlay.ecosystem, paste0(species.output,"/ers_pa_narea_ecosystems.tif"),overwrite=T)  
   }
-  if(!is.null(overlay.pa) & save){
-    writeRaster(overlay.pa, paste0(specie.output,"/ers_specie_ecosystems_pa.tif"),overwrite=T )  
+  if(!is.null(overlay.pa)){
+    writeRaster(overlay.pa, paste0(species.output,"/ers_pa_PAs_narea_ecosystems.tif"),overwrite=T)  
   }
 }
 ##########################################    End Functions    ###############################################
@@ -186,7 +195,7 @@ save_results_ers = function(df,overlay.ecosystem, overlay.pa, specie.dir, save){
 # # Run function in parallel for all species
 # result = sfLapply(species.list,calculate_ers)
 # 
-# # specie = species.list[7]
+# # species = species.list[7]
 # # lapply(species.list[7],calculate_ers)
 # # result = lapply(species.list,calculate_ers)
 # 

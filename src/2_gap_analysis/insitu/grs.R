@@ -49,7 +49,7 @@
 #                       It has three columns, the first has the specie code; the second has a status
 #                       of process, if value is "TRUE" the process finished good, if the result is FALSE
 #                       the process had a error; the third column has a description about process
-calculate_grs = function(species, debug=T) {
+calculate_grs = function(species, debug=F) {
   #required packages
   require(rgdal)
   
@@ -127,7 +127,7 @@ calculate_grs = function(species, debug=T) {
     overlay.area = sum(overlay.intersect[],na.rm=T) #area within PAs
     species.area = sum(overlay.species.area[], na.rm=T) #total sp dist. area
     # Calculate proportion area
-    proportion = (overlay.area / (a_insitu * species.area) ) * 100
+    proportion = min(c(100,(overlay.area / (a_insitu * species.area)) * 100))
     
     #print("Calculated the areas and proportions")
     
@@ -181,8 +181,8 @@ save_results_grs = function(df, overlay, species.dir){
   # Save the results
   species.output = paste0(species.dir,"gap_analysis/insitu/")
   write.csv(df, paste0(species.output,"/grs_result.csv"), row.names = FALSE, quote = FALSE)
-  if(!is.null(overlay) & !file.exists(paste0(species.output,"/grs_pa_PAs_narea_areakm2.tif"))) {
-    writeRaster(overlay, paste0(species.output,"/grs_pa_PAs_narea_areakm2.tif"),overwrite=F)  
+  if (!is.null(overlay)) {
+    writeRaster(overlay, paste0(species.output,"/grs_pa_PAs_narea_areakm2.tif"),overwrite=T)  
   }
 }
 ##########################################    End Functions    ###############################################
