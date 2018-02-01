@@ -23,10 +23,11 @@ nat_area_shp <- function(species) {
     writeOGR(obj=shp_NA3, dsn=output_dir, layer="narea", driver="ESRI Shapefile") # this is in geographical projection
     
     #cat("Writing png image for ",species,"\n")
-    png(filename=paste0(output_dir,"/",species,"_COUNTRY.png"),
-        width = 800, height = 800,unit="px")
-    plot(shp_NA3,col="red")
-    dev.off()
+    if (!file.exists(paste0(output_dir,"/",species,"_COUNTRY.png"))) {
+      png(filename=paste0(output_dir,"/",species,"_COUNTRY.png"), width = 800, height = 800,unit="px")
+      plot(shp_NA3,col="red")
+      dev.off()
+    }
     rm(list = c("species", "x", "countries"))
   } else {
     gwd <- getwd(); setwd(output_dir)
