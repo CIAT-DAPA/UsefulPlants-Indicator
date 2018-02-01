@@ -44,11 +44,12 @@ require(rgdal)
 # the area from the specie distribution, overlay and the proportion between both.
 # It creates two files with the result (grs_result.csv, grs_intersect.tif)
 # @param (string) specie: Code of the specie
+# @param (bool) debug: Specifies whether to save the raster files. By default is FALSE
 # @return (data.frame): This function return a dataframe with the results about the process. 
 #                       It has three columns, the first has the specie code; the second has a status
-#                       of process, if value is "TRUE" the process finished good, if the result is "FALSE"
+#                       of process, if value is "TRUE" the process finished good, if the result is FALSE
 #                       the process had a error; the third column has a description about process
-calculate_grs = function(specie){
+calculate_grs = function(specie, debug = FALSE){
   
   # It is a global factor to limits the goal of conservation to a percentage
   # 0 <= a <= 1
@@ -133,7 +134,7 @@ calculate_grs = function(specie){
     df <- data.frame(ID = specie, SPP_AREA_km2 = specie.area, G_AREA_km2 = overlay.area, GRS = proportion)
     
     # Save the results
-    save_results_grs(df,overlay.intersect, specie.dir)
+    save_results_grs(df,overlay.intersect, specie.dir, debug)
     return (data.frame(specie = specie, status = status, message = message))
   },
   error = function(e) {
@@ -145,7 +146,7 @@ calculate_grs = function(specie){
     df <- data.frame(ID = specie, SPP_AREA_km2 = 0, G_AREA_km2 = 0, GRS = 0)
     
     # Save the results
-    save_results_grs(df,NULL, specie.dir)
+    save_results_grs(df,NULL, specie.dir, debug)
     
     return (data.frame(specie = specie, status = status, message = message[[1]]))
   }, finally = {
@@ -162,8 +163,9 @@ calculate_grs = function(specie){
 # @param (data.frame) df; Data.frame with the analysis of protected areas
 # @param (raster) overlay: Intersect between specie distribution and protected areas
 # @param (string) specie.dir: Path where the files should be saved
+# @param (bool) save: Specifies whether to save the raster files. By default is FALSE
 # @return (void)
-save_results_grs = function(df,overlay,specie.dir){
+save_results_grs = function(df,overlay,specie.dir, save){
   # Create output dirs
   if(!dir.exists(paste0(specie.dir,"gap_analysis"))){
     dir.create(paste0(specie.dir,"gap_analysis"))
@@ -174,7 +176,7 @@ save_results_grs = function(df,overlay,specie.dir){
   # Save the results
   specie.output = paste0(specie.dir,"gap_analysis/insitu/")
   write.csv(df, paste0(specie.output,"/grs_result.csv"), row.names = FALSE, quote = FALSE)
-  if(!is.null(overlay)){
+  if(!is.null(overlay) & save){
     writeRaster(overlay, paste0(specie.output,"/grs_intersect.tif"),overwrite=T )  
   }
 }
