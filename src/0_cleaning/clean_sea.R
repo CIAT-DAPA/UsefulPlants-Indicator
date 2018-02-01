@@ -10,7 +10,6 @@ clean_sea <- function(species) {
   #load packages
   require(raster)
   require(maptools)
-  require(dplyr)
   require(rgdal)
   
   ##source config
