@@ -10,7 +10,7 @@
 # Load the libraries
 # require(raster)
 require(rgdal)
-require(sf)
+# require(sf)
 # library(snowfall)
 # library(plyr)
 
@@ -75,14 +75,7 @@ calculate_ers = function(specie){
     } else{
       specie.distribution = raster(alternative.path) 
     }
-    # else{
-    #   print("The specie doesn't have model distribution")
-    #   # Join the results
-    #   df <- data.frame(specie_distribution_ecosystem_count = c(0), specie_distribution_ecosystem_pa_count = c(0), proportion = c(0))
-    #   # Save the results
-    #   save_results_ers(df,NULL,NULL, specie.dir)
-    #   return (data.frame(specie = specie, status = status, message = "The specie does not have distribution model"))
-    # }
+    
     # Remove the zeros (0) from raster
     specie.distribution[which(specie.distribution[]==0)]<-NA
     
@@ -123,7 +116,7 @@ calculate_ers = function(specie){
     print("Calculated ecosystems numbers")
     
     # Join the results
-    df <- data.frame(specie_distribution_ecosystem_count = eco.specie.distribution.count, specie_distribution_ecosystem_pa_count = eco.specie.distribution.pa.count, proportion = proportion)
+    df <- data.frame(ID=specie, SPP_N_ECO = eco.specie.distribution.count, G_N_ECO = eco.specie.distribution.pa.count, ERS = proportion)
     
     # Save the results
     save_results_ers(df,overlay.eco,overlay.eco.pa, specie.dir)
@@ -135,7 +128,7 @@ calculate_ers = function(specie){
     status = FALSE
     
     # Join the results
-    df <- data.frame(specie_distribution_ecosystem_count = c(0), specie_distribution_ecosystem_pa_count = c(0), proportion = c(0))
+    df <- data.frame(ID=specie, SPP_N_ECO = 0, G_N_ECO = 0, ERS = 0)
     
     # Save the results
     save_results_ers(df,NULL,NULL, specie.dir)

@@ -75,14 +75,7 @@ calculate_grs = function(specie){
     } else{
       specie.distribution = raster(alternative.path) 
     }
-    # else{
-    #   print("The specie doesn't have model distribution")
-    #   # Join the results
-    #   df <- data.frame(specie_distribution_a = c(0), species_protected_area_a = c(0), units_a = c("km2"), proportion = c(0), units_proportion = c("percentage"))
-    #   # Save the results
-    #   save_results_grs(df,NULL,specie.dir)
-    #   return (data.frame(specie = specie, status = status, message = "The specie does not have distribution model"))
-    # }
+    
     # Remove the zeros (0) from raster
     specie.distribution[which(specie.distribution[]==0)]<-NA
     
@@ -137,7 +130,7 @@ calculate_grs = function(specie){
     print("Calculated the areas and proportions")
     
     # Join the results
-    df <- data.frame(specie_distribution_a = specie.area, species_protected_area_a = overlay.area, units_a = c("km2"), proportion = proportion, units_proportion = c("percentage"))
+    df <- data.frame(ID = specie, SPP_AREA_km2 = specie.area, G_AREA_km2 = overlay.area, GRS = proportion)
     
     # Save the results
     save_results_grs(df,overlay.intersect, specie.dir)
@@ -149,7 +142,7 @@ calculate_grs = function(specie){
     status = FALSE
     
     # Join the results
-    df <- data.frame(specie_distribution_a = c(0), species_protected_area_a = c(0), units_a = c("km2"), proportion = c(0), units_proportion = c("percentage"))
+    df <- data.frame(ID = specie, SPP_AREA_km2 = 0, G_AREA_km2 = 0, GRS = 0)
     
     # Save the results
     save_results_grs(df,NULL, specie.dir)

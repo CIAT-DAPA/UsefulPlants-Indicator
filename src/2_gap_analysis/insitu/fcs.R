@@ -62,8 +62,8 @@ calculate_fcs = function(specie){
     
     print("Loaded files")
     
-    grs.value = grs$proportion
-    ers.value = ers$proportion
+    grs.value = grs$GRS
+    ers.value = ers$ERS
     fcs.value = (grs.value + ers.value)/2
     
     print("Calculated FCS")
@@ -81,7 +81,7 @@ calculate_fcs = function(specie){
     status = FALSE
     
     # Join the results
-    df <- data.frame(ID = c(specie), GRS = c(0), ERS = c(0), FCS = c(0))
+    df <- data.frame(ID = specie, GRS = 0, ERS = 0, FCS = 0)
     
     # Save the results
     save_results_fcs(df,specie.dir)
