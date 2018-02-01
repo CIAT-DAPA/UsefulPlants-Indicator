@@ -7,6 +7,11 @@ repo_dir <- "~/Repositories/aichi13/src"
 species <- "2686262"
 
 master_run <- function(species, base_dir, repo_dir) {
+  
+  message = "OK"
+  status = TRUE
+  tryCatch({
+    print(paste0("Start ",species))
   #load config
   source(paste(repo_dir,"/config.R",sep=""))
   config(dirs=T)
@@ -31,5 +36,15 @@ master_run <- function(species, base_dir, repo_dir) {
   
   #step 4.3-combine insitu and exsitu
   
+  return (data.frame(species = species, status = status, message = message))
+  },error = function(e) {
+    print(paste0("Error ",species))
+    message = e
+    status = FALSE
+    return (data.frame(species = species, status = status, message = message[[1]]))
+  }, finally = {
+    
+    print(paste0("End ",species))
+  })
 }
 
