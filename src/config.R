@@ -7,7 +7,7 @@
 # @param (logical) modeling: FALSE by default. TRUE when the 1_STEP: MODELING is executed. 
 # @param (logical) exsitu: FALSE by default. TRUE when the 2.1_STEP:EXSITU GAP ANALYSIS is executed.
 # @param (logical) insitu: FALSE by default. TRUE when the 2.2_STEP:INSITU GAP ANALYSIS is executed.
-# @param (logical) premodeling: FALSE by default. TRUE when the 1_STEP: MODELING is executed.
+# @param (logical) premodeling: FALSE by default. TRUE before the 1_STEP: MODELING is executed.
 # @return (dir): This function return the directories which will be used in all master code development.
 
 #NOTE: base_dir will have to be specified in the master code
