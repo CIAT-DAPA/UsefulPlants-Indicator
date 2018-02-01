@@ -11,7 +11,7 @@ require(parallel)
 require(microbenchmark)
 require(rgdal)
 
-#source()
+##source()
 config(dirs=T, cleaning=T)
 
 
