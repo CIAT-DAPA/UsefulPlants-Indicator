@@ -16,6 +16,7 @@ suppressMessages(library(data.table))
 source("//dapadfs/Projects_cluster_9/aichi/scripts/CreateMXArgs.R") # URL
 source(".../aichi13/src/1_modeling/1_1_maxent/do_projections.R")
 source(".../aichi13/src/1_modeling/1_2_alternatives/create_buffers.R")
+source(".../aichi13/src/1_modeling/1_2_alternatives/create_buffers.R")
 
 # From config file
 # run_version <- "v1"
@@ -52,9 +53,10 @@ spModeling <- function(sp = "2653304"){
   
   if(nrow(optPars@occ.pts) >= 10){
     
+    
     if(!file.exists(paste0(crossValDir, "/modeling_results.", sp, ".RDS"))){
       
-      cat("Starting modeling process for specie", sp, "\n")
+      cat("Starting modeling process for species:", sp, "\n")
       
       # ---------------- #
       # Inputs
@@ -67,6 +69,9 @@ spModeling <- function(sp = "2653304"){
       rst_fls <- raster::stack(rst_fls); rm(rst_dir)
       
       # Determine background points
+      
+      cat("Creating background for: ", sp, "\n")
+      
       # msk <- raster("//dapadfs/Workspace_cluster_9/Aichi13/parameters/world_mask/raster/mask.tif") PLEASE REVIEW
       msk_pts <- raster::rasterToPoints(msk)
       msk_pts <- as.data.frame(msk_pts)
@@ -96,6 +101,9 @@ spModeling <- function(sp = "2653304"){
       # ---------------- #
       
       # Fitting final model
+      
+      cat("Loading tunned parameters to perform MaxEnt modeling  for: ", sp, "\n")
+      
       tryCatch(expr = {
         fit <- dismo::maxent(x = rst_fls, # Climate
                              p = optPars@occ.pts[,c("LON","LAT")], # Occurrences
@@ -130,6 +138,11 @@ spModeling <- function(sp = "2653304"){
       # k: corresponding fold
       # pnts: data.frame with climate data for all variables on projecting zone
       # tmpl_raster: template raster to project
+      
+      
+      cat("Performing projections using lambda files for: ", sp, "\n")
+      
+      
       pred <- raster::stack(lapply(1:5, function(x) make.projections(x, pnts = pnts, tmpl_raster = biolayers_cropc[[1]])))
       
       # Saving results
@@ -137,8 +150,14 @@ spModeling <- function(sp = "2653304"){
                       projections = pred,
                       occ_predictions = raster::extract(x = pred, y = optPars@occ.pts[,c("LON","LAT")]),
                       bck_predictions = raster::extract(x = pred, y = bck_data[,c("lon","lat")]))
-      saveRDS(object = results, file = paste0(crossValDir, "/modeling_results.", sp, ".RDS"))
       
+      
+      cat("Saving RDS File with Models outcomes for: ", sp, "\n")
+     
+       saveRDS(object = results, file = paste0(crossValDir, "/modeling_results.", sp, ".RDS"))
+      
+       cat("Saving Median and SD rasters for: ", sp, "\n")
+       
       spMedian <- raster::calc(pred, fun = function(x) median(x, na.rm = T))
       raster::writeRaster(x = spMedian, filename = paste0(crossValDir, "/spdist_median.tif"))
       spSD <- raster::calc(pred, fun = function(x) sd(x, na.rm = T))
@@ -148,19 +167,33 @@ spModeling <- function(sp = "2653304"){
       # Evaluation metrics
       # ---------------- #
       
-      ####################
-      # Put evaluation function
-      ####################
+      # Extracting metrics for 5 replicates
       
-      # Apply threshold from evaluation
-      thrsld <- 0.622 # Please update this according to metrics
+      cat("Gathering replicate metrics  for: ", sp, "\n")
+      
+      x<-metrics_function(sp)
+      
+      evaluate_table<-read.csv(paste0(crossValDir,"/","eval_metrics_rep.csv"),header=T)
+
+        # Apply threshold from evaluation
+      
+      cat("Thresholding using Max metrics  for: ", sp, "\n")
+      
+      thrsld <- as.numeric(mean(evaluate_table[,"Threshold"],na.rm=T)) # Please update this according to metrics
       spThrsld <- spMedian
       spThrsld[which(spThrsld[] >= thrsld)] <- 1
       spThrsld[which(spThrsld[] < thrsld)] <- 0
       raster::writeRaster(x = spThrsld, filename = paste0(crossValDir, "/spdist_thrsld.tif"))
       
+      
+      # Gathering final evaluation table
+      
+      x<-evaluate_function(sp)
+ 
+      
       return(cat("Process finished successfully for specie:", sp, "\n"))
       
+  
     } else {
       cat("Specie:", sp, "has been already modeled\n")
     }
