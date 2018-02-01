@@ -7,8 +7,6 @@ metrics_function<-function(sp){
 
 
 crossValDir <- paste0(gap_dir, "/", sp, "/", run_version, "/modeling/maxent")
-load(paste0(crossValDir,"/",sp,".RData"))
-#load("//dapadfs/Workspace_cluster_9/Aichi13/gap_analysis/2653304/v1/modeling/maxent/2653304.csv.RData")
 
 maxn<-readRDS("//dapadfs/Workspace_cluster_9/Aichi13/gap_analysis/2653304/v1/modeling/maxent/modeling_results.2653304.RDS")
 
@@ -59,19 +57,19 @@ evaluate_table[,"testing"]<-as.numeric(x[row.names(x)=="X.Test.samples",][1:rep_
 #BACKGROUND
 evaluate_table[,"Background"]<-as.numeric(x[row.names(x)=="X.Background.points",][1:rep_number])
 ##ATAUC
-evaluate_table[1:rep_number,"ATAUC"]<-as.numeric(unlist(lapply(1:rep_number,function(i){  x<-PresenceAbsence::auc(z,which.model=i)[1];return(x)})))
+evaluate_table[,"ATAUC"]<-as.numeric(unlist(lapply(1:rep_number,function(i){  x<-PresenceAbsence::auc(z,which.model=i)[1];return(x)})))
 ##STAUC
-evaluate_table[1:rep_number,"STAUC"]<-as.numeric(unlist(lapply(1:rep_number,function(i){  x<-PresenceAbsence::auc(z,which.model=i,st.dev = T)[2];return(x)})))
+evaluate_table[,"STAUC"]<-as.numeric(unlist(lapply(1:rep_number,function(i){  x<-PresenceAbsence::auc(z,which.model=i,st.dev = T)[2];return(x)})))
 ##THRESHOLD
-evaluate_table[1:rep_number,"Threshold"]<-as.numeric(unlist(lapply(1:rep_number,function(i){  x<-PresenceAbsence::optimal.thresholds(z,which.model=i,opt.methods = 3)[2];return(x)})))
+evaluate_table[,"Threshold"]<-as.numeric(unlist(lapply(1:rep_number,function(i){  x<-PresenceAbsence::optimal.thresholds(z,which.model=i,opt.methods = 3)[2];return(x)})))
 ##SENSITIVITY
-evaluate_table[1:rep_number,"Sensitivity"]<-as.numeric(unlist(lapply(1:rep_number,function(i){  x<-PresenceAbsence::sensitivity(cmx(z,which.model=i))[1];return(x)})))
+evaluate_table[,"Sensitivity"]<-as.numeric(unlist(lapply(1:rep_number,function(i){  x<-PresenceAbsence::sensitivity(cmx(z,which.model=i))[1];return(x)})))
 ##SPECIFICITY
-evaluate_table[1:rep_number,"Specificity"]<-as.numeric(unlist(lapply(1:rep_number,function(i){  x<-PresenceAbsence::specificity(cmx(z,which.model=i))[1];return(x)})))
+evaluate_table[r,"Specificity"]<-as.numeric(unlist(lapply(1:rep_number,function(i){  x<-PresenceAbsence::specificity(cmx(z,which.model=i))[1];return(x)})))
 ##TSS
-evaluate_table[1:rep_number,"TSS"]<-(evaluate_table[1:rep_number,"Sensitivity"]+evaluate_table[1:rep_number,"Specificity"])-1
+evaluate_table[,"TSS"]<-(evaluate_table[1:rep_number,"Sensitivity"]+evaluate_table[1:rep_number,"Specificity"])-1
 ##PCC
-evaluate_table[1:rep_number,"PCC"]<-as.numeric(unlist(lapply(1:rep_number,function(i){  x<-PresenceAbsence::pcc(cmx(z,which.model = i))[1];return(x)})))
+evaluate_table[,"PCC"]<-as.numeric(unlist(lapply(1:rep_number,function(i){  x<-PresenceAbsence::pcc(cmx(z,which.model = i))[1];return(x)})))
 
 
 
