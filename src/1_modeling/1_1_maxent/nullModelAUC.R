@@ -5,16 +5,18 @@ require(dismo);require(raster)
 null_model_AUC<-function(sp){
   
   ####LOADING CALIBRATION OCCURRENCES AND NATIVE AREA MASK
-  
+
   narea_mask<-raster(paste0(gap_dir,"/",sp,"/",run_version,"/","bioclim/narea_mask.tif"))
-  load(paste0(gap_dir, "/", sp, "/", run_version, "/modeling/maxent/", sp, ".csv.RData"))
+  #load(paste0(gap_dir, "/", sp, "/", run_version, "/modeling/maxent/", sp, ".csv.RData"))
+  occs<-read.csv(paste0(occ_dir,"/","no_sea","/",sp,".csv"))
+  occs <- unique(occs[,c("lon","lat")])
   
  # narea_mask<-raster("//dapadfs/Workspace_cluster_9/Aichi13/gap_analysis/2653304/v1/bioclim/narea_mask.tif")
 
   ####ADJUSTING AN UNIQUE SET.SEED TO GET THE SAME KFOLD SPLIT
   
   set.seed(1235)
-  occs<-optPars@occ.pts
+ # occs<-optPars@occ.pts
   training<-occs[which(kfold(occs, k=3)!=3),]
   rownames(training) <- 1:nrow(training)
   colnames(training)<-c("lon","lat")

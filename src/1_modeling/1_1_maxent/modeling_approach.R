@@ -3,7 +3,7 @@
 # CIAT, 2018
 
 # R options
-g <- gc(reset = T); rm(list = ls()); options(warn = -1); options(scipen = 999)
+# g <- gc(reset = T); rm(list = ls()); options(warn = -1); options(scipen = 999)
 
 # Load libraries
 suppressMessages(library(tidyverse))
@@ -13,9 +13,9 @@ suppressMessages(library(ff))
 suppressMessages(library(data.table))
 
 # Important scripts
-source("//dapadfs/Projects_cluster_9/aichi/scripts/CreateMXArgs.R") # URL
-source(".../aichi13/src/1_modeling/1_1_maxent/do_projections.R")
-source(".../aichi13/src/1_modeling/1_2_alternatives/create_buffers.R")
+source(paste(repo_dir,"/1_modeling/1_1_maxent/CreateMXArgs.R",sep=""))
+source(paste(repo_dir,"/1_modeling/1_1_maxent/do_projections.R",sep=""))
+source(paste(repo_dir,"/1_modeling/1_2_alternatives/create_buffers.R",sep=""))
 
 # From config file
 # run_version <- "v1"
@@ -26,35 +26,40 @@ source(".../aichi13/src/1_modeling/1_2_alternatives/create_buffers.R")
 # --------------------------------------------------------------------- #
 
 spModeling <- function(sp = "2653304"){
+  # run config function
+  config(dirs=T,modeling=T)
   
   # Load calibration results
-  load(paste0(gap_dir, "/", sp, "/", run_version, "/modeling/maxent/", sp, ".csv.RData"))
+  if (file.exists(paste0(gap_dir, "/", sp, "/", run_version, "/modeling/maxent/", sp, ".csv.RData"))) {
+    load(paste0(gap_dir, "/", sp, "/", run_version, "/modeling/maxent/", sp, ".csv.RData"))
+  } else {
+    optPars <- NULL
+  }
   
   # Native area for projecting
   load(paste0(gap_dir, "/", sp, "/", run_version, "/bioclim/crop_narea.RDS"))
   
-  # Run alternatives
+  #load occurrence points
+  xy_data <- read.csv(paste(occ_dir,"/no_sea/",sp,".csv",sep=""),header=T)
+  xy_data <- unique(xy_data[,c("lon","lat")])
+  
+  # Run alternatives #paste(sp_dir,"/bioclim/narea_mask.tif",sep="")
   if(!file.exists(paste0(gap_dir, "/", sp, "/", run_version, "/modeling/alternatives/ca50_total_narea.tif"))){
-    xy_data <- optPars@occ.pts[,c("LON","LAT")]; xy_data <- as.data.frame(xy_data)
-    names(xy_data) <- c("lon", "lat")
+    #xy_data <- optPars@occ.pts[,c("LON","LAT")]; xy_data <- as.data.frame(xy_data)
+    #names(xy_data) <- c("lon", "lat")
     create_buffers(xy = xy_data,
-                   msk = biolayers_cropc[[1]], # cambiar a mask de native area
+                   msk = raster(paste(gap_dir,"/",sp,"/",run_version,"/bioclim/narea_mask.tif",sep="")), # cambiar a mask de native area
                    buff_dist = 0.5,
                    format = "GTiff",
                    filename = paste0(gap_dir, "/", sp, "/", run_version, "/modeling/alternatives/ca50_total_narea.tif"))
-    rm(xy_data)
-  } else {
-    cat("Buffers were already created.\n")
   }
   
   # Output folder
   crossValDir <- paste0(gap_dir, "/", sp, "/", run_version, "/modeling/maxent")
   
-  if(nrow(optPars@occ.pts) >= 10){
-    
+  if(nrow(xy_data) >= 10){
     if(!file.exists(paste0(crossValDir, "/modeling_results.", sp, ".RDS"))){
-      
-      cat("Starting modeling process for specie", sp, "\n")
+      #cat("Starting modeling process for species:", sp, "\n")
       
       # ---------------- #
       # Inputs
@@ -62,48 +67,66 @@ spModeling <- function(sp = "2653304"){
       
       # Loading climate worldwide rasters
       # rst_dir <- "//dapadfs/Workspace_cluster_9/Aichi13/parameters/biolayer_2.5/raster" PLEASE REVIEW
+      #rst_dir <- paste(par_dir,"/biolayer_2.5/raster",sep="")
       rst_fls <- list.files(path = rst_dir, full.names = T)
       rst_fls <- rst_fls[grep(pattern = "*.tif$", x = rst_fls)]
       rst_fls <- raster::stack(rst_fls); rm(rst_dir)
       
       # Determine background points
+      #cat("Creating background for: ", sp, "\n")
       # msk <- raster("//dapadfs/Workspace_cluster_9/Aichi13/parameters/world_mask/raster/mask.tif") PLEASE REVIEW
+      msk <- msk_global
       msk_pts <- raster::rasterToPoints(msk)
       msk_pts <- as.data.frame(msk_pts)
-      msk_pts <- msk_pts[msk_pts$y > -60,]
+      msk_pts <- msk_pts[which(msk_pts$y > -60),]
       msk_pts$mask <- NULL
       names(msk_pts) <- c("lon", "lat")
       msk_pts <- msk_pts[complete.cases(msk_pts),]
       msk_pts$cellID <- cellFromXY(object = msk, xy = msk_pts[,c("lon", "lat")])
-      occ_cellID <- cellFromXY(object = msk, xy = optPars@occ.pts[,c("LON","LAT")])
-      msk_pts <- msk_pts[setdiff(msk_pts$cellID, occ_cellID),]; rm(occ_cellID)
+      #occ_cellID <- cellFromXY(object = msk, xy = optPars@occ.pts[,c("LON","LAT")])
+      occ_cellID <- cellFromXY(object = msk, xy = xy_data[,c("lon","lat")])
+      #msk_pts <- msk_pts[setdiff(msk_pts$cellID, occ_cellID),]; rm(occ_cellID)
+      msk_pts <- msk_pts[which(!msk_pts$cellID %in% occ_cellID),]
       rownames(msk_pts) <- 1:nrow(msk_pts); rm(msk)
       
-      if(nrow(optPars@occ.pts) >= 50){
+      if(nrow(xy_data) >= 50){
         set.seed(1234)
-        smpl <- base::sample(rownames(msk_pts), nrow(optPars@occ.pts)*10, replace = F)
+        smpl <- base::sample(rownames(msk_pts), nrow(xy_data)*10, replace = F)
         bck_data <- msk_pts[na.omit(match(smpl, rownames(msk_pts))),]; rm(smpl)
       } else {
         set.seed(1234)
-        smpl <- base::sample(rownames(msk_pts), nrow(optPars@occ.pts)*100, replace = F)
+        smpl <- base::sample(rownames(msk_pts), nrow(xy_data)*100, replace = F)
         bck_data <- msk_pts[na.omit(match(smpl, rownames(msk_pts))),]; rm(smpl)
       }
       bck_data$cellID <- NULL
       bck_data$species <- sp
+      
+      #extract bio variables to check that no NAs are present
+      bck_data_bio <- cbind(bck_data, rst_vx$extract_points(sp = sp::SpatialPoints(bck_data[,c("lon", "lat")])))
+      bck_data <- bck_data_bio[complete.cases(bck_data_bio),c("lon","lat","species")]
+      
+      #do the same for presences
+      xy_data_bio <- cbind(xy_data, rst_vx$extract_points(sp = sp::SpatialPoints(xy_data[,c("lon", "lat")])))
+      xy_data <- xy_data_bio[complete.cases(xy_data_bio),c("lon","lat")]
+      
       
       # ---------------- #
       # Modeling
       # ---------------- #
       
       # Fitting final model
+      
+      #cat("Loading tunned parameters to perform MaxEnt modeling  for: ", sp, "\n")
       tryCatch(expr = {
         fit <- dismo::maxent(x = rst_fls, # Climate
-                             p = optPars@occ.pts[,c("LON","LAT")], # Occurrences
+                             #p = optPars@occ.pts[,c("LON","LAT")], # Occurrences
+                             p = xy_data[,c("lon","lat")], # Occurrences
                              a = bck_data[,c("lon","lat")], # Pseudo-absences
                              removeDuplicates = T,
                              # args = c("nowarnings","replicates=5","linear=true","quadratic=true","product=true","threshold=true","hinge=true","pictures=false","plots=false"),
                              args = c("nowarnings","replicates=5","pictures=false","plots=false", CreateMXArgs(optPars)),
-                             path = crossValDir)
+                             path = crossValDir,
+                             silent = F)
       },
       error = function(e){
         cat("Modeling process failed:", sp, "\n")
@@ -130,6 +153,11 @@ spModeling <- function(sp = "2653304"){
       # k: corresponding fold
       # pnts: data.frame with climate data for all variables on projecting zone
       # tmpl_raster: template raster to project
+      
+      
+      cat("Performing projections using lambda files for: ", sp, "\n")
+      
+      
       pred <- raster::stack(lapply(1:5, function(x) make.projections(x, pnts = pnts, tmpl_raster = biolayers_cropc[[1]])))
       
       # Saving results
@@ -137,8 +165,14 @@ spModeling <- function(sp = "2653304"){
                       projections = pred,
                       occ_predictions = raster::extract(x = pred, y = optPars@occ.pts[,c("LON","LAT")]),
                       bck_predictions = raster::extract(x = pred, y = bck_data[,c("lon","lat")]))
-      saveRDS(object = results, file = paste0(crossValDir, "/modeling_results.", sp, ".RDS"))
       
+      
+      cat("Saving RDS File with Models outcomes for: ", sp, "\n")
+     
+       saveRDS(object = results, file = paste0(crossValDir, "/modeling_results.", sp, ".RDS"))
+      
+       cat("Saving Median and SD rasters for: ", sp, "\n")
+       
       spMedian <- raster::calc(pred, fun = function(x) median(x, na.rm = T))
       raster::writeRaster(x = spMedian, filename = paste0(crossValDir, "/spdist_median.tif"))
       spSD <- raster::calc(pred, fun = function(x) sd(x, na.rm = T))
@@ -148,19 +182,33 @@ spModeling <- function(sp = "2653304"){
       # Evaluation metrics
       # ---------------- #
       
-      ####################
-      # Put evaluation function
-      ####################
+      # Extracting metrics for 5 replicates
       
-      # Apply threshold from evaluation
-      thrsld <- 0.622 # Please update this according to metrics
+      cat("Gathering replicate metrics  for: ", sp, "\n")
+      
+      x<-metrics_function(sp)
+      
+      evaluate_table<-read.csv(paste0(crossValDir,"/","eval_metrics_rep.csv"),header=T)
+
+        # Apply threshold from evaluation
+      
+      cat("Thresholding using Max metrics  for: ", sp, "\n")
+      
+      thrsld <- as.numeric(mean(evaluate_table[,"Threshold"],na.rm=T)) # Please update this according to metrics
       spThrsld <- spMedian
       spThrsld[which(spThrsld[] >= thrsld)] <- 1
       spThrsld[which(spThrsld[] < thrsld)] <- 0
       raster::writeRaster(x = spThrsld, filename = paste0(crossValDir, "/spdist_thrsld.tif"))
       
+      
+      # Gathering final evaluation table
+      
+      x<-evaluate_function(sp)
+ 
+      
       return(cat("Process finished successfully for specie:", sp, "\n"))
       
+  
     } else {
       cat("Specie:", sp, "has been already modeled\n")
     }

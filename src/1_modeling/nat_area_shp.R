@@ -20,7 +20,9 @@ nat_area_shp <- function(species) {
 
   if (!file.exists(paste0(output_dir, "/narea.shp"))) {
     #cat("Doing", species, "\n")
-    writeOGR(obj=shp_NA3, dsn=output_dir, layer="narea", driver="ESRI Shapefile") # this is in geographical projection
+    gwd <- getwd(); setwd(output_dir)
+    writeOGR(obj=shp_NA3, dsn="narea.shp", layer="narea", driver="ESRI Shapefile") # this is in geographical projection
+    setwd(gwd)
     
     #cat("Writing png image for ",species,"\n")
     if (!file.exists(paste0(output_dir,"/",species,"_COUNTRY.png"))) {

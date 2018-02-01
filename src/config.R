@@ -35,9 +35,8 @@ config <- function(dirs=T, cleaning=F, insitu=F, exsitu=F, modeling=F, premodeli
     folderin_raw <<- paste0(occ_dir, "/raw")
     
     ##COUNTRIES SHAPEFILES##
-    #countries_sh <<- shapefile(paste0(par_dir, "/gadm/shapefile/gadm28ISO.shp")) 
-    #save(countries_sh, file = paste0(par_dir, "/gadm/shapefile/gadm28ISO.RDS"))
-    load(file=paste0(par_dir, "/gadm/shapefile/gadm28ISO.RDS"))
+    if (!exists("countries_sh")) {load(file=paste0(par_dir, "/gadm/shapefile/gadm28ISO.RDS"))}
+    countries_sh <<- countries_sh
     
     ##OUTPUT FOLDER IN clean_sea FUNCTION, AND INPUT IN split_occs_srs FUNCTION##
     folder_nosea <<- paste0(occ_dir,"/","no_sea")
@@ -51,7 +50,7 @@ config <- function(dirs=T, cleaning=F, insitu=F, exsitu=F, modeling=F, premodeli
   if (premodeling) {
     clim_dir <<- paste0(par_dir, "/biolayer_2.5/raster")
     biolayers <<- stack(paste(clim_dir, "/", list.files(clim_dir, pattern = '\\.tif$'), sep=""))
-    load(file=paste0(par_dir, "/gadm/shapefile/gadm28ISO.RDS"))
+    if (!exists("countries_sh")) {load(file=paste0(par_dir, "/gadm/shapefile/gadm28ISO.RDS"))}
     countries_sh <<- countries_sh
     layer_name <<- "gadm28ISO"
     tkdist <<- read.csv(paste0(par_dir,"/WEP/WEP_taxonkey_distribution_ISO3.csv"), sep="\t", header=T)
@@ -64,8 +63,12 @@ config <- function(dirs=T, cleaning=F, insitu=F, exsitu=F, modeling=F, premodeli
     rst_dir <<- paste0(par_dir, "/biolayer_2.5/raster")
     #bio <<- list.files(bio_dir)
     #elev <- raster(paste0(par_dir,"/biolayer_2.5/raster/",bio))
-    msk <- raster(paste0(par_dir,"/world_mask/raster/mask.tif"))
+    msk_global <<- raster(paste0(par_dir,"/world_mask/raster/mask.tif"))
     
+    # load RDS object with climate data
+    if (!exists("rst_vx")) {
+      rst_vx <<- readRDS(paste(par_dir,"/biolayer_2.5/climate_vx.RDS",sep=""))
+    }
   }
   
   ####################################### 2. GAP ANALYSIS ################################################
