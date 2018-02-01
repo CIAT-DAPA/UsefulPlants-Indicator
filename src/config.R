@@ -83,7 +83,11 @@ config <- function(dirs=T, cleaning=F, insitu=F, exsitu=F, modeling=F, premodeli
   if (insitu) {
     #GLOBAL CONFIGURATION
     rasterOptions(tmpdir = "D:/TEMP/hsotelo")
-    species.dir <<- gap_dir
+    species.glob.dir <<- gap_dir
+    
+    # "a" is global factor to limit the goal of conservation to a fraction of total
+    # for GRS calculation, 0 <= a <= 1
+    a_insitu <<- 1.0;
     
     #PATH TO PROTECTED AREAS RASTER
     pa.path <<- paste0(par_dir, "/protected_areas/raster/areas_protected_geographic.tif")
