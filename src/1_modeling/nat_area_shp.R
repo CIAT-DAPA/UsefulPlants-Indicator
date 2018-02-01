@@ -1,20 +1,17 @@
-require(shapefiles);require(raster);library(rgeos);require(rgdal)
-
-
-
-countries_sh<-readOGR(dsn=path.expand(countries_sh), layer=layer_name)
-
-splist<-unique(tkdist$taxonkey)
 
 
 shapeNatives <- function(species){
- 
+  #load packages
+  require(shapefiles); require(raster)
+  require(rgeos); require(rgdal)
   
+  #load config
   config(dirs=T, premodeling=T)
   
-  x<-subset(tkdist,tkdist$taxonkey==species)
-  countries<-factor(as.character(unique(x$ISO3)))
-  
+  #load species list
+  splist <- unique(tkdist$taxonkey)
+  x <- subset(tkdist,tkdist$taxonkey==species)
+  countries <- factor(as.character(unique(x$ISO3)))
   shp_NA3 <- subset(countries_sh, ISO %in% countries)
   
   

@@ -11,13 +11,15 @@ master_run <- function(species, base_dir, repo_dir) {
   source(paste(repo_dir,"/config.R",sep=""))
   config(dirs=T)
   
-  #step 0-clean sea
+  #step 2.1-clean sea
+  source(paste(repo_dir,"/0_cleaning/clean_sea.R",sep=""))
+  spp_clean <- clean_sea(species)
   
-  #step 1-create native area
+  #step 2.2-create native area
   #source(paste(repo_dir,"/1_modeling/nat_area_mask.R",sep=""))
   #nat_area_shp <- somefunction(xx)
   
-  #step 2-crop bioclim
+  #step 2.3-crop bioclim
   source(paste(repo_dir,"/1_modeling/nat_area_mask.R",sep=""))
   cropbio <- nat_area_mask(species)
   

@@ -35,7 +35,9 @@ config <- function(dirs=T, cleaning=F, insitu=F, exsitu=F, modeling=F, premodeli
     folderin_raw <<- paste0(occ_dir, "/raw")
     
     ##COUNTRIES SHAPEFILES##
-    countries_sh <<- shapefile(paste0(par_dir, "/gadm/shapefile/gadm28ISO.shp")) 
+    #countries_sh <<- shapefile(paste0(par_dir, "/gadm/shapefile/gadm28ISO.shp")) 
+    #save(countries_sh, file = paste0(par_dir, "/gadm/shapefile/gadm28ISO.RDS"))
+    load(file=paste0(par_dir, "/gadm/shapefile/gadm28ISO.RDS"))
     
     ##OUTPUT FOLDER IN clean_sea FUNCTION, AND INPUT IN split_occs_srs FUNCTION##
     folder_nosea <<- paste0(occ_dir,"/","no_sea")
@@ -49,9 +51,10 @@ config <- function(dirs=T, cleaning=F, insitu=F, exsitu=F, modeling=F, premodeli
   if (premodeling) {
     clim_dir <<- paste0(par_dir, "/biolayer_2.5/raster")
     biolayers <<- stack(paste(clim_dir, "/", list.files(clim_dir, pattern = '\\.tif$'), sep=""))
-    countries_sh <<- paste0(par_dir, "/gadm/shapefile") 
+    #countries_sh <<- paste0(par_dir, "/gadm/shapefile")
+    load(file=paste0(par_dir, "/gadm/shapefile/gadm28ISO.RDS"))
     layer_name <<- "gadm28ISO"
-    tkdist <<- read.csv(paste0(par_dir, "/WEP/WEP_taxonkey_distribution_ISO3.csv"), header=T)
+    tkdist <<- read.csv(paste0(par_dir,"/WEP/WEP_taxonkey_distribution_ISO3.csv"), header=T)
   }
   
   ####################################### 1. MODELING ################################################
@@ -102,6 +105,4 @@ config <- function(dirs=T, cleaning=F, insitu=F, exsitu=F, modeling=F, premodeli
     eco.path <<-paste0(par_dir, "/ecosystems/raster/wwf_eco_terr_geo.tif")
     eco.raster <<- raster(eco.path)
   }
-  
-  
 }
