@@ -43,12 +43,13 @@
 # With the species distribution intersectes with the native area, then with the protected areas raster and calculate
 # the area from the species distribution, overlay and the proportion between both.
 # It creates two files with the result (grs_result.csv, grs_intersect.tif)
-# @param (string) species: Code of the species
+# @param (string) specie: Code of the specie
+# @param (bool) debug: Specifies whether to save the raster files. By default is FALSE
 # @return (data.frame): This function return a dataframe with the results about the process. 
-#                       It has three columns, the first has the species code; the second has a status
-#                       of process, if value is "TRUE" the process finished good, if the result is "FALSE"
+#                       It has three columns, the first has the specie code; the second has a status
+#                       of process, if value is "TRUE" the process finished good, if the result is FALSE
 #                       the process had a error; the third column has a description about process
-calculate_grs = function(species, debug=T){
+calculate_grs = function(species, debug=T) {
   #required packages
   require(rgdal)
   
@@ -167,6 +168,7 @@ calculate_grs = function(species, debug=T){
 # @param (data.frame) df; Data.frame with the analysis of protected areas
 # @param (raster) overlay: Intersect between species distribution and protected areas
 # @param (string) specie.dir: Path where the files should be saved
+# @param (bool) save: Specifies whether to save the raster files. By default is FALSE
 # @return (void)
 save_results_grs = function(df, overlay, species.dir){
   # Create output dirs

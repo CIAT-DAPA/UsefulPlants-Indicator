@@ -48,11 +48,12 @@ require(rgdal)
 # in the specie distribution and number ecosystem into protected areas
 # It creates three files with the result (ers_result.csv, ers_specie_ecosystems.tif, ers_specie_ecosystems_pa.tif)
 # @param (string) specie: Code of the specie
+# @param (bool) debug: Specifies whether to save the raster files. By default is FALSE
 # @return (data.frame): This function return a dataframe with the results about the process. 
 #                       It has three columns, the first has the specie code; the second has a status
 #                       of process, if value is "TRUE" the process finished good, if the result is "FALSE"
 #                       the process had a error; the third column has a description about process
-calculate_ers = function(specie){
+calculate_ers = function(specie, debug = FALSE){
 
   # Defined vars about process
   message = "Ok"
@@ -119,7 +120,7 @@ calculate_ers = function(specie){
     df <- data.frame(ID=specie, SPP_N_ECO = eco.specie.distribution.count, G_N_ECO = eco.specie.distribution.pa.count, ERS = proportion)
     
     # Save the results
-    save_results_ers(df,overlay.eco,overlay.eco.pa, specie.dir)
+    save_results_ers(df,overlay.eco,overlay.eco.pa, specie.dir, debug)
     return (data.frame(specie = specie, status = status, message = message))
   },
   error = function(e) {
@@ -131,7 +132,7 @@ calculate_ers = function(specie){
     df <- data.frame(ID=specie, SPP_N_ECO = 0, G_N_ECO = 0, ERS = 0)
     
     # Save the results
-    save_results_ers(df,NULL,NULL, specie.dir)
+    save_results_ers(df,NULL,NULL, specie.dir, debug)
     
     return (data.frame(specie = specie, status = status, message = message[[1]]))
   }, finally = {
@@ -149,8 +150,9 @@ calculate_ers = function(specie){
 # @param (raster) overlay.ecosystem: Intersect between specie distribution and ecosystem
 # @param (raster) overlay.pa: Intersect between specie distribution ecosystem and protected areas
 # @param (string) specie.dir: Path where the files should be saved
+# @param (bool) save: Specifies whether to save the raster files. By default is FALSE
 # @return (void)
-save_results_ers = function(df,overlay.ecosystem, overlay.pa, specie.dir){
+save_results_ers = function(df,overlay.ecosystem, overlay.pa, specie.dir, save){
   # Create output dirs
   if(!dir.exists(paste0(specie.dir,"gap_analysis"))){
     dir.create(paste0(specie.dir,"gap_analysis"))
@@ -161,10 +163,10 @@ save_results_ers = function(df,overlay.ecosystem, overlay.pa, specie.dir){
   # Save the results
   specie.output = paste0(specie.dir,"gap_analysis/insitu/")
   write.csv(df, paste0(specie.output,"/ers_result.csv"), row.names = FALSE, quote = FALSE)
-  if(!is.null(overlay.ecosystem)){
+  if(!is.null(overlay.ecosystem)  & save){
     writeRaster(overlay.ecosystem, paste0(specie.output,"/ers_specie_ecosystems.tif"),overwrite=T )  
   }
-  if(!is.null(overlay.pa)){
+  if(!is.null(overlay.pa) & save){
     writeRaster(overlay.pa, paste0(specie.output,"/ers_specie_ecosystems_pa.tif"),overwrite=T )  
   }
 }
