@@ -57,7 +57,7 @@ config <- function(dirs=T, cleaning=F, insitu=F, exsitu=F, modeling=F, premodeli
   }
   
   ####################################### 1. MODELING ################################################
-  #it will be adjusted in accordance with the modeling scripts
+  #used by functions: modeling_approach.R
   
   if(modeling){
     rst_dir <<- paste0(par_dir, "/biolayer_2.5/raster")
