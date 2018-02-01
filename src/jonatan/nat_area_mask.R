@@ -1,8 +1,11 @@
 require(shapefiles);require(raster);library(rgeos);require(rgdal); require(parallel)
 
-outfol <- "//dapadfs/Projects_cluster_9/aichi/ENMeval_4/outputs/"
+#make source
 
-setwd("//dapadfs/Projects_cluster_9/aichi/biolayer_2.5")
+#load config function
+config(dirs=T, premodeling=T)
+
+setwd("root")
 
 biolayers <- stack(list.files(pattern = '\\.tif$'))
 
@@ -10,14 +13,14 @@ ocurs <- list.dirs(outfol, recursive = FALSE, full.names = FALSE)
 
 
 
-cropsC <- function(ocurs){
+cropsC <- function(species){
   
  
-    narea <- paste0(outfol,ocurs, "/narea")
-    cat("doing", ocurs, "\n")
+    narea <- paste0(outfol,species, "/narea")
+    cat("doing", species, "\n")
     shapean <- readOGR(dsn = narea, layer = "narea")
     #biolayers_cropc<-crop(biolayers, shapean) # variables predictoras cortadas al poligono de ocurrencias.
-    load(paste0(outfol,ocurs,"/narea/crop_narea.RDS"))
+    load(paste0(outfol,species,"/narea/crop_narea.RDS"))
     biolayers_cropc<-mask(biolayers_cropc, shapean) # variables predictoras cortadas al poligono de ocurrencias.
 
     
