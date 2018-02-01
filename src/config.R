@@ -7,11 +7,12 @@
 # @param (logical) modeling: FALSE by default. TRUE when the 1_STEP: MODELING is executed. 
 # @param (logical) exsitu: FALSE by default. TRUE when the 2.1_STEP:EXSITU GAP ANALYSIS is executed.
 # @param (logical) insitu: FALSE by default. TRUE when the 2.2_STEP:INSITU GAP ANALYSIS is executed.
+# @param (logical) premodeling: FALSE by default. TRUE before the 1_STEP: MODELING is executed.
 # @return (dir): This function return the directories which will be used in all master code development.
 
 #NOTE: base_dir will have to be specified in the master code
 
-config <- function(dirs=T, cleaning=F, insitu=F, exsitu=F, modeling=F) {
+config <- function(dirs=T, cleaning=F, insitu=F, exsitu=F, modeling=F, premodeling=F) {
   #version
   run_version <<- "v1"
   
@@ -39,6 +40,20 @@ config <- function(dirs=T, cleaning=F, insitu=F, exsitu=F, modeling=F) {
     ##OUTPUT FOLDER IN clean_sea FUNCTION, AND INPUT IN split_occs_srs FUNCTION##
     folderout <<- paste0(occ_dir,"/","no_sea")
     if(!file.exists(folderout)){dir.create(folderout)}
+  }
+  
+  
+  ####################################### PRE MODELING ################################################
+  #used by nat_area_mask.R and  nat_area_shp.R  functions
+  
+  if(premodeling){
+    
+    outfol <<- gap_dir
+    clim_dir <<- paste0(par_dir, "/biolayer_2.5/raster")
+    countries_sh <<- paste0(par_dir, "/gadm/shapefile") 
+    layer_name <<- "gadm28ISO"
+    tkdist <<- read.csv(paste0(par_dir, "/WEP/WEP_taxonkey_distribution_ISO3.csv"), header=T)
+    
   }
   
   ####################################### 1. MODELING ################################################

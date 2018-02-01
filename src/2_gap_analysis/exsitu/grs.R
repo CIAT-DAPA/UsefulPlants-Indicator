@@ -3,9 +3,10 @@
 # loads the presence/absence surface, creates the G buffer (i.e. CA50) and finally
 # outputs the GRS and areas in a data.frame (which is written into a file).
 # @param (string) species: species ID
+# @param (logical) debug: whether to save or not the intermediate raster outputs
 # @return (data.frame): This function returns a data frame with GRS and areas of G buffer (i.e. CA50)
 #                       and of the presence/absence surface.
-grs_exsitu <- function(species) {
+grs_exsitu <- function(species, debug=F) {
   #packages
   require(raster)
   
@@ -53,11 +54,17 @@ grs_exsitu <- function(species) {
       #calculate area of presence/absence (note area in km2)
       pa_area <- crop(global_area, pa_spp)
       pa_area <- pa_spp * pa_area
+      if (debug & !file.exists(paste(sp_dir,"/gap_analysis/exsitu/grs_pa_narea_areakm2.tif",sep=""))) {
+        pa_area <- writeRaster(pa_area, paste(sp_dir,"/gap_analysis/exsitu/grs_pa_narea_areakm2.tif",sep=""), format="GTiff")
+      }
       pa_area <- sum(pa_area[], na.rm=T) #in km2
       
       #calculate area of g_buffer
       gbuf_area <- crop(global_area, g_buffer)
       gbuf_area <- g_buffer * gbuf_area
+      if (debug & !file.exists(paste(sp_dir,"/gap_analysis/exsitu/grs_gbuffer_narea_areakm2.tif",sep=""))) {
+        gbuf_area <- writeRaster(gbuf_area, paste(sp_dir,"/gap_analysis/exsitu/grs_gbuffer_narea_areakm2.tif",sep=""), format="GTiff")
+      }
       gbuf_area <- sum(gbuf_area[], na.rm=T) #in km2
     } else {
       gbuf_area <- 0
