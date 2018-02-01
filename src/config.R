@@ -32,14 +32,14 @@ config <- function(dirs=T, cleaning=F, insitu=F, exsitu=F, modeling=F, premodeli
   # used by functions: clean_sea.R  and split_occs_srs.R #####
   if (cleaning) {
     ##INPUT FILES TO CLEAN SEA##
-    folderin <<- paste0(occ_dir, "/raw")
+    folderin_raw <<- paste0(occ_dir, "/raw")
     
     ##COUNTRIES SHAPEFILES##
     countries_sh <<- shapefile(paste0(par_dir, "/gadm/shapefile/gadm28ISO.shp")) 
     
     ##OUTPUT FOLDER IN clean_sea FUNCTION, AND INPUT IN split_occs_srs FUNCTION##
-    folderout <<- paste0(occ_dir,"/","no_sea")
-    if(!file.exists(folderout)){dir.create(folderout)}
+    folder_nosea <<- paste0(occ_dir,"/","no_sea")
+    if(!file.exists(folder_nosea)){dir.create(folder_nosea)}
   }
   
   
