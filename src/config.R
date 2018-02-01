@@ -60,11 +60,11 @@ config <- function(dirs=T, cleaning=F, insitu=F, exsitu=F, modeling=F, premodeli
   #it will be adjusted in accordance with the modeling scripts
   
   if(modeling){
-    #clim_dir <<- paste0(par_dir, "/biolayer_2.5/raster")
+    rst_dir <<- paste0(par_dir, "/biolayer_2.5/raster")
     #bio <<- list.files(bio_dir)
     #elev <- raster(paste0(par_dir,"/biolayer_2.5/raster/",bio))
-    #msk <- raster(paste0(par_dir,"/world_mask/raster/mask.tif"))
-    #rst_dir <-clim_dir
+    msk <- raster(paste0(par_dir,"/world_mask/raster/mask.tif"))
+    
   }
   
   ####################################### 2. GAP ANALYSIS ################################################
