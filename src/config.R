@@ -44,7 +44,7 @@ config <- function(dirs=T, cleaning=F, insitu=F, exsitu=F, modeling=F, premodeli
   
   
   ####################################### PRE MODELING ################################################
-  #used by nat_area_mask.R and  nat_area_shp  functions
+  #used by nat_area_mask.R and  nat_area_shp.R  functions
   
   if(premodeling){
     
