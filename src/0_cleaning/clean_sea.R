@@ -10,17 +10,17 @@ require(dplyr)
 require(parallel)
 require(microbenchmark)
 
-folderin <- "//dapadfs/Projects_cluster_9/aichi/occurrences_GH/"
-ready <- paste0(folderin,"cleansea/")
+config(dirs=T, cleaning=T)
 
-countries_sh <- shapefile("//dapadfs/Projects_cluster_9/aichi/world_mask/all_countries.shp") ##mask shp
-files <- list.files(ready, pattern = '\\.csv$')
-
+files <- list.files(folderin, pattern = '\\.csv$')
+sum_count <- matrix(ncol = 2, nrow = length(files))
+colnames(sum_count) <- c("Taxon", "count")
+count_spp <- 1:length(files)
 
 
 cleansea <- function(files){
   
-  spp<- read.csv(paste0(ready, files), header = TRUE) ##read file
+  spp<- read.csv(paste0(folderin, files), header = TRUE) ##read file
   cat("loading", files, "file", "\n")
   coordinates(spp)= ~lon+lat ###to rasterdataframe
   crs(spp)= crs(countries_sh)####add to mask
@@ -31,6 +31,7 @@ cleansea <- function(files){
   j= which(as.character(country_name)!= as.character(spp$country))##### different countrys (border effect)
   cbind(country_name, spp$country) [j,]
   cat("Removing NA's on", files, "file", "\n")
+  
   ###remove NA's
   
   spp1=as.data.frame(spp)
@@ -41,16 +42,34 @@ cleansea <- function(files){
   
   
   cat("writing new", files, "file", "\n")
-  write.csv(spp1, paste0(ready,"nosea/", files), row.names = FALSE)
+  write.csv(spp1, paste0(folderout,"/", files), row.names = FALSE)
+  
+  cat("DONE", "\n")
+  
+  
+  cat("COUNTING", files ,"ocurrences","\n")
+  
+  sum_count[count_spp,1] <- files[count_spp]
+  sum_count[count_spp,2] <- base::nrow(spp1)
+  
+  count_spp <- count_spp + 1
+  
   rm(spp1)
   rm(spp)
+  
   cat("DONE", "\n")
   
 }
+
+sum_count<-as.data.frame(sum_count)
+write.csv(sum_count, paste0(par_dir, "/summary_count.csv"), quote = FALSE, row.names = FALSE)
 
 #--------------Run in parallel---------------
 ncores <- detectCores()-12 #change according available server resources
 c1 <- makeCluster(ncores)
 clusterEvalQ(c1, lapply(c("raster", "maptools"), library, character.only= TRUE))
-clusterExport(c1, c("folderin", "ready", "countries_sh", "files"))
+clusterExport(c1, c("folderin", "countries_sh", "files", "folderout", "sum_count", "count_spp"))
 microbenchmark(parLapply(c1, files, cleansea),times = 1L) 
+
+
+

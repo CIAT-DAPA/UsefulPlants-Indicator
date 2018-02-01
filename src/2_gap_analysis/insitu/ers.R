@@ -21,7 +21,7 @@ require(rgdal)
 
 # Global configuration
 # rasterOptions(tmpdir = "D:/TEMP/hsotelo")
-# setwd("//dapadfs/Workspace_cluster_9/Aichi13/")
+# setwd("//dapadfs/Projects_cluster_9/aichi/")
 
 # # Set the path of the file with global protected areas
 # pa.path = "parameters/protected_areas/raster/areas_protected_geographic.tif"
@@ -32,28 +32,28 @@ require(rgdal)
 # Load the species list to execute process
 # species.dir = "gap_analysis/"
 # species.list = list.dirs(species.dir,full.names = FALSE, recursive = FALSE)
+# # Set the path of the file with global ecosystem
+# eco.path = "parameters/ecosystems/raster/wwf_eco_terr_geo.tif"
+# eco.raster = raster(eco.path)
 
 ##########################################   End Set Parameters  ###############################################
 
 
 ##########################################   Start Functions    ###############################################
 
-# This function calculate the GRS by every specie.
+# This function calculate the ERS by every specie.
 # It searches the specie, then load the specie distribution from raster file. 
-# With the specie distribution intersectes with the native area, then with the protected areas raster and calculate
-# the area from the specie distribution, overlay and the proportion between both.
-# It creates two files with the result (grs_result.csv, grs_intersect.tif)
+# With the specie distribution intersectes with the native area, then with ecosystems raster, with this
+# new raster makes a new intersectes with protected areas and calculate the number of ecosystems
+# in the specie distribution and number ecosystem into protected areas
+# It creates three files with the result (ers_result.csv, ers_specie_ecosystems.tif, ers_specie_ecosystems_pa.tif)
 # @param (string) specie: Code of the specie
 # @return (data.frame): This function return a dataframe with the results about the process. 
 #                       It has three columns, the first has the specie code; the second has a status
 #                       of process, if value is "TRUE" the process finished good, if the result is "FALSE"
 #                       the process had a error; the third column has a description about process
-calculate_grs = function(specie){
-  
-  # It is a global factor to limits the goal of conservation to a percentage
-  # 0 <= a <= 1
-  a = 1.0;
-  
+calculate_ers = function(specie){
+
   # Defined vars about process
   message = "Ok"
   status = TRUE
@@ -94,46 +94,32 @@ calculate_grs = function(specie){
     origin(specie.distribution) <- origin(specie.mask)
     overlay.distribution = specie.distribution * specie.mask
     
-    # Intersect between specie distribution (native area) and protected areas
-    origin(pa.raster) <- origin(overlay.distribution)
-    overlay = pa.raster * overlay.distribution
+    # Intersect between specie distribution and ecosystem
+    origin(eco.raster) <- origin(overlay.distribution)
+    overlay.eco = eco.raster * overlay.distribution
     
-    # Intersect between specie in protected areas and world mask in areas
-    origin(world.area) <- origin(overlay)
-    overlay.intersect = world.area * overlay
+    print("Intersected the specie distribution and ecosystem")
     
-    # Intersect between specie distribution areas and world mask in areas
-    origin(world.area) <- origin(specie.distribution)
-    overlay.specie.area = world.area * specie.distribution
+    # Intersect between overlay eco specie  and protected areas
+    origin(pa.raster) <- origin(overlay.eco)
+    overlay.eco.pa = pa.raster * overlay.eco
     
-    print("Intersected the specie distribution (native area) and global protected areas")
+    print("Intersected the overlapping (specie distribution and ecosystems) and global protected areas")
     
-    # # Get pixels with data from intersect
-    # a = which(!is.na(overlay[]))
-    # # Get pixels with data from specie distribution
-    # b = which(!is.na(overlay.distribution[]))
-    # 
-    # # Calculating the area in kilometer for each pixel
-    # area = res(overlay.distribution)[1] * res(overlay.distribution)[2]
-    # gra = 111.11*111.11
-    # res = area * gra 
-    # 
-    # Calculate areas for the specie distribution and intersect
-    # overlay.area <- length(a) * res
-    # specie.area <- length(b) * res
+    # Intersect between for the specie distribution and intersect
+    eco.specie.distribution.count = length(unique(overlay.eco))
+    eco.specie.distribution.pa.count  = length(unique(overlay.eco.pa))
     
-    overlay.area = sum(overlay.intersect[],na.rm=T)
-    specie.area = sum(overlay.specie.area[], na.rm=T) 
-    # Calculate proportion area
-    proportion = (overlay.area / (a*specie.area) ) * 100
+    # Calculate proportion number ecosystems
+    proportion = (eco.specie.distribution.pa.count / (eco.specie.distribution.count) ) * 100
     
-    print("Calculated the areas and proportions")
+    print("Calculated ecosystems numbers")
     
     # Join the results
-    df <- data.frame(ID = specie, SPP_AREA_km2 = specie.area, G_AREA_km2 = overlay.area, GRS = proportion)
+    df <- data.frame(ID=specie, SPP_N_ECO = eco.specie.distribution.count, G_N_ECO = eco.specie.distribution.pa.count, ERS = proportion)
     
     # Save the results
-    save_results_grs(df,overlay.intersect, specie.dir)
+    save_results_ers(df,overlay.eco,overlay.eco.pa, specie.dir)
     return (data.frame(specie = specie, status = status, message = message))
   },
   error = function(e) {
@@ -142,10 +128,10 @@ calculate_grs = function(specie){
     status = FALSE
     
     # Join the results
-    df <- data.frame(ID = specie, SPP_AREA_km2 = 0, G_AREA_km2 = 0, GRS = 0)
+    df <- data.frame(ID=specie, SPP_N_ECO = 0, G_N_ECO = 0, ERS = 0)
     
     # Save the results
-    save_results_grs(df,NULL, specie.dir)
+    save_results_ers(df,NULL,NULL, specie.dir)
     
     return (data.frame(specie = specie, status = status, message = message[[1]]))
   }, finally = {
@@ -160,10 +146,11 @@ calculate_grs = function(specie){
 # This function save the results of analysis grs.
 # This saves the raster of the intersect and analysis table
 # @param (data.frame) df; Data.frame with the analysis of protected areas
-# @param (raster) overlay: Intersect between specie distribution and protected areas
+# @param (raster) overlay.ecosystem: Intersect between specie distribution and ecosystem
+# @param (raster) overlay.pa: Intersect between specie distribution ecosystem and protected areas
 # @param (string) specie.dir: Path where the files should be saved
 # @return (void)
-save_results_grs = function(df,overlay,specie.dir){
+save_results_ers = function(df,overlay.ecosystem, overlay.pa, specie.dir){
   # Create output dirs
   if(!dir.exists(paste0(specie.dir,"gap_analysis"))){
     dir.create(paste0(specie.dir,"gap_analysis"))
@@ -173,9 +160,12 @@ save_results_grs = function(df,overlay,specie.dir){
   }
   # Save the results
   specie.output = paste0(specie.dir,"gap_analysis/insitu/")
-  write.csv(df, paste0(specie.output,"/grs_result.csv"), row.names = FALSE, quote = FALSE)
-  if(!is.null(overlay)){
-    writeRaster(overlay, paste0(specie.output,"/grs_intersect.tif"),overwrite=T )  
+  write.csv(df, paste0(specie.output,"/ers_result.csv"), row.names = FALSE, quote = FALSE)
+  if(!is.null(overlay.ecosystem)){
+    writeRaster(overlay.ecosystem, paste0(specie.output,"/ers_specie_ecosystems.tif"),overwrite=T )  
+  }
+  if(!is.null(overlay.pa)){
+    writeRaster(overlay.pa, paste0(specie.output,"/ers_specie_ecosystems_pa.tif"),overwrite=T )  
   }
 }
 ##########################################    End Functions    ###############################################
@@ -189,14 +179,14 @@ save_results_grs = function(df,overlay,specie.dir){
 # sfLibrary(rgdal)
 # sfLibrary(sf)
 # sfExportAll()
-# sfExport("calculate_grs")
+# sfExport("calculate_ers")
 # 
 # # Run function in parallel for all species
-# result = sfLapply(species.list,calculate_grs)
+# result = sfLapply(species.list,calculate_ers)
 # 
 # # specie = species.list[7]
-# # lapply("2686262",calculate_grs)
-# # result = lapply(species.list,calculate_grs)
+# # lapply(species.list[7],calculate_ers)
+# # result = lapply(species.list,calculate_ers)
 # 
 # # Get the results for all species
 # df <- ldply(result, data.frame)
