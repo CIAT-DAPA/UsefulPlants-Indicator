@@ -105,12 +105,12 @@ spModeling <- function(species){
         bck_data$species <- species
         
         #extract bio variables to check that no NAs are present
-        bck_data_bio <- cbind(bck_data, rst_vx$extract_points(species = sp::SpatialPoints(bck_data[,c("lon", "lat")])))
+        bck_data_bio <- cbind(bck_data, rst_vx$extract_points(sp = sp::SpatialPoints(bck_data[,c("lon", "lat")])))
         bck_data_bio <- bck_data_bio[complete.cases(bck_data_bio),]
         bck_data <- bck_data_bio[,c("lon","lat","species")]
         
         #do the same for presences
-        xy_data_bio <- cbind(xy_data, rst_vx$extract_points(species = sp::SpatialPoints(xy_data[,c("lon", "lat")])))
+        xy_data_bio <- cbind(xy_data, rst_vx$extract_points(sp = sp::SpatialPoints(xy_data[,c("lon", "lat")])))
         xy_data_bio <- xy_data_bio[complete.cases(xy_data_bio),]
         xy_data <- xy_data_bio[,c("lon","lat")]
         
