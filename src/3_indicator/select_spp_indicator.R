@@ -7,7 +7,7 @@
 # @param (string) opt: which field(s) to calculate indicator for (min, max, mean)
 # @return (data.frame): This function returns a data frame proportions of spp in each category,
 #                       and with final indicator aggregated for the selected country
-select_spp_indicator <- function(iso_list="ALL", opt=c("min","max","mean")) {
+select_spp_indicator <- function(iso_list="ALL", opt=c("min","max","mean","exsitu","insitu")) {
   #load global config
   config(dirs=T)
   
