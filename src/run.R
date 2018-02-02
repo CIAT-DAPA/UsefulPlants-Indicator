@@ -31,13 +31,14 @@ repo_dir = "C:/Users/HSOTELO/Desktop/src"
 source.files = list.files(repo_dir, "\\.[rR]$", full.names = TRUE, recursive = T)
 source.files = source.files[ !grepl("tools", source.files) ]
 source.files = source.files[ !grepl("run", source.files) ]
+source.files = source.files[ !grepl("calibration", source.files) ]
 lapply(source.files, source)
 
 # Load massive climate file
-config(dirs=T, cleaning=T, insitu=T, exsitu=T, modeling=T, premodeling=T)
+config(dirs=T)
 rst_vx <- readRDS(paste(par_dir,"/biolayer_2.5/climate_vx.RDS",sep=""))
 load(file=paste0(par_dir, "/gadm/shapefile/gadm28ISO.RDS"))
-
+config(dirs=F, cleaning=T, insitu=T, exsitu=T, modeling=T, premodeling=T)
 ##########################################  End Dependences  ###############################################
 
 ##########################################  Start Set Parameters  ###############################################
@@ -137,7 +138,7 @@ sfExport("select_spp_indicator")
 sfExport( "rst_vx", local=FALSE )
 sfExport( "countries_sh", local=FALSE )
 
-sfExportAll()
+#sfExportAll()
 
 ##########################################   End Exports    ###############################################
 
