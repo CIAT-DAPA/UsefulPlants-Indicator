@@ -29,6 +29,7 @@ nat_area_mask <- function(species) {
       #cat("doing", species, "\n")
       if (!file.exists(paste0(narea_dir, "/", "crop_narea.RDS"))) {
         #load native area shapefile
+        cat("   ...loading native area shapefile, and creating mask\n")
         shapean <- raster::shapefile(paste0(narea_dir,"/","narea.shp"))
         shapean$value <- 1
         
@@ -42,6 +43,7 @@ nat_area_mask <- function(species) {
         }
         
         #crop and mask biolayers
+        cat("   ...crop bioclim layers\n")
         x$crop(extent(shapean))
         biolayers_cropc <- x$as.RasterStack()
         biolayers_cropc <- biolayers_cropc * na_msk

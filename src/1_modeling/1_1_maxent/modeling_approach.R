@@ -62,7 +62,7 @@ spModeling <- function(species){
     
     if(nrow(xy_data) >= 10){
       if(!file.exists(paste0(crossValDir, "/modeling_results.", species, ".RDS"))){
-        #cat("Starting modeling process for species:", species, "\n")
+        cat("Starting modeling process for species:", species, "\n")
         
         # ---------------- #
         # Inputs
@@ -76,7 +76,7 @@ spModeling <- function(species){
         rst_fls <- raster::stack(rst_fls)
         
         # Determine background points
-        #cat("Creating background for: ", sp, "\n")
+        cat("Creating background for: ", species, "\n")
         # msk <- raster("//dapadfs/Workspace_cluster_9/Aichi13/parameters/world_mask/raster/mask.tif") PLEASE REVIEW
         msk <- msk_global
         msk_pts <- raster::rasterToPoints(msk)
@@ -127,7 +127,7 @@ spModeling <- function(species){
         
         # Fitting final model
         
-        #cat("Loading tunned parameters to perform MaxEnt modeling  for: ", sp, "\n")
+        cat("Performing MaxEnt modeling  for: ", species, "\n")
         tryCatch(expr = {
           #fit maxent
           fit <- dismo::maxent(x = xy_mxe, # Climate
@@ -172,7 +172,7 @@ spModeling <- function(species){
         # k: corresponding fold
         # pnts: data.frame with climate data for all variables on projecting zone
         # tmpl_raster: template raster to project
-        #cat("Performing projections using lambda files for: ", species, "\n")
+        cat("Performing projections using lambda files for: ", species, "\n")
         
         pred <- raster::stack(lapply(1:5, function(x) make.projections(x, pnts = pnts, tmpl_raster = biolayers_cropc[[1]])))
         
@@ -182,10 +182,10 @@ spModeling <- function(species){
                         occ_predictions = raster::extract(x = pred, y = xy_data[,c("lon","lat")]),
                         bck_predictions = raster::extract(x = pred, y = bck_data[,c("lon","lat")]))
         
-        #cat("Saving RDS File with Models outcomes for: ", species, "\n")
+        cat("Saving RDS File with Models outcomes for: ", species, "\n")
         saveRDS(object = results, file = paste0(crossValDir, "/modeling_results.", species, ".RDS"))
         
-        #cat("Saving Median and SD rasters for: ", species, "\n")
+        cat("Saving Median and SD rasters for: ", species, "\n")
         spMedian <- raster::calc(pred, fun = function(x) median(x, na.rm = T))
         raster::writeRaster(x = spMedian, filename = paste0(crossValDir, "/spdist_median.tif"))
         spSD <- raster::calc(pred, fun = function(x) sd(x, na.rm = T))
@@ -196,12 +196,12 @@ spModeling <- function(species){
         # ---------------- #
         
         # Extracting metrics for 5 replicates
-        #cat("Gathering replicate metrics  for: ", species, "\n")
+        cat("Gathering replicate metrics  for: ", species, "\n")
         evaluate_table <- metrics_function(species)
         #evaluate_table<-read.csv(paste0(crossValDir,"/","eval_metrics_rep.csv"),header=T)
   
         # Apply threshold from evaluation
-        #cat("Thresholding using Max metrics  for: ", species, "\n")
+        cat("Thresholding using Max metrics  for: ", species, "\n")
         thrsld <- as.numeric(mean(evaluate_table[,"Threshold"],na.rm=T))
         if (!file.exists(paste0(crossValDir, "/spdist_thrsld.tif"))) {
           spThrsld <- spMedian
