@@ -58,7 +58,7 @@ metrics_function<-function(species){
   evaluate_table[,"Sensitivity"]<-as.numeric(unlist(lapply(1:rep_number,function(i){  x<-PresenceAbsence::sensitivity(cmx(z,which.model=i))[1];return(x)})))
   
   ##SPECIFICITY
-  evaluate_table[,"Specificity"]<-as.numeric(unlist(lapply(1:rep_number,function(i){  x<-PresenceAbsence::speciesecificity(cmx(z,which.model=i))[1];return(x)})))
+  evaluate_table[,"Specificity"]<-as.numeric(unlist(lapply(1:rep_number,function(i){  x<-PresenceAbsence::specificity(cmx(z,which.model=i))[1];return(x)})))
   
   ##TSS
   evaluate_table[,"TSS"]<-(evaluate_table[1:rep_number,"Sensitivity"]+evaluate_table[1:rep_number,"Specificity"])-1
