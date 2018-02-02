@@ -31,7 +31,7 @@ repo_dir = "C:/Users/HSOTELO/Desktop/src"
 source.files = list.files(repo_dir, "\\.[rR]$", full.names = TRUE, recursive = T)
 source.files = source.files[ !grepl("tools", source.files) ]
 source.files = source.files[ !grepl("run", source.files) ]
-lapply(repo_dir, source)
+lapply(source.files, source)
 
 # Load massive climate file
 config(dirs=T, cleaning=T, insitu=T, exsitu=T, modeling=T, premodeling=T)
