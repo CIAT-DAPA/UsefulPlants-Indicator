@@ -29,7 +29,6 @@ repo_dir = "C:/Users/HSOTELO/Desktop/src"
 
 # Load the sources scripts
 source.files = list.files(repo_dir, "\\.[rR]$", full.names = TRUE, recursive = T)
-source.files = source.files[ !grepl("tools", source.files) ]
 source.files = source.files[ !grepl("run", source.files) ]
 source.files = source.files[ !grepl("calibration", source.files) ]
 lapply(source.files, source)
@@ -84,6 +83,9 @@ sfExport("config")
 # master
 sfExport("master_run")
 
+# tools
+sfExport("create_sp_dirs")
+
 # 0_cleaning
 sfExport("clean_sea")
 
@@ -137,6 +139,10 @@ sfExport("select_spp_indicator")
 # Export variables
 sfExport( "rst_vx", local=FALSE )
 sfExport( "countries_sh", local=FALSE )
+sfExport( "base_dir", local=FALSE )
+sfExport( "repo_dir", local=FALSE )
+
+
 
 #sfExportAll()
 
@@ -146,7 +152,7 @@ sfExport( "countries_sh", local=FALSE )
 ##########################################   Start Process    ###############################################
 
 # Run function in parallel for all species
-result_master = sfLapply(server.species$ID, master_run)
+result_master = sfLapply(server.species$ID[1:2], master_run)
 
 # Stop cluster
 sfStop()
