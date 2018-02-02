@@ -26,7 +26,7 @@ suppressMessages(library(sp))
 # --------------------------------------------------------------------- #
 # Modeling function
 # --------------------------------------------------------------------- #
-
+#species
 spModeling <- function(species){
   # run config function
   config(dirs=T,modeling=T)
