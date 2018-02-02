@@ -31,10 +31,25 @@ master_run <- function(species, base_dir, repo_dir) {
     
     #step 3-modeling (#only calibration)
     source(paste(repo_dir,"/1_modeling/1_1_maxent/modeling_approach.R",sep=""))
+    source(paste(repo_dir,"/1_modeling/1_1_maxent/create_mx_args.R",sep=""))
+    source(paste(repo_dir,"/1_modeling/1_1_maxent/do_projections.R",sep=""))
+    source(paste(repo_dir,"/1_modeling/1_1_maxent/evaluating.R",sep=""))
+    source(paste(repo_dir,"/1_modeling/1_1_maxent/nullModelAUC.R",sep=""))
+    source(paste(repo_dir,"/1_modeling/1_2_alternatives/create_buffers.R",sep=""))
+    spmod <- spModeling(species)
     
     #step 4.1-exsitu gap analysis
+    source(paste(repo_dir,"/2_gap_analysis/exsitu/srs.R",sep=""))
+    source(paste(repo_dir,"/2_gap_analysis/exsitu/grs.R",sep=""))
+    source(paste(repo_dir,"/2_gap_analysis/existu/ers.R",sep=""))
+    source(paste(repo_dir,"/2_gap_analysis/exsitu/fcs.R",sep=""))
     
     #step 4.2-insitu gap analysis
+    source(paste(repo_dir,"/2_gap_analysis/insitu/srs.R",sep=""))
+    source(paste(repo_dir,"/2_gap_analysis/insitu/grs.R",sep=""))
+    source(paste(repo_dir,"/2_gap_analysis/inistu/ers.R",sep=""))
+    source(paste(repo_dir,"/2_gap_analysis/insitu/fcs.R",sep=""))
+    
     
     #step 4.3-combine insitu and exsitu
     

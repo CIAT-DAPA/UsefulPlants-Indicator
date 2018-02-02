@@ -12,12 +12,12 @@ suppressMessages(library(velox))
 suppressMessages(library(ff))
 suppressMessages(library(data.table))
 
-# Important scripts
-source(paste(repo_dir,"/1_modeling/1_1_maxent/create_mx_args.R",sep=""))
-source(paste(repo_dir,"/1_modeling/1_1_maxent/do_projections.R",sep=""))
-source(paste(repo_dir,"/1_modeling/1_1_maxent/evaluating.R",sep=""))
-source(paste(repo_dir,"/1_modeling/1_1_maxent/nullModelAUC.R",sep=""))
-source(paste(repo_dir,"/1_modeling/1_2_alternatives/create_buffers.R",sep=""))
+# # Important scripts
+# source(paste(repo_dir,"/1_modeling/1_1_maxent/create_mx_args.R",sep=""))
+# source(paste(repo_dir,"/1_modeling/1_1_maxent/do_projections.R",sep=""))
+# source(paste(repo_dir,"/1_modeling/1_1_maxent/evaluating.R",sep=""))
+# source(paste(repo_dir,"/1_modeling/1_1_maxent/nullModelAUC.R",sep=""))
+# source(paste(repo_dir,"/1_modeling/1_2_alternatives/create_buffers.R",sep=""))
 
 # From config file
 # run_version <- "v1"
@@ -39,7 +39,7 @@ spModeling <- function(sp = "2653304"){
   }
   
   # Native area for projecting
-  load(paste0(gap_dir, "/", sp, "/", run_version, "/bioclim/crop_narea.RDS"))
+  load(file=paste0(gap_dir, "/", sp, "/", run_version, "/bioclim/crop_narea.RDS"))
   
   #load occurrence points
   xy_data <- read.csv(paste(occ_dir,"/no_sea/",sp,".csv",sep=""),header=T)
@@ -72,7 +72,7 @@ spModeling <- function(sp = "2653304"){
       #rst_dir <- paste(par_dir,"/biolayer_2.5/raster",sep="")
       rst_fls <- list.files(path = rst_dir, full.names = T)
       rst_fls <- rst_fls[grep(pattern = "*.tif$", x = rst_fls)]
-      rst_fls <- raster::stack(rst_fls); rm(rst_dir)
+      rst_fls <- raster::stack(rst_fls)
       
       # Determine background points
       #cat("Creating background for: ", sp, "\n")
@@ -220,6 +220,7 @@ spModeling <- function(sp = "2653304"){
   } else {
     cat("Species:", sp, "only has", nrow(xy_data), "coordinates, it is not appropriate for modeling\n")
   }
+  return("ok")
 }
 
 
