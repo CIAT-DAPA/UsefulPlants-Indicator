@@ -11,7 +11,7 @@ fcs_combine <- function(species) {
   config(dirs=T)
   
   #in-situ and ex-situ summary files
-  sp_dir <- paste(root,"/gap_analysis/",species,sep="")
+  sp_dir <- paste(gap_dir,"/",species,sep="")
   file_in <- paste(sp_dir,"/",run_version,"/gap_analysis/insitu/summary.csv",sep="")
   file_ex <- paste(sp_dir,"/",run_version,"/gap_analysis/exsitu/summary.csv",sep="")
   
