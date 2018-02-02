@@ -2,11 +2,11 @@ require(dismo);require(raster)
 
 #run_version<-"v1"
 #gap_dir<-"//dapadfs/Workspace_cluster_9/Aichi13/gap_analysis"
-null_model_AUC<-function(sp){
+null_model_AUC<-function(species){
   ####LOADING CALIBRATION OCCURRENCES AND NATIVE AREA MASK
-  narea_mask<-raster(paste0(gap_dir,"/",sp,"/",run_version,"/","bioclim/narea_mask.tif"))
-  #load(paste0(gap_dir, "/", sp, "/", run_version, "/modeling/maxent/", sp, ".csv.RData"))
-  occs<-read.csv(paste0(occ_dir,"/","no_sea","/",sp,".csv"))
+  narea_mask<-raster(paste0(gap_dir,"/",species,"/",run_version,"/","bioclim/narea_mask.tif"))
+  #load(paste0(gap_dir, "/", species, "/", run_version, "/modeling/maxent/", species, ".csv.RData"))
+  occs<-read.csv(paste0(occ_dir,"/","no_sea","/",species,".csv"))
   occs <- unique(occs[,c("lon","lat")])
   
  # narea_mask<-raster("//dapadfs/Workspace_cluster_9/Aichi13/gap_analysis/2653304/v1/bioclim/narea_mask.tif")
