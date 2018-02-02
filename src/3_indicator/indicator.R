@@ -6,7 +6,7 @@
 # @param (string) opt: which field(s) to calculate indicator for (min, max, mean)
 # @return (data.frame): This function returns a data frame with the indicator requested
 #                       for the list of species provided.
-calc_indicator <- function(sp_list, opt=c("min","max","mean"), filename="indicator.csv") {
+calc_indicator <- function(sp_list, opt=c("min","max","mean","insitu","exsitu"), filename="indicator.csv") {
   #load global config
   config(dirs=T)
   
@@ -56,26 +56,29 @@ calc_indicator <- function(sp_list, opt=c("min","max","mean"), filename="indicat
     }
   }
   
-  #make final counts for species list (exsitu)
-  tvec <- paste(data_all[,"FCSex_class"])
-  hp_n <- length(which(tvec %in% c("HP")))
-  mp_n <- length(which(tvec %in% c("MP")))
-  lp_n <- length(which(tvec %in% c("LP")))
-  sc_n <- length(which(tvec %in% c("SC")))
-  indic <- lp_n + sc_n
-  out_df_ex <- data.frame(opt="exsitu",N_HP=hp_n,N_MP=mp_n,N_LP=lp_n,N_SC=sc_n,N_LP_SC=indic)
+  #make final counts for species list (exsitu) if asked to
+  if ("exsitu" %in% tolower(opt)) {
+    tvec <- paste(data_all[,"FCSex_class"])
+    hp_n <- length(which(tvec %in% c("HP")))
+    mp_n <- length(which(tvec %in% c("MP")))
+    lp_n <- length(which(tvec %in% c("LP")))
+    sc_n <- length(which(tvec %in% c("SC")))
+    indic <- lp_n + sc_n
+    out_df_ex <- data.frame(opt="exsitu",N_HP=hp_n,N_MP=mp_n,N_LP=lp_n,N_SC=sc_n,N_LP_SC=indic)
+    out_df <- rbind(out_df, out_df_ex)
+  }
   
   #make final counts for species list (insitu)
-  tvec <- paste(data_all[,"FCSin_class"])
-  hp_n <- length(which(tvec %in% c("HP")))
-  mp_n <- length(which(tvec %in% c("MP")))
-  lp_n <- length(which(tvec %in% c("LP")))
-  sc_n <- length(which(tvec %in% c("SC")))
-  indic <- lp_n + sc_n
-  out_df_in <- data.frame(opt="insitu",N_HP=hp_n,N_MP=mp_n,N_LP=lp_n,N_SC=sc_n,N_LP_SC=indic)
-  
-  #put all rows together
-  out_df <- rbind(out_df, out_df_ex, out_df_in)
+  if ("insitu" %in% tolower(opt)) {
+    tvec <- paste(data_all[,"FCSin_class"])
+    hp_n <- length(which(tvec %in% c("HP")))
+    mp_n <- length(which(tvec %in% c("MP")))
+    lp_n <- length(which(tvec %in% c("LP")))
+    sc_n <- length(which(tvec %in% c("SC")))
+    indic <- lp_n + sc_n
+    out_df_in <- data.frame(opt="insitu",N_HP=hp_n,N_MP=mp_n,N_LP=lp_n,N_SC=sc_n,N_LP_SC=indic)
+    out_df <- rbind(out_df, out_df_in)
+  }
   
   #calculate percentages
   out_df$P_HP <- out_df$N_HP / nrow(data_all) * 100
