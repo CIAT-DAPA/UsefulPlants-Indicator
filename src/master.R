@@ -30,6 +30,7 @@ master_run <- function(species, base_dir, repo_dir) {
     crop_bio <- nat_area_mask(species)
     
     #step 3-modeling (#only calibration)
+    source(paste(repo_dir,"/1_modeling/1_1_maxent/modeling_approach.R",sep=""))
     
     #step 4.1-exsitu gap analysis
     

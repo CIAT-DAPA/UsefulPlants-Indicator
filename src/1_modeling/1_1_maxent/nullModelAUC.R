@@ -3,9 +3,7 @@ require(dismo);require(raster)
 #run_version<-"v1"
 #gap_dir<-"//dapadfs/Workspace_cluster_9/Aichi13/gap_analysis"
 null_model_AUC<-function(sp){
-  
   ####LOADING CALIBRATION OCCURRENCES AND NATIVE AREA MASK
-
   narea_mask<-raster(paste0(gap_dir,"/",sp,"/",run_version,"/","bioclim/narea_mask.tif"))
   #load(paste0(gap_dir, "/", sp, "/", run_version, "/modeling/maxent/", sp, ".csv.RData"))
   occs<-read.csv(paste0(occ_dir,"/","no_sea","/",sp,".csv"))
