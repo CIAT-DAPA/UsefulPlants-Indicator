@@ -135,6 +135,9 @@ sfExportAll()
 # Run function in parallel for all species
 result_master = sfLapply(server.species$ID, master_run)
 
+# Stop cluster
+sfStop()
+
 df = ldply(result_master, data.frame)
 write.csv(df, paste0("runs/results/server_",server.number,".csv"), row.names = FALSE, quote = FALSE)
 
