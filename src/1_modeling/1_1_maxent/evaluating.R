@@ -79,8 +79,8 @@ evaluate_function <- function(species, evaluate_table){
                               "Threshold","Sensitivity","Specificity","TSS","PCC","nAUC","cAUC","ASD15","VALID")
   
   ###ASD15
-  esdCpt <- raster(paste0(crossValDir, "/speciesdist_sd.tif"))
-  dumm <- raster(paste0(crossValDir, "/speciesdist_thrsld.tif"))
+  esdCpt <- raster(paste0(crossValDir, "/spdist_sd.tif"))
+  dumm <- raster(paste0(crossValDir, "/spdist_thrsld.tif"))
   
   esdCpt[which(dumm[] < 0.001)] <- NA
   
