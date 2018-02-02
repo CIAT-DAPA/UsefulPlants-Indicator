@@ -25,7 +25,6 @@ config <- function(dirs=T, cleaning=F, insitu=F, exsitu=F, modeling=F, premodeli
     gap_dir <<- paste0(root, "/gap_analysis");if(!file.exists(gap_dir)){dir.create(gap_dir)}
     par_dir <<- paste0(root, "/parameters");if(!file.exists(par_dir)){dir.create(par_dir)}
     occ_dir <<- paste0(par_dir,"/","occurrences");if(!file.exists(occ_dir)){dir.create(occ_dir)}
-    scr_dir <<- paste0(gap_dir,"/","_scripts");if(!file.exists(scr_dir)){dir.create(scr_dir)}
   }
   
   ####################################### 0.CLEANING ################################################
