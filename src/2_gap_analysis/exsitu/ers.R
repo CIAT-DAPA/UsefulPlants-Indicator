@@ -68,12 +68,16 @@ ers_exsitu <- function(species, debug=F) {
         gbuf_nclass <- writeRaster(gbuf_nclass, paste(sp_dir,"/gap_analysis/exsitu/ers_gbuffer_narea_ecosystems.tif",sep=""), format="GTiff")
       }
       gbuf_nclass <- length(unique(gbuf_nclass[],na.rm=T))
+      
+      #calculate ERS
+      ers <- min(c(100, gbuf_nclass/pa_nclass*100))
     } else {
+      ers <- 0
       gbuf_nclass <- 0
+      pa_nclass <- NA
     }
     
-    #calculate ERS
-    ers <- min(c(100, gbuf_nclass/pa_nclass*100))
+    
   } else {
     ers <- 0
     gbuf_nclass <- 0

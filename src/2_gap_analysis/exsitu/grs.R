@@ -21,6 +21,7 @@ grs_exsitu <- function(species, debug=F) {
   
   #run only for spp with occ file
   if (file.exists(paste(occ_dir,"/no_sea/",species,".csv",sep="")) & sp_counts$totalHUseful != 0) {
+    
     #load occurrence points
     occ_data <- read.csv(paste(occ_dir,"/no_sea/",species,".csv",sep=""),header=T)
     
@@ -38,6 +39,7 @@ grs_exsitu <- function(species, debug=F) {
     #select G samples and validate if G >= 1
     occ_g <- unique(occ_data[which(occ_data$type == "G"),c("lon","lat")])
     if (nrow(occ_g) >= 1) {
+      
       if (!file.exists(paste(sp_dir,"/gap_analysis/exsitu/ca50_g_narea_pa.tif",sep=""))) {
         #generate G buffers within native area
         g_fname <- paste(sp_dir,"/gap_analysis/exsitu/ca50_g_narea.tif",sep="")
@@ -66,22 +68,23 @@ grs_exsitu <- function(species, debug=F) {
         gbuf_area <- writeRaster(gbuf_area, paste(sp_dir,"/gap_analysis/exsitu/grs_gbuffer_narea_areakm2.tif",sep=""), format="GTiff")
       }
       gbuf_area <- sum(gbuf_area[], na.rm=T) #in km2
+      
+      #calculate GRS
+      grs <- min(c(100, gbuf_area/pa_area*100))
     } else {
       gbuf_area <- 0
+      grs <- 0
+      g_area <- 0
+      pa_area <- NA
     }
     
-    #calculate GRS
-    grs <- min(c(100, gbuf_area/pa_area*100))
+    
   } else {
+    
     grs <- 0
     g_area <- 0
-    #pa_area <- NA
-    pa_area <- crop(global_area, pa_spp)
-    pa_area <- pa_spp * pa_area
-    if (debug & !file.exists(paste(sp_dir,"/gap_analysis/exsitu/grs_pa_narea_areakm2.tif",sep=""))) {
-      pa_area <- writeRaster(pa_area, paste(sp_dir,"/gap_analysis/exsitu/grs_pa_narea_areakm2.tif",sep=""), format="GTiff")
-    }
-    pa_area <- sum(pa_area[], na.rm=T) #in km2
+    pa_area <- NA
+    
   }
   
   #create data.frame with output
