@@ -6,7 +6,7 @@ create_sp_dirs <- function(species) {
   config(dirs=T)
   
   #create species dir
-  sp_dir <- paste(gap_dir,"/",run_version,sep="")
+  sp_dir <- paste(gap_dir,"/",species,"/",run_version,sep="")
   if (!file.exists(sp_dir)) {dir.create(sp_dir,recursive=T)}
   
   #create other directories

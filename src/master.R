@@ -17,6 +17,10 @@ master_run <- function(species) {
     #load config function
     #source(paste(repo_dir,"/config.R",sep=""))
     
+    #create directories
+    #source(paste(repo_dir,"/tools/create_sp_dirs.R",sep=""))
+    spp_dirs <- create_sp_dirs(species)
+    
     #step 2.1-clean sea
     #source(paste(repo_dir,"/0_cleaning/clean_sea.R",sep=""))
     spp_clean <- clean_sea(species)
