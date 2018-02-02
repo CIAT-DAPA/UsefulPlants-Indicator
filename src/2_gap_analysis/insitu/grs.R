@@ -75,7 +75,7 @@ calculate_grs = function(species, debug=F) {
     #run only for spp with occ file
     if (file.exists(paste(occ_dir,"/no_sea/",species,".csv",sep="")) & sp_counts$totalUseful != 0) {
       alternative.path = paste0(species.dir,"modeling/alternatives/ca50_total_narea.tif")
-      maxent.path = paste0(species.dir,"modeling/maxent/spdist_median.tif")
+      maxent.path = paste0(species.dir,"modeling/maxent/spdist_thrsld.tif")
       model.selected = read.csv(paste0(species.dir,"modeling/maxent/eval_metrics.csv"), header = T, sep=",")
       if(model.selected$VALID == TRUE){
         species.distribution = raster(maxent.path)

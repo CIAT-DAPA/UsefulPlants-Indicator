@@ -30,7 +30,7 @@ grs_exsitu <- function(species, debug=F) {
     #load maxent metrics file
     mx_metrics <- read.csv(paste(sp_dir,"/modeling/maxent/eval_metrics.csv",sep=""),header=T)
     if (mx_metrics$VALID) {
-      pa_spp <- raster(paste(sp_dir,"/modeling/maxent/concenso_mss.tif",sep=""))
+      pa_spp <- raster(paste(sp_dir,"/modeling/maxent/spdist_thrsld.tif",sep=""))
     } else {
       pa_spp <- raster(paste(sp_dir,"/modeling/alternatives/ca50_total_narea.tif",sep=""))
     }
@@ -75,7 +75,7 @@ grs_exsitu <- function(species, debug=F) {
   } else {
     grs <- 0
     g_area <- 0
-  #  pa_area <- NA
+    #pa_area <- NA
     pa_area <- crop(global_area, pa_spp)
     pa_area <- pa_spp * pa_area
     if (debug & !file.exists(paste(sp_dir,"/gap_analysis/exsitu/grs_pa_narea_areakm2.tif",sep=""))) {

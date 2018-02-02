@@ -30,7 +30,7 @@ ers_exsitu <- function(species, debug=F) {
     #load maxent metrics file
     mx_metrics <- read.csv(paste(sp_dir,"/modeling/maxent/eval_metrics.csv",sep=""),header=T)
     if (mx_metrics$VALID) {
-      pa_spp <- raster(paste(sp_dir,"/modeling/maxent/concenso_mss.tif",sep=""))
+      pa_spp <- raster(paste(sp_dir,"/modeling/maxent/spdist_thrsld.tif",sep=""))
     } else {
       pa_spp <- raster(paste(sp_dir,"/modeling/alternatives/ca50_total_narea.tif",sep=""))
     }

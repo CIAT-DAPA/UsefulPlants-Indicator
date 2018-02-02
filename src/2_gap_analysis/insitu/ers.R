@@ -78,7 +78,7 @@ calculate_ers = function(species, debug=F){
       # Validation if the maxent model is good or not
       # to do the insitu gap analysis
       alternative.path = paste0(species.dir,"modeling/alternatives/ca50_total_narea.tif")
-      maxent.path = paste0(species.dir,"modeling/maxent/spdist_median.tif")
+      maxent.path = paste0(species.dir,"modeling/maxent/spdist_thrsld.tif")
       model.selected = read.csv(paste0(species.dir,"modeling/maxent/eval_metrics.csv"), header = T, sep=",")
       if(model.selected$VALID){
         species.distribution = raster(maxent.path)
