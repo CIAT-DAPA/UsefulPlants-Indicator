@@ -71,56 +71,64 @@ calculate_ers = function(species, debug=F){
   tryCatch({
     #print(paste0("Start ",species))
     
-    # Validation if the maxent model is good or not
-    # to do the insitu gap analysis
-    alternative.path = paste0(species.dir,"modeling/alternatives/ca50_total_narea.tif")
-    maxent.path = paste0(species.dir,"modeling/maxent/spdist_median.tif")
-    model.selected = read.csv(paste0(species.dir,"modeling/maxent/eval_metrics.csv"), header = T, sep=",")
-    if(model.selected$VALID){
-      species.distribution = raster(maxent.path)
-    } else{
-      species.distribution = raster(alternative.path) 
+    #load counts
+    sp_counts <- read.csv(paste(gap_dir,"/",species,"/counts.csv",sep=""),sep="\t")
+    
+    if (file.exists(paste(occ_dir,"/no_sea/",species,".csv",sep="")) & sp_counts$totalUseful != 0) {
+      # Validation if the maxent model is good or not
+      # to do the insitu gap analysis
+      alternative.path = paste0(species.dir,"modeling/alternatives/ca50_total_narea.tif")
+      maxent.path = paste0(species.dir,"modeling/maxent/spdist_median.tif")
+      model.selected = read.csv(paste0(species.dir,"modeling/maxent/eval_metrics.csv"), header = T, sep=",")
+      if(model.selected$VALID){
+        species.distribution = raster(maxent.path)
+      } else{
+        species.distribution = raster(alternative.path) 
+      }
+      
+      # Remove the zeros (0) from raster
+      species.distribution[which(species.distribution[]==0)] <- NA
+      
+      #print("Loaded the species distribution file (raster)")
+      
+      # Load the specie mask of native area
+      #species.mask.path = paste0(species.dir,"bioclim/crop_narea.RDS")
+      #load(species.mask.path)
+      #species.mask = biolayers_cropc[[1]]
+      # Remove differents values from raster to get only the native area
+      #species.mask[which(!is.na(species.mask[]))]<-1
+      species.mask <- raster(paste(species.dir,"bioclim/narea_mask.tif",sep=""))
+      
+      #print("Loaded the native area of the species (mask)")
+      
+      # Intersect between species distribution and mask
+      origin(species.distribution) <- origin(species.mask)
+      overlay.distribution <- species.distribution * species.mask
+      
+      # Intersect between species distribution and ecosystem
+      origin(eco.raster) <- origin(overlay.distribution)
+      overlay.eco <- eco.raster * overlay.distribution
+      
+      #print("Intersected the species distribution and ecosystem")
+      
+      # Intersect between overlay eco specie  and protected areas
+      origin(pa.raster) <- origin(overlay.eco)
+      overlay.eco.pa = pa.raster * overlay.eco
+      
+      #print("Intersected the overlapping (species distribution and ecosystems) and global protected areas")
+      
+      # Intersect between for the species distribution and intersect
+      eco.species.distribution.count = length(unique(overlay.eco[],na.rm=T))
+      eco.species.distribution.pa.count  = length(unique(overlay.eco.pa[],na.rm=T))
+      
+      # Calculate proportion number ecosystems
+      proportion = min(c(100, (eco.species.distribution.pa.count / (eco.species.distribution.count)) * 100))
+      
+      #print("Calculated ecosystems numbers")
+    } else {
+      proportion <- 0
+      eco.species.distribution.count <- eco.species.distribution.pa.count <- NA
     }
-    
-    # Remove the zeros (0) from raster
-    species.distribution[which(species.distribution[]==0)] <- NA
-    
-    #print("Loaded the species distribution file (raster)")
-    
-    # Load the specie mask of native area
-    #species.mask.path = paste0(species.dir,"bioclim/crop_narea.RDS")
-    #load(species.mask.path)
-    #species.mask = biolayers_cropc[[1]]
-    # Remove differents values from raster to get only the native area
-    #species.mask[which(!is.na(species.mask[]))]<-1
-    species.mask <- raster(paste(species.dir,"bioclim/narea_mask.tif",sep=""))
-    
-    #print("Loaded the native area of the species (mask)")
-    
-    # Intersect between species distribution and mask
-    origin(species.distribution) <- origin(species.mask)
-    overlay.distribution <- species.distribution * species.mask
-    
-    # Intersect between species distribution and ecosystem
-    origin(eco.raster) <- origin(overlay.distribution)
-    overlay.eco <- eco.raster * overlay.distribution
-    
-    #print("Intersected the species distribution and ecosystem")
-    
-    # Intersect between overlay eco specie  and protected areas
-    origin(pa.raster) <- origin(overlay.eco)
-    overlay.eco.pa = pa.raster * overlay.eco
-    
-    #print("Intersected the overlapping (species distribution and ecosystems) and global protected areas")
-    
-    # Intersect between for the species distribution and intersect
-    eco.species.distribution.count = length(unique(overlay.eco[],na.rm=T))
-    eco.species.distribution.pa.count  = length(unique(overlay.eco.pa[],na.rm=T))
-    
-    # Calculate proportion number ecosystems
-    proportion = min(c(100, (eco.species.distribution.pa.count / (eco.species.distribution.count)) * 100))
-    
-    #print("Calculated ecosystems numbers")
     
     # Join the results
     df <- data.frame(ID=species, SPP_N_ECO = eco.species.distribution.count, SPP_WITHIN_PA_N_ECO = eco.species.distribution.pa.count, ERS = proportion)

@@ -33,7 +33,8 @@ nat_area_shp <- function(species) {
     rm(list = c("species", "x", "countries"))
   } else {
     gwd <- getwd(); setwd(output_dir)
-    shp_NA3 <- shapefile(paste0(output_dir, "/narea.shp")) 
+    shp_NA3 <- shapefile(paste0(output_dir, "/narea.shp"))
+    setwd(gwd)
   }
   return(shp_NA3)
 }

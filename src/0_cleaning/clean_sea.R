@@ -15,28 +15,35 @@ clean_sea <- function(species) {
   ##source config
   config(dirs=T, cleaning=T)
   
-  #load raw species occurrences
-  spp <- read.csv(paste0(folderin_raw,"/",species,".csv"), header = FALSE, sep="\t") ##read file
-  colnames(spp) <- c("lon", "lat", "country", "type", "native")
-  #cat("loading species ID=", species, "file", "\n")
+  #check if raw occurrences exist
+  if (file.exists(paste0(folderin_raw,"/",species,".csv"))) {
+    #load raw species occurrences
+    spp <- read.csv(paste0(folderin_raw,"/",species,".csv"), header = FALSE, sep="\t") ##read file
+    colnames(spp) <- c("lon", "lat", "country", "type", "native")
+    #cat("loading species ID=", species, "file", "\n")
+    
+    #transform spp data.frame into SpatialPointsDataFrame
+    coordinates(spp) <- ~lon+lat ###to SpatialPointsDataFrame
+    crs(spp) <- crs(countries_sh) ####add to mask
+    over_spp <- over(spp, countries_sh) ### over() #overlay
+    
+    ###remove NAs
+    #cat("Removing NA's for species ID", species, "file", "\n")
+    spp1 <- as.data.frame(spp)
+    spp1 <- cbind(spp1, over_spp)
+    spp1 <- spp1[which(!is.na(spp1$ISO)),]
+    spp1$ISO <- NULL
+    
+    #cat("writing new", files, "file", "\n")
+    write.csv(spp1, paste0(folder_nosea,"/", species, ".csv"), row.names = FALSE)
+    #cat("DONE", "\n")
+    
+    rm(spp)
+  } else {
+    spp1 <- NULL
+  }
   
-  #transform spp data.frame into SpatialPointsDataFrame
-  coordinates(spp) <- ~lon+lat ###to SpatialPointsDataFrame
-  crs(spp) <- crs(countries_sh) ####add to mask
-  over_spp <- over(spp, countries_sh) ### over() #overlay
-  
-  ###remove NAs
-  #cat("Removing NA's for species ID", species, "file", "\n")
-  spp1 <- as.data.frame(spp)
-  spp1 <- cbind(spp1, over_spp)
-  spp1 <- spp1[which(!is.na(spp1$ISO)),]
-  spp1$ISO <- NULL
-  
-  #cat("writing new", files, "file", "\n")
-  write.csv(spp1, paste0(folder_nosea,"/", species, ".csv"), row.names = FALSE)
-  #cat("DONE", "\n")
-  
-  rm(spp)
+  #return object
   return(spp1)
 }
 

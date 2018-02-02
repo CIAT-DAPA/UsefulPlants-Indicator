@@ -68,68 +68,78 @@ calculate_grs = function(species, debug=F) {
     #print(paste0("Start ",species))
     # Validation if the maxent model is good or not
     # to do the gap analysis insitu
-    alternative.path = paste0(species.dir,"modeling/alternatives/ca50_total_narea.tif")
-    maxent.path = paste0(species.dir,"modeling/maxent/spdist_median.tif")
-    model.selected = read.csv(paste0(species.dir,"modeling/maxent/eval_metrics.csv"), header = T, sep=",")
-    if(model.selected$VALID == TRUE){
-      species.distribution = raster(maxent.path)
-    } else{
-      species.distribution = raster(alternative.path) 
+    
+    #load counts
+    sp_counts <- read.csv(paste(gap_dir,"/",species,"/counts.csv",sep=""),sep="\t")
+    
+    #run only for spp with occ file
+    if (file.exists(paste(occ_dir,"/no_sea/",species,".csv",sep="")) & sp_counts$totalUseful != 0) {
+      alternative.path = paste0(species.dir,"modeling/alternatives/ca50_total_narea.tif")
+      maxent.path = paste0(species.dir,"modeling/maxent/spdist_median.tif")
+      model.selected = read.csv(paste0(species.dir,"modeling/maxent/eval_metrics.csv"), header = T, sep=",")
+      if(model.selected$VALID == TRUE){
+        species.distribution = raster(maxent.path)
+      } else{
+        species.distribution = raster(alternative.path) 
+      }
+      
+      # Remove the zeros (0) from raster
+      species.distribution[which(species.distribution[]==0)] <- NA
+      
+      #print("Loaded the species distribution file (raster)")
+      # Load the specie mask of native area
+      #species.mask.path = paste0(species.dir,"bioclim/crop_narea.RDS")
+      #load(species.mask.path)
+      #species.mask = biolayers_cropc[[1]]
+      species.mask <- raster(paste(species.dir,"bioclim/narea_mask.tif",sep=""))
+      
+      # Remove differents values from raster to get only the native area
+      #specie.mask[which(!is.na(species.mask[]))]<-1
+      
+      #print("Loaded the native area of the species (mask)")
+      
+      # Intersect between species distribution and native area mask
+      origin(species.distribution) <- origin(species.mask)
+      overlay.distribution = species.distribution * species.mask
+      
+      # Intersect between species distribution (native area) and protected areas
+      origin(pa.raster) <- origin(overlay.distribution)
+      overlay = pa.raster * overlay.distribution
+      
+      # Intersect between species in protected areas and world area raster
+      origin(world.area) <- origin(overlay)
+      overlay.intersect = world.area * overlay #values in km2
+      
+      # Intersect between species distribution areas and world area raster
+      origin(world.area) <- origin(species.distribution)
+      overlay.species.area = world.area * overlay.distribution #values in km2
+      
+      #print("Intersected the species distribution (native area) and global protected areas")
+      
+      # # Get pixels with data from intersect
+      # a = which(!is.na(overlay[]))
+      # # Get pixels with data from species distribution
+      # b = which(!is.na(overlay.distribution[]))
+      # 
+      # # Calculating the area in kilometer for each pixel
+      # area = res(overlay.distribution)[1] * res(overlay.distribution)[2]
+      # gra = 111.11*111.11
+      # res = area * gra 
+      # 
+      # Calculate areas for the species distribution and intersect
+      # overlay.area <- length(a) * res
+      # species.area <- length(b) * res
+      
+      overlay.area = sum(overlay.intersect[],na.rm=T) #area within PAs
+      species.area = sum(overlay.species.area[], na.rm=T) #total sp dist. area
+      
+      # Calculate proportion area
+      proportion = min(c(100,(overlay.area / (a_insitu * species.area)) * 100))
+      #print("Calculated the areas and proportions")
+    } else {
+      proportion <- 0
+      overlay.area <- species.area <- NA
     }
-    
-    # Remove the zeros (0) from raster
-    species.distribution[which(species.distribution[]==0)] <- NA
-    
-    #print("Loaded the species distribution file (raster)")
-    # Load the specie mask of native area
-    #species.mask.path = paste0(species.dir,"bioclim/crop_narea.RDS")
-    #load(species.mask.path)
-    #species.mask = biolayers_cropc[[1]]
-    species.mask <- raster(paste(species.dir,"bioclim/narea_mask.tif",sep=""))
-    
-    # Remove differents values from raster to get only the native area
-    #specie.mask[which(!is.na(species.mask[]))]<-1
-    
-    #print("Loaded the native area of the species (mask)")
-    
-    # Intersect between species distribution and native area mask
-    origin(species.distribution) <- origin(species.mask)
-    overlay.distribution = species.distribution * species.mask
-    
-    # Intersect between species distribution (native area) and protected areas
-    origin(pa.raster) <- origin(overlay.distribution)
-    overlay = pa.raster * overlay.distribution
-    
-    # Intersect between species in protected areas and world area raster
-    origin(world.area) <- origin(overlay)
-    overlay.intersect = world.area * overlay #values in km2
-    
-    # Intersect between species distribution areas and world area raster
-    origin(world.area) <- origin(species.distribution)
-    overlay.species.area = world.area * overlay.distribution #values in km2
-    
-    #print("Intersected the species distribution (native area) and global protected areas")
-    
-    # # Get pixels with data from intersect
-    # a = which(!is.na(overlay[]))
-    # # Get pixels with data from species distribution
-    # b = which(!is.na(overlay.distribution[]))
-    # 
-    # # Calculating the area in kilometer for each pixel
-    # area = res(overlay.distribution)[1] * res(overlay.distribution)[2]
-    # gra = 111.11*111.11
-    # res = area * gra 
-    # 
-    # Calculate areas for the species distribution and intersect
-    # overlay.area <- length(a) * res
-    # species.area <- length(b) * res
-    
-    overlay.area = sum(overlay.intersect[],na.rm=T) #area within PAs
-    species.area = sum(overlay.species.area[], na.rm=T) #total sp dist. area
-    # Calculate proportion area
-    proportion = min(c(100,(overlay.area / (a_insitu * species.area)) * 100))
-    
-    #print("Calculated the areas and proportions")
     
     # Join the results
     df <- data.frame(ID = species, SPP_AREA_km2 = species.area, SPP_WITHIN_PA_AREA_km2 = overlay.area, GRS = proportion)
