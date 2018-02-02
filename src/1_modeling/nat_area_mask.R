@@ -27,17 +27,20 @@ nat_area_mask <- function(species) {
       #crop and mask biolayers
       biolayers_cropc <- crop(biolayers, shapean) # predictor variables cropped to native area extent
       biolayers_cropc <- mask(biolayers_cropc, shapean) # predictor variables masked to native area polygon
+      biolayers_cropc <- stack(biolayers_cropc)
+      biolayers_cropc <- readAll(biolayers_cropc)
       
       #if mask doesnt exist then create and write it
       if (!file.exists(paste0(narea_dir, "/", "narea_mask.tif"))) {
         na_msk <- biolayers_cropc[[1]]
         na_msk[which(!is.na(na_msk[]))] <- 1
         writeRaster(na_msk, paste0(narea_dir, "/", "narea_mask.tif"), format="GTiff")
+        rm(na_msk)
       }
       
       #save cropped biolayers dataset
-      save(biolayers_cropc, file = paste0(narea_dir, "/", "crop_narea.RDS"))
-      rm(narea_dir); rm(shapean); rm(biolayers_cropc); rm(na_msk)
+      saveRDS(object=biolayers_cropc, file=paste0(narea_dir, "/crop_narea.RDS"))
+      #rm(narea_dir); rm(shapean); rm(biolayers_cropc)
     }
     #clean memory and return species ID
     gc(reset=TRUE)
