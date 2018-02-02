@@ -11,7 +11,7 @@ calc_indicator <- function(sp_list, opt=c("min","max","mean","insitu","exsitu"),
   config(dirs=T)
   
   #go through species list and load files into a data.frame
-  data_all <- lapply(sp_list, FUN=function(x) {read.csv(paste(root,"/gap_analysis/",x,"/",run_version,"/gap_analysis/combined/fcs_combined.csv",sep=""))})
+  data_all <- lapply(sp_list, FUN=function(x) {read.csv(paste(gap_dir,"/",x,"/",run_version,"/gap_analysis/combined/fcs_combined.csv",sep=""))})
   data_all <- do.call(rbind, data_all)
   
   #make final counts for species list (combined)

@@ -23,7 +23,7 @@ select_spp_indicator <- function(iso_list="ALL", opt=c("min","max","mean","exsit
   }
   
   #filter above list of species following those that have fcs_combined.csv
-  spp_exist <- lapply(spp_list, FUN=function(x) {file.exists(paste(root,"/gap_analysis/",x,"/",run_version,"/gap_analysis/combined/fcs_combined.csv",sep=""))})
+  spp_exist <- lapply(spp_list, FUN=function(x) {file.exists(paste(gap_dir,"/",x,"/",run_version,"/gap_analysis/combined/fcs_combined.csv",sep=""))})
   spp_exist <- unlist(unlist(spp_exist))
   spp_list <- spp_list[which(spp_exist)]
   
