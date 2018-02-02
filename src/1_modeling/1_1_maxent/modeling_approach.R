@@ -40,7 +40,7 @@ spModeling <- function(species){
     }
     
     # Native area for projecting
-    load(file=paste0(gap_dir, "/", species, "/", run_version, "/bioclim/crop_narea.RDS"))
+    biolayers_cropc = readRDS(paste0(gap_dir, "/", species, "/", run_version, "/bioclim/crop_narea.RDS"))
     
     #load occurrence points
     xy_data <- read.csv(paste(occ_dir,"/no_sea/",species,".csv",sep=""),header=T)
