@@ -28,12 +28,19 @@ nat_area_mask <- function(species) {
         #load native area shapefile
         setwd(narea_dir)
         shapean <- readOGR(dsn = "narea.shp", layer = "narea", verbose=F)
+        #shapean$DUMM <- 1
+        
+        #make mask
+        #xx <- rst_vx$rasterize(shapean, field="DUMM", background=NA)
         
         #crop and mask biolayers
         biolayers_cropc <- crop(biolayers, shapean) # predictor variables cropped to native area extent
         biolayers_cropc <- mask(biolayers_cropc, shapean) # predictor variables masked to native area polygon
         biolayers_cropc <- stack(biolayers_cropc)
         biolayers_cropc <- readAll(biolayers_cropc)
+        
+        
+        #bck_data_bio <- cbind(bck_data, rst_vx$extract_points(species = species::SpatialPoints(bck_data[,c("lon", "lat")])))
         
         #if mask doesnt exist then create and write it
         if (!file.exists(paste0(narea_dir, "/", "narea_mask.tif"))) {
