@@ -34,7 +34,7 @@ source.files = source.files[ !grepl("run", source.files) ]
 lapply(repo_dir, source)
 
 # Load massive climate file
-config(dirs=T)
+config(dirs=T, cleaning=T, insitu=T, exsitu=T, modeling=T, premodeling=T)
 rst_vx <- readRDS(paste(par_dir,"/biolayer_2.5/climate_vx.RDS",sep=""))
 load(file=paste0(par_dir, "/gadm/shapefile/gadm28ISO.RDS"))
 
@@ -92,7 +92,9 @@ sfExport("nat_area_mask")
 sfExport("nat_area_shp")
 
 # 1_1_maxent
-sfExport("make.projection")
+sfExport("CreateMXArgs")
+
+sfExport("make.projections")
 
 sfExport("metrics_function")
 sfExport("evaluate_function")
