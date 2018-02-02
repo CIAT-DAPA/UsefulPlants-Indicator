@@ -30,7 +30,13 @@ source.files = source.files[ !grepl("tools", source.files) ]
 source.files = source.files[ !grepl("run", source.files) ]
 lapply(source.files, source)
 
-##########################################  End Dependences  ###############################################
+# Load massive climate file
+config(dirs=T)
+rst_vx <- readRDS(paste(par_dir,"/biolayer_2.5/climate_vx.RDS",sep=""))
+load(file=paste0(par_dir, "/gadm/shapefile/gadm28ISO.RDS"))
+
+#############
+#############################  End Dependences  ###############################################
 
 ##########################################  Start Set Parameters  ###############################################
 
@@ -124,6 +130,12 @@ sfExport("save_results_grs")
 sfExport("calc_indicator")
 
 sfExport("select_spp_indicator")
+
+sfExportAll()
+
+# Export variables
+sfExport( "rst_vx", local=FALSE )
+sfExport( "countries_sh", local=FALSE )
 
 sfExportAll()
 
