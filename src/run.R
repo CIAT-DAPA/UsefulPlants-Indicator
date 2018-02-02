@@ -1,6 +1,6 @@
 ##########################################  Start Install Packages  ###############################################
 
-# install.packages(c("snowfall","raster","maptools","rgdal","ff","data.table","gtools","velox","PresenceAbsence","dismo","tidyverse","SDMTools","rgeos","shapefiles","plyr"))
+# install.packages(c("snowfall","raster","maptools","rgdal","ff","data.table","gtools","velox","PresenceAbsence","dismo","tidyverse","SDMTools","rgeos","shapefiles","plyr", "sp"))
 
 ##########################################   End Install Packages  ###############################################
 
@@ -21,6 +21,7 @@ library(tidyverse)
 library(SDMTools)
 library(rgeos)
 library(shapefiles)
+library(sp)
 library(plyr)
 
 # Load massive climate file
@@ -71,7 +72,7 @@ sfLibrary(tidyverse)
 sfLibrary(SDMTools)
 sfLibrary(rgeos)
 sfLibrary(shapefiles)
-
+sfLibrary(sp)
 # Export sources scripts
 lapply(source.files, sfSource)
 
