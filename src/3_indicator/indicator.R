@@ -14,7 +14,7 @@ calc_indicator <- function(sp_list, opt=c("min","max","mean"), filename="indicat
   data_all <- lapply(sp_list, FUN=function(x) {read.csv(paste(root,"/gap_analysis/",x,"/",run_version,"/gap_analysis/combined/fcs_combined.csv",sep=""))})
   data_all <- do.call(rbind, data_all)
   
-  #make final counts for species list
+  #make final counts for species list (combined)
   out_df <- data.frame()
   for (i in 1:length(opt)) {
     #i <- 1
@@ -27,6 +27,55 @@ calc_indicator <- function(sp_list, opt=c("min","max","mean"), filename="indicat
     tdf <- data.frame(opt=opt[i],N_HP=hp_n,N_MP=mp_n,N_LP=lp_n,N_SC=sc_n,N_LP_SC=indic)
     out_df <- rbind(out_df, tdf)
   }
+  
+  #assign classes (exsitu)
+  data_all$FCSex_class <- NA
+  for (i in 1:nrow(data_all)) {
+    if (data_all$FCSex[i] < 25) {
+      data_all$FCSex_class[i] <- "HP"
+    } else if (data_all$FCSex[i] >= 25 & data_all$FCSex[i] < 50) {
+      data_all$FCSex_class[i] <- "MP"
+    } else if (data_all$FCSex[i] >= 50 & data_all$FCSex[i] < 75) {
+      data_all$FCSex_class[i] <- "LP"
+    } else {
+      data_all$FCSex_class[i] <- "SC"
+    }
+  }
+  
+  #assign classes (insitu)
+  data_all$FCSin_class <- NA
+  for (i in 1:nrow(data_all)) {
+    if (data_all$FCSin[i] < 25) {
+      data_all$FCSin_class[i] <- "HP"
+    } else if (data_all$FCSin[i] >= 25 & data_all$FCSin[i] < 50) {
+      data_all$FCSin_class[i] <- "MP"
+    } else if (data_all$FCSin[i] >= 50 & data_all$FCSin[i] < 75) {
+      data_all$FCSin_class[i] <- "LP"
+    } else {
+      data_all$FCSin_class[i] <- "SC"
+    }
+  }
+  
+  #make final counts for species list (exsitu)
+  tvec <- paste(data_all[,"FCSex_class"])
+  hp_n <- length(which(tvec %in% c("HP")))
+  mp_n <- length(which(tvec %in% c("MP")))
+  lp_n <- length(which(tvec %in% c("LP")))
+  sc_n <- length(which(tvec %in% c("SC")))
+  indic <- lp_n + sc_n
+  out_df_ex <- data.frame(opt="exsitu",N_HP=hp_n,N_MP=mp_n,N_LP=lp_n,N_SC=sc_n,N_LP_SC=indic)
+  
+  #make final counts for species list (insitu)
+  tvec <- paste(data_all[,"FCSin_class"])
+  hp_n <- length(which(tvec %in% c("HP")))
+  mp_n <- length(which(tvec %in% c("MP")))
+  lp_n <- length(which(tvec %in% c("LP")))
+  sc_n <- length(which(tvec %in% c("SC")))
+  indic <- lp_n + sc_n
+  out_df_in <- data.frame(opt="insitu",N_HP=hp_n,N_MP=mp_n,N_LP=lp_n,N_SC=sc_n,N_LP_SC=indic)
+  
+  #put all rows together
+  out_df <- rbind(out_df, out_df_ex, out_df_in)
   
   #calculate percentages
   out_df$P_HP <- out_df$N_HP / nrow(data_all) * 100
