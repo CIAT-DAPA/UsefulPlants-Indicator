@@ -1,11 +1,11 @@
 require(PresenceAbsence);require(raster);require(dismo);library(tidyverse)
 
-#sp=2653304
+#speciesecies=2653304
 
-metrics_function<-function(sp){
+metrics_function<-function(species){
   #########
-  crossValDir <- paste0(gap_dir, "/", sp, "/", run_version, "/modeling/maxent")
-  maxn <- readRDS(paste0(crossValDir,"/modeling_results.",sp,".RDS"))
+  crossValDir <- paste0(gap_dir, "/", species, "/", run_version, "/modeling/maxent")
+  maxn <- readRDS(paste0(crossValDir,"/modeling_results.",species,".RDS"))
   #########
 
   occ<-as.data.frame(maxn$occ_prediction[complete.cases(maxn$occ_prediction),])
@@ -16,10 +16,10 @@ metrics_function<-function(sp){
   #######################################################################################
   #ASD 15
   #############################
-  #esdCpt <- raster(paste0(crossValDir, "/spdist_sd.tif"))
+  #esdCpt <- raster(paste0(crossValDir, "/speciesdist_sd.tif"))
   rep_number<-length(maxn$model@models)
   evaluate_table <- as.data.frame(matrix(nrow = (rep_number),ncol=12))
-  colnames(evaluate_table)<-c("sp","replicate","training","testing","Background","ATAUC","STAUC",
+  colnames(evaluate_table)<-c("species","replicate","training","testing","Background","ATAUC","STAUC",
                               "Threshold","Sensitivity","Specificity","TSS","PCC")
   z <- rbind(occ,bg); names(z)[1:rep_number] <- paste(c(1:rep_number))
   z <- z[complete.cases(z),]
@@ -31,7 +31,7 @@ metrics_function<-function(sp){
   x <- as.data.frame(maxn$model@results)
   
   #SP
-  evaluate_table[,"sp"]<-rep(as.character(sp),nrow(evaluate_table))
+  evaluate_table[,"species"]<-rep(as.character(species),nrow(evaluate_table))
   
   #REPLICATE
   evaluate_table[,"replicate"]<-as.character(c(1:rep_number))
@@ -58,7 +58,7 @@ metrics_function<-function(sp){
   evaluate_table[,"Sensitivity"]<-as.numeric(unlist(lapply(1:rep_number,function(i){  x<-PresenceAbsence::sensitivity(cmx(z,which.model=i))[1];return(x)})))
   
   ##SPECIFICITY
-  evaluate_table[,"Specificity"]<-as.numeric(unlist(lapply(1:rep_number,function(i){  x<-PresenceAbsence::specificity(cmx(z,which.model=i))[1];return(x)})))
+  evaluate_table[,"Specificity"]<-as.numeric(unlist(lapply(1:rep_number,function(i){  x<-PresenceAbsence::speciesecificity(cmx(z,which.model=i))[1];return(x)})))
   
   ##TSS
   evaluate_table[,"TSS"]<-(evaluate_table[1:rep_number,"Sensitivity"]+evaluate_table[1:rep_number,"Specificity"])-1
@@ -71,16 +71,16 @@ metrics_function<-function(sp){
   return(evaluate_table)
 }
 
-evaluate_function <- function(sp, evaluate_table){
+evaluate_function <- function(species, evaluate_table){
   
-  crossValDir <- paste0(gap_dir, "/", sp, "/", run_version, "/modeling/maxent")
+  crossValDir <- paste0(gap_dir, "/", species, "/", run_version, "/modeling/maxent")
   evaluate_table_f<-as.data.frame(matrix(nrow = 1,ncol=15))
-  colnames(evaluate_table_f)<-c("sp","training","testing","Background","ATAUC","STAUC",
+  colnames(evaluate_table_f)<-c("species","training","testing","Background","ATAUC","STAUC",
                               "Threshold","Sensitivity","Specificity","TSS","PCC","nAUC","cAUC","ASD15","VALID")
   
   ###ASD15
-  esdCpt <- raster(paste0(crossValDir, "/spdist_sd.tif"))
-  dumm <- raster(paste0(crossValDir, "/spdist_thrsld.tif"))
+  esdCpt <- raster(paste0(crossValDir, "/speciesdist_sd.tif"))
+  dumm <- raster(paste0(crossValDir, "/speciesdist_thrsld.tif"))
   
   esdCpt[which(dumm[] < 0.001)] <- NA
   
@@ -107,7 +107,7 @@ evaluate_function <- function(sp, evaluate_table){
   #############################
   
   #SP
-  evaluate_table_f[,"sp"]<-as.character(sp)
+  evaluate_table_f[,"species"]<-as.character(species)
   
   #TRAINING
   evaluate_table_f[,"training"]<-as.numeric(mean(evaluate_table[,"training"],na.rm=T))
@@ -140,7 +140,7 @@ evaluate_function <- function(sp, evaluate_table){
   evaluate_table_f[,"PCC"]<-as.numeric(mean(evaluate_table[,"PCC"],na.rm=T))
   
   ###nAUC
-  evaluate_table_f[,"nAUC"] <- null_model_AUC(sp)
+  evaluate_table_f[,"nAUC"] <- null_model_AUC(species)
   
   ###cAUC
   evaluate_table_f[,"cAUC"]<-evaluate_table_f[,"ATAUC"]+.5-max(c(.5,evaluate_table_f[,"nAUC"],na.rm=T))
