@@ -42,7 +42,7 @@ load(file=paste0(par_dir, "/gadm/shapefile/gadm28ISO.RDS"))
 
 ##########################################  Start Set Parameters  ###############################################
 
-setwd("//dapadfs/Workspace_cluster_9/Aichi13/")
+setwd(root)
 
 server.number = "1"
 server.species = read.csv(paste0("runs/species/server_",server.number,".csv"),sep = ",")
