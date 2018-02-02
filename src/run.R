@@ -1,6 +1,6 @@
 ##########################################  Start Install Packages  ###############################################
 
-# install.packages(c("snowfall","raster","maptools","rgdal","ff","data.table","gtools","velox","PresenceAbsence","dismo","tidyverse","SDMTools","rgeos","shapefiles","ldply"))
+# install.packages(c("snowfall","raster","maptools","rgdal","ff","data.table","gtools","velox","PresenceAbsence","dismo","tidyverse","SDMTools","rgeos","shapefiles","plyr"))
 
 ##########################################   End Install Packages  ###############################################
 
@@ -21,22 +21,24 @@ library(tidyverse)
 library(SDMTools)
 library(rgeos)
 library(shapefiles)
-library(ldply)
+library(plyr)
+
+# Load massive climate file
+base_dir = "//dapadfs"
+repo_dir = "C:/Users/HSOTELO/Desktop/src"
 
 # Load the sources scripts
-repo.source = "G:/CIAT/Code/Aichi/aichi13/src"
-source.files = list.files(repo.source, "\\.[rR]$", full.names = TRUE, recursive = T)
-source.files = source.files[ !grepl("tools", source.files) ]
-source.files = source.files[ !grepl("run", source.files) ]
-lapply(source.files, source)
+repo_dir = list.files(repo_dir, "\\.[rR]$", full.names = TRUE, recursive = T)
+repo_dir = repo_dir[ !grepl("tools", repo_dir) ]
+repo_dir = repo_dir[ !grepl("run", repo_dir) ]
+lapply(repo_dir, source)
 
 # Load massive climate file
 config(dirs=T)
 rst_vx <- readRDS(paste(par_dir,"/biolayer_2.5/climate_vx.RDS",sep=""))
 load(file=paste0(par_dir, "/gadm/shapefile/gadm28ISO.RDS"))
 
-#############
-#############################  End Dependences  ###############################################
+##########################################  End Dependences  ###############################################
 
 ##########################################  Start Set Parameters  ###############################################
 
@@ -69,8 +71,6 @@ sfLibrary(tidyverse)
 sfLibrary(SDMTools)
 sfLibrary(rgeos)
 sfLibrary(shapefiles)
-
-sfExportAll()
 
 # Export sources scripts
 lapply(source.files, sfSource)
@@ -130,8 +130,6 @@ sfExport("save_results_grs")
 sfExport("calc_indicator")
 
 sfExport("select_spp_indicator")
-
-sfExportAll()
 
 # Export variables
 sfExport( "rst_vx", local=FALSE )
