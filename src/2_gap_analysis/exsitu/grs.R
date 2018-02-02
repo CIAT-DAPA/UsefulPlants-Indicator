@@ -17,7 +17,7 @@ grs_exsitu <- function(species, debug=F) {
   sp_dir <- paste(gap_dir,"/",species,"/",run_version,sep="")
   
   #load counts
-  sp_counts <- read.csv(paste(gap_dir,"/",species,"/counts.csv",sep=""),sep="\t")
+  sp_counts <- read.csv(paste(gap_dir,"/",species,"/counts.csv",sep=""),sep="\t", header=T)
   
   #run only for spp with occ file
   if (file.exists(paste(occ_dir,"/no_sea/",species,".csv",sep="")) & sp_counts$totalHUseful != 0) {
@@ -75,7 +75,13 @@ grs_exsitu <- function(species, debug=F) {
   } else {
     grs <- 0
     g_area <- 0
-    pa_area <- NA
+  #  pa_area <- NA
+    pa_area <- crop(global_area, pa_spp)
+    pa_area <- pa_spp * pa_area
+    if (debug & !file.exists(paste(sp_dir,"/gap_analysis/exsitu/grs_pa_narea_areakm2.tif",sep=""))) {
+      pa_area <- writeRaster(pa_area, paste(sp_dir,"/gap_analysis/exsitu/grs_pa_narea_areakm2.tif",sep=""), format="GTiff")
+    }
+    pa_area <- sum(pa_area[], na.rm=T) #in km2
   }
   
   #create data.frame with output
