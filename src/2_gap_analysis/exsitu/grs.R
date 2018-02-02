@@ -74,7 +74,6 @@ grs_exsitu <- function(species, debug=F) {
     } else {
       gbuf_area <- 0
       grs <- 0
-      g_area <- 0
       pa_area <- NA
     }
     
@@ -82,7 +81,7 @@ grs_exsitu <- function(species, debug=F) {
   } else {
     
     grs <- 0
-    g_area <- 0
+    gbuf_area <- 0
     pa_area <- NA
     
   }

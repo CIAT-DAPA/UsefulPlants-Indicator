@@ -227,7 +227,7 @@ spModeling <- function(species){
       evaluate_table <- write.csv(evaluate_table, paste0(crossValDir,"/","eval_metrics.csv"),row.names=F,quote=F)
     }
   } else {
-    cat("Species:", species, "only has", nrow(xy_data), "coordinates, it is not appropriate for modeling\n")
+    cat("Species:", species, "has no data with coordinates, and cannot be modeled\n")
     crossValDir <- paste0(gap_dir, "/", species, "/", run_version, "/modeling/maxent")
     evaluate_table <- data.frame(species=species,training=NA,testing=NA,ATAUC=NA,STAUC=NA,
                                  Threshold=NA,Sensitivity=NA,Specificity=NA,TSS=NA,PCC=NA,
