@@ -1,6 +1,6 @@
 ##########################################  Start Install Packages  ###############################################
 
-# install.packages(c("snowfall","raster","maptools","rgdal","ff","data.table","gtools","velox","PresenceAbsence","dismo","tidyverse","SDMTools","rgeos","shapefiles","plyr", "sp"))
+# install.packages(c("snowfall","raster","maptools","rgdal","ff","data.table","gtools","velox","PresenceAbsence","rJava","dismo","tidyverse","SDMTools","rgeos","shapefiles","plyr", "sp"))
 
 ##########################################   End Install Packages  ###############################################
 
@@ -16,6 +16,7 @@ library(data.table)
 library(gtools)
 library(velox)
 library(PresenceAbsence)
+library(rJava)
 library(dismo)
 library(tidyverse)
 library(SDMTools)
@@ -67,6 +68,7 @@ sfLibrary(data.table)
 sfLibrary(gtools)
 sfLibrary(velox)
 sfLibrary(PresenceAbsence)
+sfLibrary(rJava)
 sfLibrary(dismo)
 sfLibrary(tidyverse)
 sfLibrary(SDMTools)
@@ -153,7 +155,7 @@ sfExport( "repo_dir", local=FALSE )
 ##########################################   Start Process    ###############################################
 
 # Run function in parallel for all species
-result_master = sfLapply(server.species$ID[1:2], master_run)
+result_master = sfLapply(server.species$ID, master_run)
 
 # Stop cluster
 # sfStop()
