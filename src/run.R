@@ -31,18 +31,19 @@ repo_dir = "C:/Users/HSOTELO/Desktop/src"
 source.files = list.files(repo_dir, "\\.[rR]$", full.names = TRUE, recursive = T)
 source.files = source.files[ !grepl("tools", source.files) ]
 source.files = source.files[ !grepl("run", source.files) ]
-lapply(repo_dir, source)
+source.files = source.files[ !grepl("calibration", source.files) ]
+lapply(source.files, source)
 
 # Load massive climate file
 config(dirs=T)
 rst_vx <- readRDS(paste(par_dir,"/biolayer_2.5/climate_vx.RDS",sep=""))
 load(file=paste0(par_dir, "/gadm/shapefile/gadm28ISO.RDS"))
-
+config(dirs=F, cleaning=T, insitu=T, exsitu=T, modeling=T, premodeling=T)
 ##########################################  End Dependences  ###############################################
 
 ##########################################  Start Set Parameters  ###############################################
 
-setwd("//dapadfs/Workspace_cluster_9/Aichi13/")
+setwd(root)
 
 server.number = "1"
 server.species = read.csv(paste0("runs/species/server_",server.number,".csv"),sep = ",")
@@ -92,7 +93,9 @@ sfExport("nat_area_mask")
 sfExport("nat_area_shp")
 
 # 1_1_maxent
-sfExport("make.projection")
+sfExport("CreateMXArgs")
+
+sfExport("make.projections")
 
 sfExport("metrics_function")
 sfExport("evaluate_function")
@@ -135,7 +138,7 @@ sfExport("select_spp_indicator")
 sfExport( "rst_vx", local=FALSE )
 sfExport( "countries_sh", local=FALSE )
 
-sfExportAll()
+#sfExportAll()
 
 ##########################################   End Exports    ###############################################
 
