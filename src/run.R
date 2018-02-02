@@ -155,7 +155,7 @@ sfExport( "repo_dir", local=FALSE )
 result_master = sfLapply(server.species$ID[1:2], master_run)
 
 # Stop cluster
-sfStop()
+# sfStop()
 
 df = ldply(result_master, data.frame)
 write.csv(df, paste0("runs/results/server_",server.number,".csv"), row.names = FALSE, quote = FALSE)

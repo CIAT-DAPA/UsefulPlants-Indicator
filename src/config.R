@@ -51,6 +51,7 @@ config <- function(dirs=T, cleaning=F, insitu=F, exsitu=F, modeling=F, premodeli
     countries_sh <<- countries_sh
     layer_name <<- "gadm28ISO"
     tkdist <<- read.csv(paste0(par_dir,"/WEP/WEP_taxonkey_distribution_ISO3.csv"), sep="\t", header=T)
+    global_mask <<- raster(paste0(par_dir,"/world_mask/raster/mask.tif"))
   }
   
   ####################################### 1. MODELING ################################################
