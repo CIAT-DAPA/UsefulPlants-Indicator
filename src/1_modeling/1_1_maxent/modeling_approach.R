@@ -13,7 +13,7 @@ suppressMessages(library(ff))
 suppressMessages(library(data.table))
 
 # Important scripts
-source(paste(repo_dir,"/1_modeling/1_1_maxent/CreateMXArgs.R",sep=""))
+source(paste(repo_dir,"/1_modeling/1_1_maxent/create_mx_args.R",sep=""))
 source(paste(repo_dir,"/1_modeling/1_1_maxent/do_projections.R",sep=""))
 source(paste(repo_dir,"/1_modeling/1_2_alternatives/create_buffers.R",sep=""))
 
@@ -103,12 +103,20 @@ spModeling <- function(sp = "2653304"){
       
       #extract bio variables to check that no NAs are present
       bck_data_bio <- cbind(bck_data, rst_vx$extract_points(sp = sp::SpatialPoints(bck_data[,c("lon", "lat")])))
-      bck_data <- bck_data_bio[complete.cases(bck_data_bio),c("lon","lat","species")]
+      bck_data_bio <- bck_data_bio[complete.cases(bck_data_bio),]
+      bck_data <- bck_data_bio[,c("lon","lat","species")]
       
       #do the same for presences
       xy_data_bio <- cbind(xy_data, rst_vx$extract_points(sp = sp::SpatialPoints(xy_data[,c("lon", "lat")])))
-      xy_data <- xy_data_bio[complete.cases(xy_data_bio),c("lon","lat")]
+      xy_data_bio <- xy_data_bio[complete.cases(xy_data_bio),]
+      xy_data <- xy_data_bio[,c("lon","lat")]
       
+      #put together both datasets
+      bck_data_bio$species <- NULL
+      xy_mxe <- rbind(bck_data_bio, xy_data_bio)
+      xy_mxe <- xy_mxe[,c(3:ncol(xy_mxe))]
+      names(xy_mxe) <- names(rst_fls)
+      row.names(xy_mxe) <- 1:nrow(xy_mxe)
       
       # ---------------- #
       # Modeling
@@ -118,14 +126,16 @@ spModeling <- function(sp = "2653304"){
       
       #cat("Loading tunned parameters to perform MaxEnt modeling  for: ", sp, "\n")
       tryCatch(expr = {
-        fit <- dismo::maxent(x = rst_fls, # Climate
+        rasterOptions(tmpdir="/var/folders/jh/pcl8c5r12q5d2r7tcr0ghv8w0000gn/T//Rtmpn5tuIX/raster//")
+        fit <- dismo::maxent(x = xy_mxe, # Climate
                              #p = optPars@occ.pts[,c("LON","LAT")], # Occurrences
-                             p = xy_data[,c("lon","lat")], # Occurrences
-                             a = bck_data[,c("lon","lat")], # Pseudo-absences
+                             #p = xy_data[,c("lon","lat")], # Occurrences
+                             p = c(rep(0,nrow(bck_data_bio)),rep(1,nrow(xy_data_bio))),
+                             #a = bck_data[,c("lon","lat")], # Pseudo-absences
                              removeDuplicates = T,
                              # args = c("nowarnings","replicates=5","linear=true","quadratic=true","product=true","threshold=true","hinge=true","pictures=false","plots=false"),
                              args = c("nowarnings","replicates=5","pictures=false","plots=false", CreateMXArgs(optPars)),
-                             path = crossValDir,
+                             #path = crossValDir,
                              silent = F)
       },
       error = function(e){

@@ -1,7 +1,7 @@
 # This function runs the entire process for a selected species
 # @param (ENMevaluation or NULL) enmeval.obj: object of ENMeval package
 # @return (chr): mxnt.args, vector of parameters
-CreateMXArgs<-function(enmeval.obj=NULL){
+CreateMXArgs <- function(enmeval.obj=NULL){
   mxnt.args<- c("linear=TRUE")
   
   if (!is.null(enmeval.obj)) {
