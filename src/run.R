@@ -1,6 +1,6 @@
 ##########################################  Start Install Packages  ###############################################
 
-# install.packages(c("snowfall","raster","maptools","rgdal","ff","data.table","gtools","velox","PresenceAbsence","dismo","tidyverse","SDMTools","rgeos","shapefiles"))
+# install.packages(c("snowfall","raster","maptools","rgdal","ff","data.table","gtools","velox","PresenceAbsence","dismo","tidyverse","SDMTools","rgeos","shapefiles","ldply"))
 
 ##########################################   End Install Packages  ###############################################
 
@@ -21,7 +21,9 @@ library(tidyverse)
 library(SDMTools)
 library(rgeos)
 library(shapefiles)
+library(ldply)
 
+# Load the sources scripts
 repo.source = "G:/CIAT/Code/Aichi/aichi13/src"
 source.files = list.files(repo.source, "\\.[rR]$", full.names = TRUE, recursive = T)
 source.files = source.files[ !grepl("tools", source.files) ]
@@ -66,6 +68,8 @@ sfExportAll()
 
 # Export sources scripts
 lapply(source.files, sfSource)
+
+# Export functions
 
 # config
 sfExport("config")
