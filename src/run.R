@@ -28,9 +28,9 @@ base_dir = "//dapadfs"
 repo_dir = "C:/Users/HSOTELO/Desktop/src"
 
 # Load the sources scripts
-repo_dir = list.files(repo_dir, "\\.[rR]$", full.names = TRUE, recursive = T)
-repo_dir = repo_dir[ !grepl("tools", repo_dir) ]
-repo_dir = repo_dir[ !grepl("run", repo_dir) ]
+source.files = list.files(repo_dir, "\\.[rR]$", full.names = TRUE, recursive = T)
+source.files = source.files[ !grepl("tools", source.files) ]
+source.files = source.files[ !grepl("run", source.files) ]
 lapply(repo_dir, source)
 
 # Load massive climate file
