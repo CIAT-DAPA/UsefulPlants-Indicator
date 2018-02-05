@@ -13,7 +13,7 @@ suppressMessages(library(ff))
 suppressMessages(library(data.table))
 suppressMessages(library(sp))
 # # Important scripts
-repo_dir<-"C:/Users/MVDIAZ/Desktop/src"
+#repo_dir<-"C:/Users/MVDIAZ/Desktop/src"
 source(paste(repo_dir,"/1_modeling/1_1_maxent/create_mx_args.R",sep=""))
 source(paste(repo_dir,"/1_modeling/1_1_maxent/do_projections.R",sep=""))
 source(paste(repo_dir,"/1_modeling/1_1_maxent/evaluating.R",sep=""))
