@@ -29,9 +29,9 @@ source(paste(repo_dir,"/config.R",sep=""))
 # --------------------------------------------------------------------- #
 # Modeling function
 # --------------------------------------------------------------------- #
-species="5421351"
-spModeling(species)
-base_dir="//dapadfs"
+#species="5421351"
+#spModeling(species)
+#base_dir="//dapadfs"
 
 spModeling <- function(species){
   # run config function
