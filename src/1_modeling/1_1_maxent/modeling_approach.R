@@ -13,11 +13,14 @@ suppressMessages(library(ff))
 suppressMessages(library(data.table))
 suppressMessages(library(sp))
 # # Important scripts
-# source(paste(repo_dir,"/1_modeling/1_1_maxent/create_mx_args.R",sep=""))
-# source(paste(repo_dir,"/1_modeling/1_1_maxent/do_projections.R",sep=""))
-# source(paste(repo_dir,"/1_modeling/1_1_maxent/evaluating.R",sep=""))
-# source(paste(repo_dir,"/1_modeling/1_1_maxent/nullModelAUC.R",sep=""))
-# source(paste(repo_dir,"/1_modeling/1_2_alternatives/create_buffers.R",sep=""))
+repo_dir<-"C:/Users/MVDIAZ/Desktop/src"
+source(paste(repo_dir,"/1_modeling/1_1_maxent/create_mx_args.R",sep=""))
+source(paste(repo_dir,"/1_modeling/1_1_maxent/do_projections.R",sep=""))
+source(paste(repo_dir,"/1_modeling/1_1_maxent/evaluating.R",sep=""))
+source(paste(repo_dir,"/1_modeling/1_1_maxent/nullModelAUC.R",sep=""))
+source(paste(repo_dir,"/1_modeling/1_2_alternatives/create_buffers.R",sep=""))
+source(paste(repo_dir,"/config.R",sep=""))
+
 
 # From config file
 # run_version <- "v1"
@@ -26,7 +29,10 @@ suppressMessages(library(sp))
 # --------------------------------------------------------------------- #
 # Modeling function
 # --------------------------------------------------------------------- #
-#species
+species="5421351"
+spModeling(species)
+base_dir="//dapadfs"
+
 spModeling <- function(species){
   # run config function
   config(dirs=T,modeling=T)
@@ -199,7 +205,7 @@ spModeling <- function(species){
         cat("Gathering replicate metrics  for: ", species, "\n")
         evaluate_table <- metrics_function(species)
         #evaluate_table<-read.csv(paste0(crossValDir,"/","eval_metrics_rep.csv"),header=T)
-  
+        
         # Apply threshold from evaluation
         cat("Thresholding using Max metrics  for: ", species, "\n")
         thrsld <- as.numeric(mean(evaluate_table[,"Threshold"],na.rm=T))
@@ -218,7 +224,7 @@ spModeling <- function(species){
       } else {
         cat("Species:", species, "has been already modeled\n")
       }
-    } else {
+    } else {if(base::nrow(xy_data)<10 & base::nrow(xy_data)>0  ) {
       cat("Species:", species, "only has", nrow(xy_data), "coordinates, it is not appropriate for modeling\n")
       crossValDir <- paste0(gap_dir, "/", species, "/", run_version, "/modeling/maxent")
       evaluate_table <- data.frame(species=species,training=NA,testing=NA,ATAUC=NA,STAUC=NA,
@@ -226,6 +232,9 @@ spModeling <- function(species){
                                    nAUC=NA,cAUC=NA,ASD15=NA,VALID=FALSE)
       evaluate_table <- write.csv(evaluate_table, paste0(crossValDir,"/","eval_metrics.csv"),row.names=F,quote=F)
     }
+    }
+    
+    
   } else {
     cat("Species:", species, "has no data with coordinates, and cannot be modeled\n")
     crossValDir <- paste0(gap_dir, "/", species, "/", run_version, "/modeling/maxent")
