@@ -3,9 +3,18 @@
 # with the shapefile.
 # @param (string) species: species ID
 # @return (string): species ID
+
+species="5421351"
+
+nat_area_mask(species)
+countries_sh<-load(file=paste0(par_dir, "/gadm/shapefile/gadm28ISO.RDS"))
+
+
 nat_area_mask <- function(species) {
   #load config function
   config(dirs=T, premodeling=T)
+  rst_vx <- readRDS(paste(par_dir,"/biolayer_2.5/climate_vx.RDS",sep=""))
+  
   
   #required packages
   require(shapefiles); require(raster); library(rgeos); require(velox)
