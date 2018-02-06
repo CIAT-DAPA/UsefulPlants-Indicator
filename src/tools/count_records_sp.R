@@ -20,7 +20,7 @@ uni<-function(species){
 
 
 y <- lapply(1:length(species_list),function(i){
-  cat(i, "\n")
+  #cat(i, "\n")
   x<- uni(species_list[[i]])
   return(x)
   
