@@ -5,13 +5,15 @@
 base_dir = "//dapadfs"
 
 # Loading Local repository path
-repo_dir = "E:/ccsosa/src"
+repo_dir = "D:/Repositorios/aichi13/src"
 
 # Load the sources scripts
 source.files = list.files(repo_dir, "\\.[rR]$", full.names = TRUE, recursive = T)
 source.files = source.files[ !grepl("run", source.files) ]
 source.files = source.files[ !grepl("calibration", source.files) ]
 lapply(source.files, source)
+
+
 
 # Load massive climate file
 config(dirs=T)
@@ -64,7 +66,7 @@ valid_species2 <- lapply(1:nrow(valid_species),function(j){
 valid_species2 <- do.call(rbind,valid_species2)
 
 # Saving Species with FCS valid file
-write.csv(valid_species,paste0(root,"/","runs","/","results","/","Verified","_",Sys.Date(),".csv"),row.names=F,quote=F)
+#write.csv(valid_species,paste0(root,"/","runs","/","results","/","Verified","_",Sys.Date(),".csv"),row.names=F,quote=F)
 
 # Saving Combined FCS file
 write.csv(valid_species2,paste0(root,"/","runs","/","results","/","FCS_Combined","_",Sys.Date(),".csv"),row.names=F,quote=F)
