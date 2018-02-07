@@ -7,7 +7,7 @@
 # @return (data.frame): This function returns a data frame with ERS, # eco classes 
 #                       of G buffer (i.e. CA50) and of the presence/absence surface.
 
-species="2650747"
+#species="2650747"
 ers_exsitu <- function(species, debug=F) {
   #packages
   require(raster)
@@ -77,7 +77,7 @@ ers_exsitu <- function(species, debug=F) {
       gbuf_nclass <- length(unique(na.omit(gbuf_nclass[])))
      
       #calculate ERS
-      ers <- min(c(100, gbuf_nclass/pa_nclass*100))
+      ers <- min(c(100, (gbuf_nclass/pa_nclass)*100))
     } else {
       ers <- 0
       gbuf_nclass <- 0
