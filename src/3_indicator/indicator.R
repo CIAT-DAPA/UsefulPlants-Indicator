@@ -8,7 +8,6 @@
 #                       for the list of species provided.
 
 #sp_list="2653244"
-calc_indicator(sp_list)
 calc_indicator <- function(sp_list, opt=c("min","max","mean","in","ex"), filename="indicator.csv") {
   #load global config
   config(dirs=T)
