@@ -6,7 +6,9 @@
 # @param (string) opt: which field(s) to calculate indicator for (min, max, mean)
 # @return (data.frame): This function returns a data frame with the indicator requested
 #                       for the list of species provided.
-calc_indicator <- function(sp_list, opt=c("min","max","mean","insitu","exsitu"), filename="indicator.csv") {
+
+#sp_list="2683969"
+calc_indicator <- function(sp_list, opt=c("min","max","mean","in","ex"), filename="indicator.csv") {
   #load global config
   config(dirs=T)
   
@@ -16,9 +18,9 @@ calc_indicator <- function(sp_list, opt=c("min","max","mean","insitu","exsitu"),
   
   #make final counts for species list (combined)
   out_df <- data.frame()
-  for (i in 1:length(opt)) {
-    #i <- 1
-    tvec <- paste(data_all[,paste("FCSc_",opt[i],"_class",sep="")])
+  for (i in 1:length(opt)){
+    #  i <- 5
+    if(i==4 | i==5){    tvec <- paste(data_all[,paste("FCS",opt[i],sep="")])    } else{tvec <- paste(data_all[,paste("FCSc_",opt[i],"_class",sep="")])}
     hp_n <- length(which(tvec %in% c("HP")))
     mp_n <- length(which(tvec %in% c("MP")))
     lp_n <- length(which(tvec %in% c("LP")))
@@ -57,7 +59,7 @@ calc_indicator <- function(sp_list, opt=c("min","max","mean","insitu","exsitu"),
   }
   
   #make final counts for species list (exsitu) if asked to
-  if ("exsitu" %in% tolower(opt)) {
+  if ("ex" %in% tolower(opt)) {
     tvec <- paste(data_all[,"FCSex_class"])
     hp_n <- length(which(tvec %in% c("HP")))
     mp_n <- length(which(tvec %in% c("MP")))
@@ -69,7 +71,7 @@ calc_indicator <- function(sp_list, opt=c("min","max","mean","insitu","exsitu"),
   }
   
   #make final counts for species list (insitu)
-  if ("insitu" %in% tolower(opt)) {
+  if ("in" %in% tolower(opt)) {
     tvec <- paste(data_all[,"FCSin_class"])
     hp_n <- length(which(tvec %in% c("HP")))
     mp_n <- length(which(tvec %in% c("MP")))
@@ -87,14 +89,37 @@ calc_indicator <- function(sp_list, opt=c("min","max","mean","insitu","exsitu"),
   out_df$P_SC <- out_df$N_SC / nrow(data_all) * 100
   out_df$P_LP_SC <- out_df$N_LP_SC / nrow(data_all) * 100
   
+  out_df<-out_df[-c(4,5), ]
+  
+  #  out_df<-out_df[!grepl("$ex$", out_df$opt), ]
+  
+  
   #save file
-  write.csv(out_df, paste(root,"/indicator/",filename,sep=""), row.names=F)
+  write.csv(out_df, paste(root,"/indicator/",filename,sep=""), row.names=F, quote=F)
+  
   
   #return data.frame
   return(out_df)
 }
 
-#testing function
+##########################testing function ########################################################################################
 #base_dir <- "~/nfs"
-#indic_df <- calc_indicator(sp_list=c("2686262","7230716","2686276"), opt=c("min","max","mean"), filename="indicator.csv")
+#base_dir = "//dapadfs"
+
+sp_list<-read.csv(paste0("//dapadfs/Workspace_cluster_9/Aichi13/","runs/results/FCS_Combined_2018-02-07",".csv"),sep = ",")
+sp_list<- sp_list$ID
+indic_df <- lapply(1:length(sp_list), function(i){
+  cat(i, "\n")
+  
+  if(file.exists(paste0("//dapadfs/Workspace_cluster_9/Aichi13/indicator/indicators/ind_",sp_list[[i]],".csv"))){
+    cat(paste0("indicator for ", sp_list[[i]], " already exists"  ),"\n")
+    x=NULL
+  }else{
+    x<- calc_indicator(sp_list[[i]], opt = c("min","max","mean","in","ex"))
+    write.csv(x, paste0("//dapadfs/Workspace_cluster_9/Aichi13/indicator/species/ind_",sp_list[[i]],".csv"),row.names=F, quote=F)
+  }
+  return(x)
+  
+})
+
 
