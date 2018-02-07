@@ -7,7 +7,8 @@
 # @return (data.frame): This function returns a data frame with the indicator requested
 #                       for the list of species provided.
 
-#sp_list="2683969"
+#sp_list="2653244"
+calc_indicator(sp_list)
 calc_indicator <- function(sp_list, opt=c("min","max","mean","in","ex"), filename="indicator.csv") {
   #load global config
   config(dirs=T)
@@ -68,7 +69,10 @@ calc_indicator <- function(sp_list, opt=c("min","max","mean","in","ex"), filenam
     indic <- lp_n + sc_n
     out_df_ex <- data.frame(opt="exsitu",N_HP=hp_n,N_MP=mp_n,N_LP=lp_n,N_SC=sc_n,N_LP_SC=indic)
     out_df <- rbind(out_df, out_df_ex)
+    #out_df[5,2:6] <- out_df_ex[1,2:6]
   }
+  
+  
   
   #make final counts for species list (insitu)
   if ("in" %in% tolower(opt)) {
@@ -80,6 +84,8 @@ calc_indicator <- function(sp_list, opt=c("min","max","mean","in","ex"), filenam
     indic <- lp_n + sc_n
     out_df_in <- data.frame(opt="insitu",N_HP=hp_n,N_MP=mp_n,N_LP=lp_n,N_SC=sc_n,N_LP_SC=indic)
     out_df <- rbind(out_df, out_df_in)
+    #out_df[4,2:6] <- out_df_in[1,2:6]
+    
   }
   
   #calculate percentages
