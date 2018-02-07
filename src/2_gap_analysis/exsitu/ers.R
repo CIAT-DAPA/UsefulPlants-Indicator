@@ -6,6 +6,8 @@
 # @param (logical) debug: whether to save or not the intermediate raster outputs
 # @return (data.frame): This function returns a data frame with ERS, # eco classes 
 #                       of G buffer (i.e. CA50) and of the presence/absence surface.
+
+species="2650747"
 ers_exsitu <- function(species, debug=F) {
   #packages
   require(raster)
@@ -54,21 +56,26 @@ ers_exsitu <- function(species, debug=F) {
       
       #calculate number of classes for presence/absence
       pa_nclass <- crop(eco.raster, pa_spp)
+      origin(pa_nclass)<-origin(pa_spp)
       pa_nclass <- pa_spp * pa_nclass
       if (debug & !file.exists(paste(sp_dir,"/gap_analysis/exsitu/ers_pa_narea_ecosystems.tif",sep=""))) {
         pa_nclass <- writeRaster(pa_nclass, paste(sp_dir,"/gap_analysis/exsitu/ers_pa_narea_ecosystems.tif",sep=""), format="GTiff")
       }
-      pa_nclass <- length(unique(pa_nclass[],na.rm=T))
+      pa_nclass <- length(unique(na.omit(pa_nclass[])))
       
       #calculate area of g_buffer
       g_buffer[which(g_buffer[] == 0)] <- NA
       gbuf_nclass <- crop(eco.raster, g_buffer)
+      origin(gbuf_nclass)<-origin(g_buffer)
       gbuf_nclass <- g_buffer * gbuf_nclass
+      gbuf_nclass[which(gbuf_nclass[]==0)]<-NA
       if (debug & !file.exists(paste(sp_dir,"/gap_analysis/exsitu/ers_gbuffer_narea_ecosystems.tif",sep=""))) {
         gbuf_nclass <- writeRaster(gbuf_nclass, paste(sp_dir,"/gap_analysis/exsitu/ers_gbuffer_narea_ecosystems.tif",sep=""), format="GTiff")
       }
-      gbuf_nclass <- length(unique(gbuf_nclass[],na.rm=T))
       
+      
+      gbuf_nclass <- length(unique(na.omit(gbuf_nclass[])))
+     
       #calculate ERS
       ers <- min(c(100, gbuf_nclass/pa_nclass*100))
     } else {
@@ -96,5 +103,5 @@ ers_exsitu <- function(species, debug=F) {
 #base_dir <- "~/nfs"
 #source("~/Repositories/aichi13/src/config.R")
 #source("~/Repositories/aichi13/src/1_modeling/1_2_alternatives/create_buffers.R")
-#ers_exsitu("2686262")
+#ers_exsitu(species)
 
