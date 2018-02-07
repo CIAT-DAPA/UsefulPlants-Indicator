@@ -53,6 +53,9 @@
 #                       It has three columns, the first has the specie code; the second has a status
 #                       of process, if value is "TRUE" the process finished good, if the result is "FALSE"
 #                       the process had a error; the third column has a description about process
+
+species="2650747"
+calculate_ers(species)
 calculate_ers = function(species, debug=F){
   #required packages
   require(rgdal)
@@ -108,6 +111,7 @@ calculate_ers = function(species, debug=F){
       # Intersect between species distribution and ecosystem
       origin(eco.raster) <- origin(overlay.distribution)
       overlay.eco <- eco.raster * overlay.distribution
+      overlay.eco [which(overlay.eco[]  == 0)] <- NA
       
       #print("Intersected the species distribution and ecosystem")
       
@@ -118,8 +122,8 @@ calculate_ers = function(species, debug=F){
       #print("Intersected the overlapping (species distribution and ecosystems) and global protected areas")
       
       # Intersect between for the species distribution and intersect
-      eco.species.distribution.count = length(unique(overlay.eco[],na.rm=T))
-      eco.species.distribution.pa.count  = length(unique(overlay.eco.pa[],na.rm=T))
+      eco.species.distribution.count = length(unique(na.omit(overlay.eco[])))
+      eco.species.distribution.pa.count  = length(unique(na.omit(overlay.eco.pa[])))
       
       # Calculate proportion number ecosystems
       proportion = min(c(100, (eco.species.distribution.pa.count / (eco.species.distribution.count)) * 100))
