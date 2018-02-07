@@ -54,7 +54,7 @@
 #                       of process, if value is "TRUE" the process finished good, if the result is "FALSE"
 #                       the process had a error; the third column has a description about process
 
-species="2650747"
+#species="2650747"
 calculate_ers(species)
 calculate_ers = function(species, debug=F){
   #required packages
