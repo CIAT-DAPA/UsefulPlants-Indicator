@@ -7,7 +7,8 @@
 # @param (string) opt: which field(s) to calculate indicator for (min, max, mean)
 # @return (data.frame): This function returns a data frame proportions of spp in each category,
 #                       and with final indicator aggregated for the selected country
-select_spp_indicator <- function(iso_list="ALL", opt=c("min","max","mean","exsitu","insitu")) {
+
+select_spp_indicator <- function(iso_list="ALL", opt=c("min","max","mean","ex","in")) {
   #load global config
   config(dirs=T)
   
@@ -31,17 +32,25 @@ select_spp_indicator <- function(iso_list="ALL", opt=c("min","max","mean","exsit
     indic_df <- NA
   } else {
     #create filename
-    fname <- paste(paste(c("indicator",iso_list),collapse="_"),".csv",sep="")
+    fname <- paste(paste("countries/", c("indicator",iso_list),collapse="_"),".csv",sep="")
     
     #calculate indicator for species list
     indic_df <- calc_indicator(spp_list, opt, fname)
+    
   }
   
   #return object
   return(indic_df)
 }
 
-#testing function
+##########################testing function ########################################################################################
 #base_dir <- "~/nfs"
-#iso_list <- c("CN")
-#indic_iso <- select_spp_indicator(iso_list="CN", opt=c("min","max","mean"))
+#base_dir = "//dapadfs"
+
+iso_list="ALL"
+indic_iso <- select_spp_indicator(iso_list, opt=c("min","max","mean","ex","in"))
+iso_list <- as.character(na.omit(unique(wep_list$ISO2)))
+indic_iso <-lapply(1:length(iso_list), function(i){
+  y <- select_spp_indicator(iso_list[[i]], opt=c("min","max","mean","ex","in"))
+  return(y)
+})
