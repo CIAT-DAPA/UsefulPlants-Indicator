@@ -66,7 +66,7 @@ valid_species2 <- lapply(1:nrow(valid_species),function(j){
 valid_species2 <- do.call(rbind,valid_species2)
 
 # Saving Species with FCS valid file
-#write.csv(valid_species,paste0(root,"/","runs","/","results","/","Verified","_",Sys.Date(),".csv"),row.names=F,quote=F)
+write.csv(valid_species,paste0(root,"/","runs","/","results","/","Verified","_",Sys.Date(),".csv"),row.names=F,quote=F)
 
 # Saving Combined FCS file
 write.csv(valid_species2,paste0(root,"/","runs","/","results","/","FCS_Combined","_",Sys.Date(),".csv"),row.names=F,quote=F)
