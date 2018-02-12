@@ -21,7 +21,8 @@ import org.ciat.view.FileProgressBar;
 
 public class GBIFNormalizer extends Normalizer {
 
-	/** @return output file */
+	
+	@Override
 	public void process(File input, File output) {
 
 		Set<String> taxonKeys = TargetTaxa.getInstance().getSpeciesKeys();
@@ -77,7 +78,8 @@ public class GBIFNormalizer extends Normalizer {
 		}
 	}
 
-	private String normalize(String[] values) {
+	@Override
+	public String normalize(String[] values) {
 		String country = Utils.iso2CountryCodeToIso3CountryCode(values[colIndex.get("countrycode")]);
 		String result = values[colIndex.get("taxonkey")] + SEPARATOR + values[colIndex.get("decimallongitude")]
 				+ SEPARATOR + values[colIndex.get("decimallatitude")] + SEPARATOR + country + SEPARATOR
@@ -85,6 +87,7 @@ public class GBIFNormalizer extends Normalizer {
 		return result;
 	}
 
+	@Override
 	public boolean isUseful(String[] values) {
 
 		// excluding CWR dataset
@@ -130,6 +133,7 @@ public class GBIFNormalizer extends Normalizer {
 		return true;
 	}
 
+	@Override
 	public Basis getBasis(String basisofrecord) {
 		if (basisofrecord.toUpperCase().equals("LIVING_SPECIMEN")) {
 			return Basis.G;
@@ -137,6 +141,7 @@ public class GBIFNormalizer extends Normalizer {
 		return Basis.H;
 	}
 
+	@Override
 	public DataSourceName getDataSourceName() {
 		return DataSourceName.GBIF;
 	}

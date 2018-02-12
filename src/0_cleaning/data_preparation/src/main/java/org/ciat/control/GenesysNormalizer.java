@@ -23,6 +23,7 @@ public class GenesysNormalizer extends Normalizer {
 
 	private static final String INPUT_SEPARATOR = ",";
 
+	@Override
 	public void process(File input, File output) {
 
 		Set<String> taxonKeys = TargetTaxa.getInstance().getSpeciesKeys();
@@ -86,6 +87,7 @@ public class GenesysNormalizer extends Normalizer {
 
 	}
 
+	@Override
 	public boolean isUseful(String[] values) {
 		
 		if (Utils.iso3CountryCodeToIso2CountryCode(values[colIndex.get("a.orgCty")]) == null) {
@@ -109,7 +111,8 @@ public class GenesysNormalizer extends Normalizer {
 		return true;
 	}
 
-	private String normalize(String[] values) {
+	@Override
+	public String normalize(String[] values) {
 		String lon = values[colIndex.get("g.longitude")];
 		String lat = values[colIndex.get("g.latitude")];
 		String country = Utils.iso3CountryCodeToIso2CountryCode(values[colIndex.get("a.orgCty")]);
@@ -122,6 +125,7 @@ public class GenesysNormalizer extends Normalizer {
 		return result;
 	}
 
+	@Override
 	public DataSourceName getDataSourceName() {
 		return DataSourceName.GENESYS;
 	}

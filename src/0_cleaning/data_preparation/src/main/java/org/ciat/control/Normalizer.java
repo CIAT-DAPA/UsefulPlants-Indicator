@@ -23,6 +23,8 @@ public class Normalizer implements Normalizable {
 	// index of columns
 	protected Map<String, Integer> colIndex = new LinkedHashMap<String, Integer>();
 
+	
+	@Override
 	public void process(File file, File normalized) {
 
 	}
@@ -34,21 +36,6 @@ public class Normalizer implements Normalizable {
 		}
 		result = result.substring(0, result.length() - 1);
 		return result;
-	}
-
-	@Override
-	public Basis getBasis(String basisofrecord) {
-		return null;
-	}
-
-	@Override
-	public DataSourceName getDataSourceName() {
-		return null;
-	}
-
-	@Override
-	public boolean isUseful(String[] values) {
-		return false;
 	}
 
 	public boolean isInTemporalScale(String year) {
@@ -65,11 +52,26 @@ public class Normalizer implements Normalizable {
 		}
 		/*non numerics are in*/
 		return true;
-
+		
+	}
+	
+	@Override
+	public Basis getBasis(String basisofrecord) {
+		return null;
 	}
 
 	@Override
-	public String normalize(String line) {
-		return line;
+	public DataSourceName getDataSourceName() {
+		return null;
+	}
+
+	@Override
+	public boolean isUseful(String[] values) {
+		return false;
+	}
+
+	@Override
+	public String normalize(String[] values) {
+		return null;
 	}
 }

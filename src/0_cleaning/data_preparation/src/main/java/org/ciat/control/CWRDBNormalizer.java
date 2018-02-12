@@ -23,6 +23,7 @@ public class CWRDBNormalizer extends Normalizer {
 
 	private static final String INPUT_SEPARATOR = "\\|";
 
+	@Override
 	public void process(File input, File output) {
 		Set<String> taxonKeys = TargetTaxa.getInstance().getSpeciesKeys();
 
@@ -88,7 +89,8 @@ public class CWRDBNormalizer extends Normalizer {
 		}
 	}
 
-	private String normalize(String[] values) {
+	@Override
+	public String normalize(String[] values) {
 		String lon = values[colIndex.get("final_lon")];
 		String lat = values[colIndex.get("final_lat")];
 		String country = values[colIndex.get("final_iso2")];
@@ -100,6 +102,7 @@ public class CWRDBNormalizer extends Normalizer {
 		return result;
 	}
 
+	@Override
 	public boolean isUseful(String[] values) {
 
 		if (!(values[colIndex.get("coord_source")].equals("original")
@@ -136,10 +139,12 @@ public class CWRDBNormalizer extends Normalizer {
 
 	}
 
+	@Override
 	public DataSourceName getDataSourceName() {
 		return DataSourceName.CWRDB;
 	}
 
+	@Override
 	public Basis getBasis(String basisofrecord) {
 		if (basisofrecord.toUpperCase().equals("G")) {
 			return Basis.G;

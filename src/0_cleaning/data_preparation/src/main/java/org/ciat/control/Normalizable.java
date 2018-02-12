@@ -15,6 +15,6 @@ public interface Normalizable {
 
 	public void process(File input, File output);
 
-	public String normalize(String line);
+	public String normalize(String[] values);
 
 }
