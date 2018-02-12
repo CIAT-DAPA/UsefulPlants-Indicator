@@ -96,9 +96,12 @@ public class CWRDBNormalizer extends Normalizer {
 		String country = values[colIndex.get("final_iso2")];
 		country = Utils.iso2CountryCodeToIso3CountryCode(country);
 		Basis basis = getBasis(values[colIndex.get("source")]);
+		String source = getDataSourceName().toString();
 		String taxonKey = TaxonFinder.getInstance().fetchTaxonInfo(values[colIndex.get("taxon_final")]);
-		String result = taxonKey + SEPARATOR + lon + SEPARATOR + lat + SEPARATOR + country + SEPARATOR + basis
-				+ SEPARATOR + getDataSourceName();
+		String year = values[colIndex.get("colldate")];
+		year = Utils.validateYear(year);
+		String result = taxonKey + SEPARATOR + lon + SEPARATOR + lat + SEPARATOR + country + SEPARATOR + year
+				+ SEPARATOR + basis + SEPARATOR + source;
 		return result;
 	}
 
@@ -114,14 +117,6 @@ public class CWRDBNormalizer extends Normalizer {
 			return false;
 		}
 
-		String year = values[colIndex.get("colldate")];
-		if (year.length() > 3) {
-			year = year.substring(0, 4);
-		}
-		if (!isInTemporalScale(year)) {
-			return false;
-		}
-
 		String country = values[colIndex.get("final_iso2")];
 		country = Utils.iso2CountryCodeToIso3CountryCode(country);
 		if (country == null) {
@@ -133,6 +128,15 @@ public class CWRDBNormalizer extends Normalizer {
 
 		if (!Utils.areValidCoordinates(lat, lon)) {
 			return false;
+		}
+		
+		Basis basis = getBasis(values[colIndex.get("source")]);
+		String year = values[colIndex.get("colldate")];
+		year = Utils.validateYear(year);
+		if (!year.equals(Normalizer.NO_YEAR)) {
+			if (basis.equals(Basis.H) && Integer.parseInt(year) < Normalizer.YEAR_MIN) {
+				return false;
+			}
 		}
 
 		return true;

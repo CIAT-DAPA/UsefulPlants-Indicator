@@ -6,9 +6,12 @@ import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import org.ciat.control.Normalizer;
+
 public class Utils {
 
 	private static Map<String, Locale> localeMap = initCountryCodeMapping();
+
 
 	public static boolean isNumeric(String str) {
 		if (str == null) {
@@ -70,7 +73,7 @@ public class Utils {
 	}
 
 	public static String iso2CountryCodeToIso3CountryCode(String iso2CountryCode) {
-		if(iso2CountryCode.equals("ZZ")){
+		if (iso2CountryCode.equals("ZZ")) {
 			return null;
 		}
 		Locale locale = new Locale("", iso2CountryCode);
@@ -91,4 +94,27 @@ public class Utils {
 			outputDir.mkdir();
 		}
 	}
+
+	public static String validateYear(String year) {
+
+		if (year == null) {
+			return Normalizer.NO_YEAR;
+		}
+
+		if (year.length() < 4) {
+			return Normalizer.NO_YEAR;
+		}
+		year = year.substring(0, 4);
+
+		if (!Utils.isNumeric(year)) {
+			return Normalizer.NO_YEAR;
+		}
+
+		if (Integer.parseInt(year) > Normalizer.YEAR_MAX) {
+			return Normalizer.NO_YEAR;
+		}
+
+		return year;
+	}
+
 }

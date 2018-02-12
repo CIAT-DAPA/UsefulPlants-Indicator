@@ -21,7 +21,6 @@ import org.ciat.view.FileProgressBar;
 
 public class GBIFNormalizer extends Normalizer {
 
-	
 	@Override
 	public void process(File input, File output) {
 
@@ -81,22 +80,21 @@ public class GBIFNormalizer extends Normalizer {
 	@Override
 	public String normalize(String[] values) {
 		String country = Utils.iso2CountryCodeToIso3CountryCode(values[colIndex.get("countrycode")]);
-		String result = values[colIndex.get("taxonkey")] + SEPARATOR + values[colIndex.get("decimallongitude")]
-				+ SEPARATOR + values[colIndex.get("decimallatitude")] + SEPARATOR + country + SEPARATOR
-				+ getBasis(values[colIndex.get("basisofrecord")]) + SEPARATOR + getDataSourceName();
+		String lon = values[colIndex.get("decimallongitude")];
+		String lat = values[colIndex.get("decimallatitude")];
+		Basis basis = getBasis(values[colIndex.get("basisofrecord")]);
+		String source = getDataSourceName().toString();
+		String taxonKey = values[colIndex.get("taxonkey")];
+		String year = values[colIndex.get("year")];
+		year = Utils.validateYear(year);
+		String result = taxonKey + SEPARATOR + lon + SEPARATOR + lat + SEPARATOR + country + SEPARATOR + year
+				+ SEPARATOR + basis + SEPARATOR + source;
 		return result;
+
 	}
 
 	@Override
 	public boolean isUseful(String[] values) {
-
-		// excluding CWR dataset
-		if (colIndex.get("year") != null && Utils.isNumeric(values[colIndex.get("year")])) {
-			String year = values[colIndex.get("year")];
-			if (!isInTemporalScale(year)) {
-				return false;
-			}
-		}
 
 		if (colIndex.get("datasetkey") != null
 				&& values[colIndex.get("datasetkey")].contains("07044577-bd82-4089-9f3a-f4a9d2170b2e")) {
@@ -128,6 +126,15 @@ public class GBIFNormalizer extends Normalizer {
 		if (!Utils.areValidCoordinates(values[colIndex.get("decimallatitude")],
 				values[colIndex.get("decimallongitude")])) {
 			return false;
+		}
+
+		Basis basis = getBasis(values[colIndex.get("basisofrecord")]);
+		String year = values[colIndex.get("year")];
+		year = Utils.validateYear(year);
+		if (!year.equals(Normalizer.NO_YEAR)) {
+			if (basis.equals(Basis.H) && Integer.parseInt(year) < Normalizer.YEAR_MIN) {
+				return false;
+			}
 		}
 
 		return true;

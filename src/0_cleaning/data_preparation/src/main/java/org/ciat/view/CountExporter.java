@@ -55,8 +55,8 @@ public class CountExporter {
 	private void exportDatasetCounter() {
 		File output = new File(Executer.prop.getProperty("file.taxonfinder.summary"));
 		try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(output)))) {
-			writer.println("species.matched" + Normalizer.SEPARATOR + "species.unmatched");
-			writer.println(TaxonFinder.getInstance().getMatchedTaxa().keySet().size() + Normalizer.SEPARATOR
+			writer.println("species.matched" + Normalizer.getSeparator() + "species.unmatched");
+			writer.println(TaxonFinder.getInstance().getMatchedTaxa().keySet().size() + Normalizer.getSeparator()
 					+ TaxonFinder.getInstance().getUnmatchedTaxa().size());
 
 		} catch (FileNotFoundException e) {
@@ -74,11 +74,11 @@ public class CountExporter {
 		String header = "";
 
 		for (String name : counters.keySet()) {
-			header += name + Normalizer.SEPARATOR;
+			header += name + Normalizer.getSeparator();
 		}
 
 		try (PrintWriter writerSummary = new PrintWriter(new BufferedWriter(new FileWriter(outputSummary)))) {
-			writerSummary.println("taxonkey" + Normalizer.SEPARATOR + header);
+			writerSummary.println("taxonkey" + Normalizer.getSeparator() + header);
 
 			// for each target taxon in the list
 			for (String taxonkey : TargetTaxa.getInstance().getSpeciesKeys()) {
@@ -88,7 +88,7 @@ public class CountExporter {
 					if (counters.get(name).get(taxonkey) != null) {
 						count = counters.get(name).get(taxonkey);
 					}
-					countsLine += count + Normalizer.SEPARATOR;
+					countsLine += count + Normalizer.getSeparator();
 				}
 
 				File outputDir = new File(Executer.prop.getProperty("path.counts") + "/" + taxonkey + "/");
@@ -104,7 +104,7 @@ public class CountExporter {
 
 					writer.println(header);
 					writer.println(countsLine);
-					writerSummary.println(taxonkey + Normalizer.SEPARATOR + countsLine);
+					writerSummary.println(taxonkey + Normalizer.getSeparator() + countsLine);
 
 				} catch (FileNotFoundException e) {
 					System.out.println("File not found " + output.getAbsolutePath());

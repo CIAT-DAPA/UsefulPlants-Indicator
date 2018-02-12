@@ -12,11 +12,12 @@ import org.ciat.control.GBIFNormalizer;
 import org.ciat.control.GenesysNormalizer;
 import org.ciat.control.Normalizable;
 import org.ciat.control.Normalizer;
+import org.ciat.model.Utils;
 
 public class ExecNormalizer extends Executer {
 
-
 	public static void main(String[] args) {
+		Utils.clearOutputDirectory(new File("outputs"));
 		Executable app = new ExecNormalizer();
 		app.run();
 	}
@@ -52,17 +53,12 @@ public class ExecNormalizer extends Executer {
 		Normalizable cwrdbNormalizer = new CWRDBNormalizer();
 		cwrdbNormalizer.process(new File(Executer.prop.getProperty("data.cwr")), normalized);
 		System.gc();
-		
+
 		// export counters
 		log("Exporting counters");
 		CountExporter.getInstance().process();
 		System.gc();
 
-
 	}
-
-
-
-
 
 }

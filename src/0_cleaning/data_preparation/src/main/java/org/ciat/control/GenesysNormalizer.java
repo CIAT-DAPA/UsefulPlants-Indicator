@@ -89,7 +89,7 @@ public class GenesysNormalizer extends Normalizer {
 
 	@Override
 	public boolean isUseful(String[] values) {
-		
+
 		if (Utils.iso3CountryCodeToIso2CountryCode(values[colIndex.get("a.orgCty")]) == null) {
 			return false;
 		}
@@ -97,14 +97,6 @@ public class GenesysNormalizer extends Normalizer {
 		String lon = values[colIndex.get("g.longitude")];
 		String lat = values[colIndex.get("g.latitude")];
 		if (!Utils.areValidCoordinates(lat, lon)) {
-			return false;
-		}
-		
-		String year = values[colIndex.get("a.acqDate")];
-		if (year.length() > 3) {
-			year = year.substring(0, 4);
-		}
-		if(!isInTemporalScale(year)){
 			return false;
 		}
 
@@ -120,8 +112,10 @@ public class GenesysNormalizer extends Normalizer {
 		String basis = Basis.G.toString();
 		String source = getDataSourceName().toString();
 		String taxonKey = TaxonFinder.getInstance().fetchTaxonInfo(values[colIndex.get("t.taxonName")]);
-		String result = taxonKey + SEPARATOR + lon + SEPARATOR + lat + SEPARATOR + country + SEPARATOR + basis
-				+ SEPARATOR + source;
+		String year = values[colIndex.get("a.acqDate")];
+		year = Utils.validateYear(year);
+		String result = taxonKey + SEPARATOR + lon + SEPARATOR + lat + SEPARATOR + country + SEPARATOR + year
+				+ SEPARATOR + basis + SEPARATOR + source;
 		return result;
 	}
 
