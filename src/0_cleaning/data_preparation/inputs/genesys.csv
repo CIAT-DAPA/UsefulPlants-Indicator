@@ -1,43 +1,24 @@
-a.id, a.instCode, a.acceNumb, a.orgCty, t.id, t.genus, t.species, t.spAuthor, t.subTaxa, t.subtAuthor, t.taxonName, decimallongitude, decimallatitude, g.datum, g.method, g.uncertainty, g.elevation
-"4463074","TWN001","VI060718","GHA","99292","Abelmoschus","manihot","","","","Abelmoschus manihot",\N,\N,\N,\N,\N,\N
-"4463075","TWN001","VI060716","GHA","99292","Abelmoschus","manihot","","","","Abelmoschus manihot",\N,\N,\N,\N,\N,\N
-"4463076","TWN001","VI060717","GHA","99292","Abelmoschus","manihot","","","","Abelmoschus manihot",\N,\N,\N,\N,\N,\N
-"4463077","TWN001","VI060707","BEN","99292","Abelmoschus","manihot","","","","Abelmoschus manihot",\N,\N,\N,\N,\N,\N
-"4463079","TWN001","VI060705","BEN","99292","Abelmoschus","manihot","","","","Abelmoschus manihot",\N,\N,\N,\N,\N,\N
-"4464582","TWN001","VI060726","GIN","99292","Abelmoschus","manihot","","","","Abelmoschus manihot",\N,\N,\N,\N,\N,\N
-"4464591","TWN001","VI060722","GIN","99292","Abelmoschus","manihot","","","","Abelmoschus manihot",\N,\N,\N,\N,\N,\N
-"4464592","TWN001","VI060728","GIN","99292","Abelmoschus","manihot","","","","Abelmoschus manihot",\N,\N,\N,\N,\N,\N
-"4464594","TWN001","VI060723","GIN","99292","Abelmoschus","manihot","","","","Abelmoschus manihot",\N,\N,\N,\N,\N,\N
-"4464595","TWN001","VI060720","GHA","99292","Abelmoschus","manihot","","","","Abelmoschus manihot",\N,\N,\N,\N,\N,\N
-"4464596","TWN001","VI060727","GIN","99292","Abelmoschus","manihot","","","","Abelmoschus manihot",\N,\N,\N,\N,\N,\N
-"4464597","TWN001","VI060721","GHA","99292","Abelmoschus","manihot","","","","Abelmoschus manihot",\N,\N,\N,\N,\N,\N
-"4464603","TWN001","VI060724","GIN","99292","Abelmoschus","manihot","","","","Abelmoschus manihot",\N,\N,\N,\N,\N,\N
-"4464604","TWN001","VI060725","GIN","99292","Abelmoschus","manihot","","","","Abelmoschus manihot",\N,\N,\N,\N,\N,\N
-"4464586","TWN001","VI060729","IND","206083","Abelmoschus","manihot","","var. tetraphyllus","","Abelmoschus manihot var. tetraphyllus",\N,\N,\N,\N,\N,\N
-"4464589","TWN001","VI060730","IND","206083","Abelmoschus","manihot","","var. tetraphyllus","","Abelmoschus manihot var. tetraphyllus",\N,\N,\N,\N,\N,\N
-"14700","USA016","PI 497024","GHA","148921","Macleania","rupestris","","","","Macleania rupestris","-1.66666667","6.83333333",\N,\N,\N,\N
-"14800","USA016","PI 497024","GHA","148921","Abelmoschus","manihot","(L.) Medik.","","","Abelmoschus manihot (L.) Medik.","-1.66666667","6.83333333",\N,\N,\N,\N
-"14801","USA016","PI 497068","GIN","148921","Abelmoschus","manihot","(L.) Medik.","","","Abelmoschus manihot (L.) Medik.","-11.83333333","10.66666667",\N,\N,\N,\N
-"14802","USA016","PI 497080","GIN","148921","Abelmoschus","manihot","(L.) Medik.","","","Abelmoschus manihot (L.) Medik.","-13","11.91666667",\N,\N,\N,\N
-"14803","USA016","PI 497112","GIN","148921","Abelmoschus","manihot","(L.) Medik.","","","Abelmoschus manihot (L.) Medik.","-10.91666667","9.66666667",\N,\N,\N,\N
-"14804","USA016","PI 497114","CIV","148921","Abelmoschus","manihot","(L.) Medik.","","","Abelmoschus manihot (L.) Medik.","-4.18333333","9.6",\N,\N,\N,\N
-"14805","USA016","PI 497124","CIV","148921","Abelmoschus","manihot","(L.) Medik.","","","Abelmoschus manihot (L.) Medik.","-3.03333333","7.43333333",\N,\N,\N,\N
-"14806","USA016","PI 497138","TGO","148921","Abelmoschus","manihot","(L.) Medik.","","","Abelmoschus manihot (L.) Medik.","1.25","6.91666667",\N,\N,\N,\N
-"14807","USA016","PI 497140","TGO","148921","Abelmoschus","manihot","(L.) Medik.","","","Abelmoschus manihot (L.) Medik.","1.25","6.91666667",\N,\N,\N,\N
-"14808","USA016","PI 497145","TGO","148921","Abelmoschus","manihot","(L.) Medik.","","","Abelmoschus manihot (L.) Medik.","1.25","7.33333333",\N,\N,\N,\N
-"14809","USA016","PI 497146","TGO","148921","Abelmoschus","manihot","(L.) Medik.","","","Abelmoschus manihot (L.) Medik.","1.25","7.33333333",\N,\N,\N,\N
-"14810","USA016","PI 497150","TGO","148921","Abelmoschus","manihot","(L.) Medik.","","","Abelmoschus manihot (L.) Medik.","1.5","7.5",\N,\N,\N,\N
-"14811","USA016","PI 497158","TGO","148921","Abelmoschus","manihot","(L.) Medik.","","","Abelmoschus manihot (L.) Medik.","1.08333333","8",\N,\N,\N,\N
-"14812","USA016","PI 497182","TGO","148921","Abelmoschus","manihot","(L.) Medik.","","","Abelmoschus manihot (L.) Medik.","1","8.58333333",\N,\N,\N,\N
-"14813","USA016","PI 497208","TGO","148921","Abelmoschus","manihot","(L.) Medik.","","","Abelmoschus manihot (L.) Medik.","0.58333333","10.66666667",\N,\N,\N,\N
-"14814","USA016","PI 497216","TGO","148921","Abelmoschus","manihot","(L.) Medik.","","","Abelmoschus manihot (L.) Medik.","1.08333333","9.33333333",\N,\N,\N,\N
-"14815","USA016","PI 497228","TGO","148921","Abelmoschus","manihot","(L.) Medik.","","","Abelmoschus manihot (L.) Medik.","0.41666667","7.66666667",\N,\N,\N,\N
-"30751","USA016","PI 496992","BEN","148921","Abelmoschus","manihot","(L.) Medik.","","","Abelmoschus manihot (L.) Medik.","1.66666667","9.16666667",\N,\N,\N,\N
-"30752","USA016","PI 497021","CMR","148921","Abelmoschus","manihot","(L.) Medik.","","","Abelmoschus manihot (L.) Medik.","9.16666667","4.83333333",\N,\N,\N,\N
-"30753","USA016","PI 497051","GIN","148921","Abelmoschus","manihot","(L.) Medik.","","","Abelmoschus manihot (L.) Medik.","-10.5","8.83333333",\N,\N,\N,\N
-"30754","USA016","PI 497118","CIV","148921","Abelmoschus","manihot","(L.) Medik.","","","Abelmoschus manihot (L.) Medik.","-4.25","9.66666667",\N,\N,\N,\N
-"30755","USA016","PI 497157","TGO","148921","Abelmoschus","manihot","(L.) Medik.","","","Abelmoschus manihot (L.) Medik.","1.16666667","8.08333333",\N,\N,\N,\N
-"31258","USA022","W6 26150","GEO","194498","Vicia","sativa","L.","subsp. cordata","(Wulfen ex Hoppe) Batt.","Vicia sativa L. subsp. cordata (Wulfen ex Hoppe) Batt.","44.69222222","41.64055556",\N,\N,\N,\N
-"270413","USA022","W6 26144","GEO","194498","Vicia","sativa","L.","subsp. cordata","(Wulfen ex Hoppe) Batt.","Vicia sativa L. subsp. cordata (Wulfen ex Hoppe) Batt.","44.67083333","41.66888889",\N,\N,\N,\N
-"286335","USA022","W6 26110","GEO","194498","Vicia","sativa","L.","subsp. cordata","(Wulfen ex Hoppe) Batt.","Vicia sativa L. subsp. cordata (Wulfen ex Hoppe) Batt.","44.52222222","41.60194444",\N,\N,\N,"278"
-"493088","USA022","W6 26106","GEO","194498","Vicia","sativa","L.","subsp. cordata","(Wulfen ex Hoppe) Batt.","Vicia sativa L. subsp. cordata (Wulfen ex Hoppe) Batt.","44.41444444","41.66305556",\N,\N,\N,"939"
+a.id, a.instCode, a.acceNumb, a.historic, a.acqDate, a.orgCty, t.id, t.genus, t.species, t.spAuthor, t.subTaxa, t.subtAuthor, t.taxonName, g.longitude, g.latitude
+"655","USA029","CIho 15664","0","19750923","USA","158606","Hordeum","pusillum","Nutt.","","","Hordeum pusillum Nutt.","-97.05","36.11666667",\N,\N,\N,"265"
+"96060","USA029","CIho 15648","0","19750923","USA","158606","Hordeum","pusillum","Nutt.","","","Hordeum pusillum Nutt.","-92.35","30.23333333",\N,\N,\N,"6"
+"175920","USA029","CIho 15645","0","19450923","USA","158606","Hordeum","pusillum","Nutt.","","","Hordeum pusillum Nutt.","-88.8","33.45",\N,\N,\N,"105"
+"223655","USA029","CIho 15646","0","19750923","USA","158606","Hordeum","pusillum","Nutt.","","","Hordeum pusillum Nutt.","-85.88333333","32.53333333",\N,\N,\N,"95"
+"366467","USA029","CIho 15650","0","19750923","USA","158606","Hordeum","pusillum","Nutt.","","","Hordeum pusillum Nutt.","-97.15","33.21666667",\N,\N,\N,"212"
+"414385","USA029","CIho 15663","0","19750923","USA","158606","Hordeum","pusillum","Nutt.","","","Hordeum pusillum Nutt.","-84.46666667","38.03333333",\N,\N,\N,"317"
+"477765","USA029","CIho 15655","0","19750923","USA","158606","Hordeum","pusillum","Nutt.","","","Hordeum pusillum Nutt.","-110","47",\N,\N,\N,\N
+"493904","USA029","CIho 15649","0","19750923","USA","158606","Hordeum","pusillum","Nutt.","","","Hordeum pusillum Nutt.","-110","47",\N,\N,\N,\N
+"493905","USA029","CIho 15654","0","19750923","USA","158606","Hordeum","pusillum","Nutt.","","","Hordeum pusillum Nutt.","-96.36666667","34",\N,\N,\N,"183"
+"3161096","DEU146","BCC 2049","0","1980----","USA","158606","Hordeum","pusillum","Nutt.","","","Hordeum pusillum Nutt.","-107.71222","32.27389",\N,\N,\N,\N
+"3161097","DEU146","BCC 2043","0","1980----","USA","158606","Hordeum","pusillum","Nutt.","","","Hordeum pusillum Nutt.","-105.30806","39.75722",\N,\N,\N,\N
+"3311212","SWE054","NGB90603","0","19960501","USA","158606","Hordeum","pusillum","Nutt.","","","Hordeum pusillum Nutt.","-78.2","40.4",\N,\N,\N,\N
+"3311434","SWE054","NGB90384","0","20010827","USA","158606","Hordeum","pusillum","Nutt.","","","Hordeum pusillum Nutt.","-111.5","34.3",\N,\N,\N,\N
+"3311663","SWE054","NGB90148","0","20010827","USA","158606","Hordeum","pusillum","Nutt.","","","Hordeum pusillum Nutt.","-107.8","32.2",\N,\N,\N,\N
+"3311747","SWE054","NGB90067","0","20120702","USA","158606","Hordeum","pusillum","Nutt.","","","Hordeum pusillum Nutt.","-98.6","29.4",\N,\N,\N,\N
+"3312057","SWE054","NGB8584","0","20010827","USA","158606","Hordeum","pusillum","Nutt.","","","Hordeum pusillum Nutt.","-98.5","31.7",\N,\N,\N,\N
+"3312058","SWE054","NGB8585","0","20010827","USA","158606","Hordeum","pusillum","Nutt.","","","Hordeum pusillum Nutt.","-111.5","34.3",\N,\N,\N,\N
+"3313045","SWE054","NGB7652","0","20010827","USA","158606","Hordeum","pusillum","Nutt.","","","Hordeum pusillum Nutt.","-99.1","30",\N,\N,\N,\N
+"3313390","SWE054","NGB7308","0","20120704","USA","158606","Hordeum","pusillum","Nutt.","","","Hordeum pusillum Nutt.","-106.2","35.5",\N,\N,\N,\N
+"3313672","SWE054","NGB6888","0","20120704","USA","158606","Hordeum","pusillum","Nutt.","","","Hordeum pusillum Nutt.","-105.2","39.8",\N,\N,\N,\N
+"3313968","SWE054","NGB6586","0","20050610","USA","158606","Hordeum","pusillum","Nutt.","","","Hordeum pusillum Nutt.","-100","41.5",\N,\N,\N,\N
+"3313969","SWE054","NGB6587","0","19870205","USA","158606","Hordeum","pusillum","Nutt.","","","Hordeum pusillum Nutt.","-106","37.7",\N,\N,\N,\N
+"3313974","SWE054","NGB6585","0","19870205","USA","158606","Hordeum","pusillum","Nutt.","","","Hordeum pusillum Nutt.","-100.4","34.7",\N,\N,\N,\N

@@ -57,7 +57,8 @@ public class CWRDBNormalizer extends Normalizer {
 						year = year.substring(0, 4);
 					}
 
-					if (taxonkey != null && taxonKeys.contains(taxonkey)) {
+					boolean isTargerTaxon = taxonkey != null && taxonKeys.contains(taxonkey);
+					if (isTargerTaxon) {
 						boolean isUseful = isUseful(values);
 						if (isUseful) {
 
@@ -110,15 +111,12 @@ public class CWRDBNormalizer extends Normalizer {
 			return false;
 		}
 
-		String date = values[colIndex.get("colldate")];
-		if (date.length() > 3) {
-			date = date.substring(0, 4);
-			if (Utils.isNumeric(date)) {
-				int year = Integer.parseInt(date);
-				if (year < Normalizer.YEAR) {
-					return false;
-				}
-			}
+		String year = values[colIndex.get("colldate")];
+		if (year.length() > 3) {
+			year = year.substring(0, 4);
+		}
+		if (!isInTemporalScale(year)) {
+			return false;
 		}
 
 		String country = values[colIndex.get("final_iso2")];

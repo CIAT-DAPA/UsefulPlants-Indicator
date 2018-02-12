@@ -125,7 +125,7 @@ public class CountExporter {
 
 		if (Utils.isNumeric(year)) {
 			Integer yearNumber = Integer.parseInt(year);
-			if (yearNumber >= Normalizer.YEAR) {
+			if (yearNumber >= Normalizer.YEAR_MIN) {
 				counters.get("totalPost1950").increase(taxonkey);
 			} else {
 				counters.get("totalPre1950").increase(taxonkey);

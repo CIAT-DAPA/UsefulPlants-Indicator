@@ -49,7 +49,8 @@ public class GBIFNormalizer extends Normalizer {
 					Basis basis = getBasis(values[colIndex.get("basisofrecord")]);
 					String year = values[colIndex.get("year")];
 
-					if (taxonkey != null && taxonKeys.contains(taxonkey)) {
+					boolean isTargerTaxon = taxonkey != null && taxonKeys.contains(taxonkey);
+					if (isTargerTaxon) {
 						boolean isUseful = isUseful(values);
 						if (isUseful) {
 
@@ -88,9 +89,10 @@ public class GBIFNormalizer extends Normalizer {
 
 		// excluding CWR dataset
 		if (colIndex.get("year") != null && Utils.isNumeric(values[colIndex.get("year")])) {
-			int year = Integer.parseInt(values[colIndex.get("year")]);
-			if (year < Normalizer.YEAR)
+			String year = values[colIndex.get("year")];
+			if (!isInTemporalScale(year)) {
 				return false;
+			}
 		}
 
 		if (colIndex.get("datasetkey") != null

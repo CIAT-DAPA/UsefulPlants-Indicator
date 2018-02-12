@@ -53,16 +53,19 @@ public class GenesysNormalizer extends Normalizer {
 					String taxonkey = "";
 					taxonkey = TaxonFinder.getInstance().fetchTaxonInfo(values[colIndex.get("t.taxonName")]);
 					Basis basis = Basis.G;
-
-
-					if (taxonkey != null && taxonKeys.contains(taxonkey)) {
+					String year = values[colIndex.get("a.acqDate")];
+					if (year.length() > 3) {
+						year = year.substring(0, 4);
+					}
+					boolean isTargerTaxon = taxonkey != null && taxonKeys.contains(taxonkey);
+					if (isTargerTaxon) {
 						boolean isUseful = isUseful(values);
 						if (isUseful) {
 
 							String result = normalize(values);
 							writer.println(result);
 						}
-						CountExporter.getInstance().updateCounters(taxonkey, isUseful, null, basis);
+						CountExporter.getInstance().updateCounters(taxonkey, isUseful, year, basis);
 					}
 				}
 
@@ -84,14 +87,22 @@ public class GenesysNormalizer extends Normalizer {
 	}
 
 	public boolean isUseful(String[] values) {
-
+		
 		if (Utils.iso3CountryCodeToIso2CountryCode(values[colIndex.get("a.orgCty")]) == null) {
 			return false;
 		}
-		
-		String lon = values[colIndex.get("decimallongitude")];
-		String lat = values[colIndex.get("decimallatitude")];
+
+		String lon = values[colIndex.get("g.longitude")];
+		String lat = values[colIndex.get("g.latitude")];
 		if (!Utils.areValidCoordinates(lat, lon)) {
+			return false;
+		}
+		
+		String year = values[colIndex.get("a.acqDate")];
+		if (year.length() > 3) {
+			year = year.substring(0, 4);
+		}
+		if(!isInTemporalScale(year)){
 			return false;
 		}
 
@@ -99,8 +110,8 @@ public class GenesysNormalizer extends Normalizer {
 	}
 
 	private String normalize(String[] values) {
-		String lon = values[colIndex.get("decimallongitude")];
-		String lat = values[colIndex.get("decimallatitude")];
+		String lon = values[colIndex.get("g.longitude")];
+		String lat = values[colIndex.get("g.latitude")];
 		String country = Utils.iso3CountryCodeToIso2CountryCode(values[colIndex.get("a.orgCty")]);
 		country = Utils.iso2CountryCodeToIso3CountryCode(country);
 		String basis = Basis.G.toString();
