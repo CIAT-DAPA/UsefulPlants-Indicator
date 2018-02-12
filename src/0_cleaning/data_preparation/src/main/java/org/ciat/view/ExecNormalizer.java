@@ -11,6 +11,7 @@ import org.ciat.control.CWRDBNormalizer;
 import org.ciat.control.GBIFNormalizer;
 import org.ciat.control.GenesysNormalizer;
 import org.ciat.control.Normalizable;
+import org.ciat.control.Normalizer;
 
 public class ExecNormalizer extends Executer {
 
@@ -26,7 +27,7 @@ public class ExecNormalizer extends Executer {
 
 		File normalized = new File(Executer.prop.getProperty("file.normalized"));
 		try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(normalized)))) {
-			String header = Normalizable.getHeader();
+			String header = Normalizer.getHeader();
 			writer.println(header);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

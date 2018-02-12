@@ -115,13 +115,14 @@ public class GenesysNormalizer extends Normalizer {
 		String country = Utils.iso3CountryCodeToIso2CountryCode(values[colIndex.get("a.orgCty")]);
 		country = Utils.iso2CountryCodeToIso3CountryCode(country);
 		String basis = Basis.G.toString();
+		String source = getDataSourceName().toString();
 		String taxonKey = TaxonFinder.getInstance().fetchTaxonInfo(values[colIndex.get("t.taxonName")]);
 		String result = taxonKey + SEPARATOR + lon + SEPARATOR + lat + SEPARATOR + country + SEPARATOR + basis
-				+ SEPARATOR + getDataSourceName();
+				+ SEPARATOR + source;
 		return result;
 	}
 
-	public DataSourceName getDataSourceName(String basisofrecord) {
+	public DataSourceName getDataSourceName() {
 		return DataSourceName.GENESYS;
 	}
 

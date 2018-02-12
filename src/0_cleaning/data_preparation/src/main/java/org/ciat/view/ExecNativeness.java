@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import org.ciat.control.NativenessMarker;
-import org.ciat.control.Normalizable;
 import org.ciat.control.Normalizer;
 
 public class ExecNativeness extends Executer {
@@ -24,7 +23,7 @@ public class ExecNativeness extends Executer {
 		File normalized = new File(Executer.prop.getProperty("file.normalized"));
 		File nativenessed = new File(Executer.prop.getProperty("file.native"));
 		try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(nativenessed)))) {
-			String header = Normalizable.getHeader() + Normalizer.SEPARATOR + "origin";
+			String header = Normalizer.getHeader() + Normalizer.SEPARATOR + "origin";
 			writer.println(header);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
