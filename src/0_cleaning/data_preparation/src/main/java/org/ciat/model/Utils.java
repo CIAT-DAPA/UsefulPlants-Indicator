@@ -12,7 +12,6 @@ public class Utils {
 
 	private static Map<String, Locale> localeMap = initCountryCodeMapping();
 
-
 	public static boolean isNumeric(String str) {
 		if (str == null) {
 			return false;
@@ -91,6 +90,12 @@ public class Utils {
 				f.delete();
 			}
 		} else {
+			outputDir.mkdir();
+		}
+	}
+
+	public static void createOutputDirectory(File outputDir) {
+		if (!outputDir.exists()) {
 			outputDir.mkdir();
 		}
 	}

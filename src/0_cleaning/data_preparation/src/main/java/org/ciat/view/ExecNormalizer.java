@@ -17,8 +17,7 @@ import org.ciat.model.Utils;
 public class ExecNormalizer extends Executer {
 
 	public static void main(String[] args) {
-		Utils.clearOutputDirectory(new File("outputs"));
-		Executable app = new ExecNormalizer();
+		Executable app = new ExecNormalizer(); 
 		app.run();
 	}
 
@@ -26,6 +25,7 @@ public class ExecNormalizer extends Executer {
 
 		log("Starting process");
 
+		Utils.createOutputDirectory(new File("outputs"));
 		File normalized = new File(Executer.prop.getProperty("file.normalized"));
 		try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(normalized)))) {
 			String header = Normalizer.getHeader();
