@@ -29,7 +29,7 @@ source(paste(repo_dir,"/config.R",sep=""))
 # --------------------------------------------------------------------- #
 # Modeling function
 # --------------------------------------------------------------------- #
-#species="5421351"
+#species="2753717"
 #spModeling(species)
 #base_dir="//dapadfs"
 
@@ -50,8 +50,7 @@ spModeling <- function(species){
     
     #load occurrence points
     xy_data <- read.csv(paste(occ_dir,"/no_sea/",species,".csv",sep=""),header=T)
-    xy_data <- unique(xy_data[,c("lon","lat")])
-    
+   
     # Run alternatives #paste(sp_dir,"/bioclim/narea_mask.tif",sep="")
     if(!file.exists(paste0(gap_dir, "/", species, "/", run_version, "/modeling/alternatives/ca50_total_narea.tif"))){
       #xy_data <- optPars@occ.pts[,c("LON","LAT")]; xy_data <- as.data.frame(xy_data)
@@ -65,8 +64,14 @@ spModeling <- function(species){
     
     # Output folder
     crossValDir <- paste0(gap_dir, "/", species, "/", run_version, "/modeling/maxent")
-  if(xy_data$year=="1950"){  
-    if(nrow(xy_data) >= 10){
+    xy_data$type<-as.numeric(as.character(xy_data$type))
+    xy_data_na<-subset(xy_data, is.na(xy_data$type))
+    xy_data<-subset(xy_data, xy_data$type>=1950)
+    xy_data<-rbind(xy_data, xy_data_na)
+    xy_data<-xy_data[,c("lon","lat")]
+    rm(xy_data_na)
+    
+      if(nrow(xy_data) >= 10){
       if(!file.exists(paste0(crossValDir, "/modeling_results.", species, ".RDS"))){
         cat("Starting modeling process for species:", species, "\n")
         
@@ -233,14 +238,7 @@ spModeling <- function(species){
       evaluate_table <- write.csv(evaluate_table, paste0(crossValDir,"/","eval_metrics.csv"),row.names=F,quote=F)
     }
     }
-  }else {
-    cat("Species:", species, "has no data with coordinates, and cannot be modeled\n")
-    crossValDir <- paste0(gap_dir, "/", species, "/", run_version, "/modeling/maxent")
-    evaluate_table <- data.frame(species=species,training=NA,testing=NA,ATAUC=NA,STAUC=NA,
-                                 Threshold=NA,Sensitivity=NA,Specificity=NA,TSS=NA,PCC=NA,
-                                 nAUC=NA,cAUC=NA,ASD15=NA,VALID=FALSE)
-    evaluate_table <- write.csv(evaluate_table, paste0(crossValDir,"/","eval_metrics.csv"),row.names=F,quote=F)
-  }
+  
     
     
   } else {
