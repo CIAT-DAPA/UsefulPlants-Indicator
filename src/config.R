@@ -22,7 +22,7 @@ config <- function(dirs=T, cleaning=F, insitu=F, exsitu=F, modeling=F, premodeli
   ###FOLDERS FOR RUNNING##
   if (dirs) {
     root <<- paste(base_dir,"/workspace_cluster_9/Aichi13",sep="")
-    gap_dir <<- paste0(root, "/gap_analysis_201801");if(!file.exists(gap_dir)){dir.create(gap_dir)}
+    gap_dir <<- paste0(root, "/gap_analysis_201802");if(!file.exists(gap_dir)){dir.create(gap_dir)}
     par_dir <<- paste0(root, "/parameters_201801");if(!file.exists(par_dir)){dir.create(par_dir)}
     occ_dir <<- paste0(par_dir,"/","occurrences");if(!file.exists(occ_dir)){dir.create(occ_dir)}
   }
