@@ -111,20 +111,20 @@ calc_indicator <- function(sp_list, opt=c("min","max","mean","in","ex"), filenam
 #base_dir <- "~/nfs"
 #base_dir = "//dapadfs"
 
-sp_list<-read.csv(paste0("//dapadfs/Workspace_cluster_9/Aichi13/","runs/results/FCS_Combined_2018-02-07",".csv"),sep = ",")
-sp_list<- sp_list$ID
-indic_df <- lapply(1:length(sp_list), function(i){
-  cat(i, "\n")
+#sp_list<-read.csv(paste0("//dapadfs/Workspace_cluster_9/Aichi13/","runs/results/FCS_Combined_2018-02-07",".csv"),sep = ",")
+#sp_list<- sp_list$ID
+#indic_df <- lapply(1:length(sp_list), function(i){
+#  cat(i, "\n")
   
 #  if(file.exists(paste0("//dapadfs/Workspace_cluster_9/Aichi13/indicator/indicators/ind_",sp_list[[i]],".csv"))){
  #   cat(paste0("indicator for ", sp_list[[i]], " already exists"  ),"\n")
   #  x=NULL
   #}else{
-    x<- calc_indicator(sp_list[[i]], opt = c("min","max","mean","in","ex"))
-    write.csv(x, paste0("//dapadfs/Workspace_cluster_9/Aichi13/indicator/species/ind_",sp_list[[i]],".csv"),row.names=F, quote=F)
+ #   x<- calc_indicator(sp_list[[i]], opt = c("min","max","mean","in","ex"))
+  #  write.csv(x, paste0("//dapadfs/Workspace_cluster_9/Aichi13/indicator/species/ind_",sp_list[[i]],".csv"),row.names=F, quote=F)
   #}
-  return(x)
+  #return(x)
   
-})
+#})
 
 
