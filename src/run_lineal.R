@@ -32,7 +32,18 @@ repo_dir = "C:/Users/HSOTELO/Desktop/src"
 source.files = list.files(repo_dir, "\\.[rR]$", full.names = TRUE, recursive = T)
 source.files = source.files[ !grepl("run", source.files) ]
 source.files = source.files[ !grepl("calibration", source.files) ]
-lapply(source.files, source)
+source.files = source.files[ !grepl("indicator", source.files) ]
+source.files = source.files[ !grepl("to_map", source.files) ]
+source.files = source.files[ !grepl("count_records_sp.R", source.files) ]
+source.files = source.files[ !grepl("verification_tool.R", source.files) ]
+source.files = source.files[ !grepl("sampling.R", source.files) ]
+
+#lapply(source.files, source)
+for(i in 1:length(source.files)){
+  cat(i,"\n")
+  source(source.files[i])
+  
+}
 
 # Load massive climate file
 config(dirs=T)
