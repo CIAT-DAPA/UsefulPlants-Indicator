@@ -65,7 +65,7 @@ spModeling <- function(species){
     
     # Output folder
     crossValDir <- paste0(gap_dir, "/", species, "/", run_version, "/modeling/maxent")
-    
+  if(xy_data$year=="1950"){  
     if(nrow(xy_data) >= 10){
       if(!file.exists(paste0(crossValDir, "/modeling_results.", species, ".RDS"))){
         cat("Starting modeling process for species:", species, "\n")
@@ -233,6 +233,14 @@ spModeling <- function(species){
       evaluate_table <- write.csv(evaluate_table, paste0(crossValDir,"/","eval_metrics.csv"),row.names=F,quote=F)
     }
     }
+  }else {
+    cat("Species:", species, "has no data with coordinates, and cannot be modeled\n")
+    crossValDir <- paste0(gap_dir, "/", species, "/", run_version, "/modeling/maxent")
+    evaluate_table <- data.frame(species=species,training=NA,testing=NA,ATAUC=NA,STAUC=NA,
+                                 Threshold=NA,Sensitivity=NA,Specificity=NA,TSS=NA,PCC=NA,
+                                 nAUC=NA,cAUC=NA,ASD15=NA,VALID=FALSE)
+    evaluate_table <- write.csv(evaluate_table, paste0(crossValDir,"/","eval_metrics.csv"),row.names=F,quote=F)
+  }
     
     
   } else {
