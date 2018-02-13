@@ -9,8 +9,6 @@
 base_dir="//dapadfs"
 source('C:/Users/MVDIAZ/Desktop/src/config.R')
 
-
-
 sampling<-function(species){
   
   config(dirs=T, cleaning=T)
