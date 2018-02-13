@@ -55,7 +55,7 @@
 #                       the process had a error; the third column has a description about process
 
 #species="2650747"
-calculate_ers(species)
+#calculate_ers(species)
 calculate_ers = function(species, debug=F){
   #required packages
   require(rgdal)
