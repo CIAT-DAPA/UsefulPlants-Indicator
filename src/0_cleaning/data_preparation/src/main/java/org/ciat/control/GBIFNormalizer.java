@@ -131,7 +131,7 @@ public class GBIFNormalizer extends Normalizer {
 		Basis basis = getBasis(values[colIndex.get("basisofrecord")]);
 		String year = values[colIndex.get("year")];
 		year = Utils.validateYear(year);
-		if (!year.equals(Normalizer.NO_YEAR)) {
+		if (!year.equals(Utils.NO_YEAR)) {
 			if (basis.equals(Basis.H) && Integer.parseInt(year) < Normalizer.YEAR_MIN) {
 				return false;
 			}

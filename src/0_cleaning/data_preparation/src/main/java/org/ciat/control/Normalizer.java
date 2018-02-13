@@ -15,7 +15,7 @@ public class Normalizer implements Normalizable {
 	
 	public static final int YEAR_MIN = 1950;
 	public static final int YEAR_MAX = Calendar.getInstance().get(Calendar.YEAR);
-	public static final String NO_YEAR = "";
+
 
 	// target columns
 	protected static String[] colTarget = { "taxonkey", "decimallongitude", "decimallatitude", "countrycode", "year",

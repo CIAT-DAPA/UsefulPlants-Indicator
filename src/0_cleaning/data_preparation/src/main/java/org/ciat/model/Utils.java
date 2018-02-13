@@ -11,6 +11,7 @@ import org.ciat.control.Normalizer;
 public class Utils {
 
 	private static Map<String, Locale> localeMap = initCountryCodeMapping();
+	public static final String NO_YEAR = "NA";
 
 	public static boolean isNumeric(String str) {
 		if (str == null) {
@@ -103,20 +104,20 @@ public class Utils {
 	public static String validateYear(String year) {
 
 		if (year == null) {
-			return Normalizer.NO_YEAR;
+			return NO_YEAR;
 		}
 
 		if (year.length() < 4) {
-			return Normalizer.NO_YEAR;
+			return NO_YEAR;
 		}
 		year = year.substring(0, 4);
 
 		if (!Utils.isNumeric(year)) {
-			return Normalizer.NO_YEAR;
+			return NO_YEAR;
 		}
 
 		if (Integer.parseInt(year) > Normalizer.YEAR_MAX) {
-			return Normalizer.NO_YEAR;
+			return NO_YEAR;
 		}
 
 		return year;

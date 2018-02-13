@@ -24,7 +24,7 @@ public class Maxentnisizer {
 	// index of columns
 	private Map<String, Integer> colIndex = new LinkedHashMap<String, Integer>();
 	// target columns
-	private String[] colTarget = { "decimallongitude", "decimallatitude", "countrycode", "basis","origin" };
+	private String[] colTarget = { "decimallongitude", "decimallatitude", "countrycode", "year", "basis", "origin" };
 
 	private static final String SEPARATOR = "\t";
 
@@ -68,11 +68,11 @@ public class Maxentnisizer {
 				}
 
 				// get only target values to print
-				String coord = getTargetValues(values);
+				String record = getTargetValues(values);
 				// include them only if they are new to avoid duplicates
-				if (!coords.get(taxon).contains(coord)) {
-					writers.get(taxon).println(coord);
-					coords.get(taxon).add(coord);
+				if (!coords.get(taxon).contains(record)) {
+					writers.get(taxon).println(record);
+					coords.get(taxon).add(record);
 				}
 
 				/* show progress */
@@ -94,8 +94,6 @@ public class Maxentnisizer {
 			e.printStackTrace();
 		}
 	}
-
-
 
 	/** Getting only targeted values **/
 	private String getTargetValues(String[] values) {
