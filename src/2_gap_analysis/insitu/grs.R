@@ -49,6 +49,7 @@
 #                       It has three columns, the first has the specie code; the second has a status
 #                       of process, if value is "TRUE" the process finished good, if the result is FALSE
 #                       the process had a error; the third column has a description about process
+species="4182513"
 calculate_grs = function(species, debug=F) {
   #required packages
   require(rgdal)
@@ -136,6 +137,16 @@ calculate_grs = function(species, debug=F) {
       # Calculate proportion area
       proportion = min(c(100,(overlay.area / (a_insitu * species.area)) * 100))
       #print("Calculated the areas and proportions")
+      
+      if(overlay.area==0 | species.area==0){
+        proportion <- 0
+        species.area <- overlay.area <- NA
+        
+      }else{
+        proportion=proportion
+      }
+      
+      
     } else {
       proportion <- 0
       overlay.area <- species.area <- NA

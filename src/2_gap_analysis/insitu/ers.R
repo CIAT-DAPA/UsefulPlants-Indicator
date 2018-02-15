@@ -54,7 +54,7 @@
 #                       of process, if value is "TRUE" the process finished good, if the result is "FALSE"
 #                       the process had a error; the third column has a description about process
 
-#species="2650747"
+#species="4182513"
 #calculate_ers(species)
 calculate_ers = function(species, debug=F){
   #required packages
@@ -127,6 +127,13 @@ calculate_ers = function(species, debug=F){
       
       # Calculate proportion number ecosystems
       proportion = min(c(100, (eco.species.distribution.pa.count / (eco.species.distribution.count)) * 100))
+      if(eco.species.distribution.count==0 | eco.species.distribution.pa.count==0){
+        proportion <- 0
+        eco.species.distribution.count <- eco.species.distribution.pa.count <- NA
+      
+      }else{
+        proportion=proportion
+        }
       
       #print("Calculated ecosystems numbers")
     } else {
