@@ -1,0 +1,47 @@
+<html>
+<head>
+    <div id="chart_div" style="width: 900px; height: 500px;"></div>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js?sensor=false&callback=initialize"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi?sensor=false"></script>
+    <script type="text/javascript">
+    google.charts.load('current', {'packages':['geochart']});
+    google.charts.setOnLoadCallback(drawRegionsMap);
+
+    function drawRegionsMap() {
+
+    var data = google.visualization.arrayToDataTable([
+    ['Region Code', 'Sub-Continent', 'Index'],
+    ['021', 'Northern America', 15],
+    ['015','Northern Africa',10],
+    ['011','Western Africa',86],
+    ['017','Middle Africa',94],
+    ['014','Eastern Africa',61],
+    ['018','Southern Africa',20],
+    ['154','Northern Europe',86],
+    ['155','Western Europe',30],
+    ['151','Eastern Europe',56],
+    ['039','Southern Europe',24],
+    ['021','Northern America',1],
+    ['029','Caribbean',21],
+    ['013','Central America',72],
+    ['005','South America',20],
+    ['143','Central Asia',12],
+    ['030','Eastern Asia',82],
+    ['034','Southern Asia',41],
+    ['035','South-Eastern Asia',19],
+    ['145','Western Asia',97],
+    ['053','Australia and New Zealand',31],
+    ['054','Melanesia',44],
+    ['057','Micronesia',22],
+    ['061','Polynesia',85]
+
+]);
+
+    var options = {resolution: 'subcontinents'};
+
+    var chart = new google.visualization.GeoChart(document.getElementById('chart_div'));
+
+    chart.draw(data, options);
+    }
+</script>
+</html>

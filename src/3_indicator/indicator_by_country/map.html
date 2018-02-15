@@ -1,0 +1,28 @@
+<html>
+<head>
+    <div id="chart_div" style="width: 900px; height: 500px;"></div>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js?sensor=false&callback=initialize"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi?sensor=false"></script>
+    <script type="text/javascript">
+    google.charts.load('current', {'packages':['geochart']});
+    google.charts.setOnLoadCallback(drawRegionsMap);
+
+    function drawRegionsMap() {
+
+    var data = google.visualization.arrayToDataTable([
+    ['country', 'Index'],
+    ['US',  0.5],
+    ['CO',  0.7],
+    ['CN',  0.9],
+    ['CL',  0.3]
+
+]);
+
+    var options = {resolution: 'country'};
+
+    var chart = new google.visualization.GeoChart(document.getElementById('chart_div'));
+
+    chart.draw(data, options);
+    }
+</script>
+</html>
