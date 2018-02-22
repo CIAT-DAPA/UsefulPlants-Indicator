@@ -6,10 +6,8 @@
 # @return (dataFrame): This function return a DataFrame with a sample of the total records of the species. 
 
 #species="2703705"
-base_dir="//dapadfs"
-source('C:/Users/MVDIAZ/Desktop/src/config.R')
-
-
+#base_dir="//dapadfs"
+#source('C:/Users/MVDIAZ/Desktop/src/config.R')
 
 sampling<-function(species){
   
