@@ -47,6 +47,7 @@ calc_indicator <- function(sp_list, opt=c("min","max","mean","in","ex"), filenam
   #assign classes (insitu)
   data_all$FCSin_class <- NA
   for (i in 1:nrow(data_all)) {
+    if(!is.na(data_all$FCSin[i])){
     if (data_all$FCSin[i] < 25) {
       data_all$FCSin_class[i] <- "HP"
     } else if (data_all$FCSin[i] >= 25 & data_all$FCSin[i] < 50) {
@@ -55,6 +56,9 @@ calc_indicator <- function(sp_list, opt=c("min","max","mean","in","ex"), filenam
       data_all$FCSin_class[i] <- "LP"
     } else {
       data_all$FCSin_class[i] <- "SC"
+    }
+    }else {
+      data_all$FCSin_class[i] <-"HP"
     }
   }
   
