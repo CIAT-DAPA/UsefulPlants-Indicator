@@ -9,6 +9,8 @@
 base_dir="//dapadfs"
 source('C:/Users/MVDIAZ/Desktop/src/config.R')
 
+
+
 sampling<-function(species){
   
   config(dirs=T, cleaning=T)
@@ -19,18 +21,18 @@ sampling<-function(species){
  # ocurr_sp$num<-NA
  # ocurr_sp$num<-seq(from=1,to=count_occ,by=1)
 #  ocurr_sp<-cbind(ocurr_sp,ocurr_sp$num )
-  Estratos<- unique(na.omit(ocurr_sp$country))
+  strata<- unique(na.omit(ocurr_sp$country))
   
   p<-c()
   n<-c()
   x<-data.frame()
   y<-c()
   
-  for(i in 1:length(Estratos)){
+  for(i in 1:length(strata)){
     
-    n[i]<-nrow(ocurr_sp[which(ocurr_sp$country==Estratos[i]),])
+    n[i]<-nrow(ocurr_sp[which(ocurr_sp$country==strata[i]),])
     p[i]<-n[i]/count_occ
-    x<-ocurr_sp[which(ocurr_sp$country==Estratos[i]),]
+    x<-ocurr_sp[which(ocurr_sp$country==strata[i]),]
     y[i]<-round(nrow(x)*p[i]) 
     if(y[i]==0){y[i]=1}
     
