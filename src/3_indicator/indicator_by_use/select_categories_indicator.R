@@ -28,7 +28,7 @@ if (length(spp_list) == 0) {
   indic_df <- NA
 } else {
   #create filename
-  fname <- paste(paste(c("indicator",usess),collapse="_"),".csv",sep="")
+  fname <- paste(paste("indicator_",usess,"_",Sys.Date(),sep=""),".csv",sep="")
   
   #calculate indicator for species list
   indic_df <- calc_indicator(spp_list, opt, fname)
@@ -42,20 +42,20 @@ return(indic_df)
 
 
 ###########testing the function############
-#usess<- c("Additive", "Animal_Food", "Bee_Plants", "Environmental", "Fuels", "Genetic_Sources", "Human_Food", "Materials", "Medicine", "Pesticide", "Social" )
-#indic_df <- lapply(1:length(usess), function(i){
-#  cat(i, "\n")
+usess<- c("Additive", "Animal_Food", "Bee_Plants", "Environmental", "Fuels", "Genetic_Sources", "Human_Food", "Materials", "Medicine", "Pesticide", "Social" )
+indic_df <- lapply(1:length(usess), function(i){
+cat(i, "\n")
 
 #  if(file.exists(paste0("//dapadfs/Workspace_cluster_9/Aichi13/indicator/uses/indicator_",usess[i],".csv"))){
 #   cat(paste0("indicator for ", usess[i], " already exists"  ),"\n")
 #  x=NULL
 #}else{
-#   x<- calc_indicator(usess[i], opt = c("min","max","mean","in","ex"))
+ x<- indicator_cat(usess[i], opt = c("min","max","mean","in","ex"))
 #  write.csv(x, paste0("//dapadfs/Workspace_cluster_9/Aichi13/indicator/uses/indicator_",usess[i],".csv"),row.names=F, quote=F)
 #}
-#return(x)
+return(x)
 
-#})
+})
 
 #indicator_cat(usess="Animal_Food")
 
