@@ -13,7 +13,7 @@ select_spp_indicator <- function(iso_list="ALL", opt=c("min","max","mean","ex","
   config(dirs=T)
   
   #load list of species-by-country
-  wep_list <- read.csv(paste(root,"/parameters/WEP/WEP_taxonkey_distribution_ISO3.csv",sep=""),sep="\t",header=T)
+  wep_list <- read.csv(paste(par_dir,"/WEP/WEP_taxonkey_distribution_ISO3.csv",sep=""),sep="\t",header=T)
   
   #select species following given filter
   if (toupper(iso_list) == "ALL") {
