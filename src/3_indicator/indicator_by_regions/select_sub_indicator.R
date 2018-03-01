@@ -14,7 +14,7 @@
 #source('D:/Repositorios/aichi13/src/3_indicator/indicator.R')
 
 #base_dir="//dapadfs"
-select_sub_indicator <- function(reg_list=, opt=c("min","max","mean","ex","in")) {
+select_sub_indicator <- function(reg_list, opt=c("min","max","mean","ex","in")) {
   #load global config
   config(dirs=T)
   
@@ -34,7 +34,7 @@ select_sub_indicator <- function(reg_list=, opt=c("min","max","mean","ex","in"))
     indic_df <- NA
   } else {
     #create filename
-    fname <- paste(paste(c("indicator",reg_list),collapse="_"),".csv",sep="")
+    fname <- paste(paste("indicator_",reg_list,"_",Sys.Date(),sep=""),".csv",sep="")
     
     #calculate indicator for species list
     indic_df <- calc_indicator(spp_list, opt, fname)
