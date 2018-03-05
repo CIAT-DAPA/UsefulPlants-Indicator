@@ -10,8 +10,12 @@ metrics_function<-function(species){
 
   occ<-as.data.frame(maxn$occ_prediction[complete.cases(maxn$occ_prediction),])
   bg<-as.data.frame(maxn$bck_predictions[complete.cases(maxn$bck_predictions),])
-  occ$observed<-NA;occ$observed<-rep(1,nrow(occ))
-  bg$observed<-NA;bg$observed<-rep(0,nrow(bg))
+  
+  
+  if(ncol(occ)>=5 &  nrow(occ)>5 & ncol(bg)>=5 &  nrow(bg)>5){
+    occ$observed<-NA;occ$observed<-rep(1,nrow(occ))
+    bg$observed<-NA;bg$observed<-rep(0,nrow(bg))
+  
   
   #######################################################################################
   #ASD 15
@@ -65,7 +69,54 @@ metrics_function<-function(species){
   
   ##PCC
   evaluate_table[,"PCC"]<-as.numeric(unlist(lapply(1:rep_number,function(i){  x<-PresenceAbsence::pcc(cmx(z,which.model = i))[1];return(x)})))
-  
+  } else {
+    
+    rep_number<-length(maxn$model@models)
+    evaluate_table <- as.data.frame(matrix(nrow = (rep_number),ncol=12))
+    colnames(evaluate_table)<-c("species","replicate","training","testing","Background","ATAUC","STAUC",
+                                "Threshold","Sensitivity","Specificity","TSS","PCC")
+    
+    #maxent model results
+    x <- as.data.frame(maxn$model@results)
+    
+    #SP
+    evaluate_table[,"species"]<-rep(as.character(species),nrow(evaluate_table))
+    
+    #REPLICATE
+    evaluate_table[,"replicate"]<-as.character(c(1:rep_number))
+    
+    #TRAINING
+    evaluate_table[,"training"]<-as.numeric(x[row.names(x)=="X.Training.samples",][1:rep_number])
+    
+    #TESTING
+    evaluate_table[,"testing"]<-as.numeric(x[row.names(x)=="X.Test.samples",][1:rep_number])
+    
+    #BACKGROUND
+    evaluate_table[,"Background"]<-as.numeric(x[row.names(x)=="X.Background.points",][1:rep_number])
+    
+    ##ATAUC
+    evaluate_table[,"ATAUC"]<-0.5
+    
+    ##STAUC
+    evaluate_table[,"STAUC"]<-1
+    
+    ##THRESHOLD
+    evaluate_table[,"Threshold"]<-0.5
+    
+    ##SENSITIVITY
+    evaluate_table[,"Sensitivity"]<-NA
+    
+    ##SPECIFICITY
+    evaluate_table[,"Specificity"]<-NA
+    
+    ##TSS
+    evaluate_table[,"TSS"]<-NA
+    
+    ##PCC
+    evaluate_table[,"PCC"]<-NA
+    
+    
+  }
   ################
   write.csv(evaluate_table,paste0(crossValDir,"/","eval_metrics_rep.csv"),quote = F,row.names = F)
   return(evaluate_table)
