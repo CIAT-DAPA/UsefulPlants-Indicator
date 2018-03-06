@@ -94,14 +94,14 @@ master_run <- function(species) {
     
     
     #return status data.frame
-    return (data.frame(species = species, status = status, message = message))
+  #  return (data.frame(species = species, status = status, message = message))
   },error = function(e) {
     print(paste0("Error ",species))
-    message = e
+    message = e[[1]]
     status = FALSE
   }, finally = {
     print(paste0("End ",species))
-    return(data.frame(species = species, status = status, message = message[[1]], final_function = final_function[[1]]))
+    return(data.frame(species = species, status = status, message = message, final_function = final_function))
     
   })
 }
