@@ -69,7 +69,11 @@ metrics_function<-function(species){
   
   ##PCC
   evaluate_table[,"PCC"]<-as.numeric(unlist(lapply(1:rep_number,function(i){  x<-PresenceAbsence::pcc(cmx(z,which.model = i))[1];return(x)})))
-  } else {
+
+  write.csv(evaluate_table,paste0(crossValDir,"/","eval_metrics_rep.csv"),quote = F,row.names = F)
+  
+  
+    } else {
     
     rep_number<-length(maxn$model@models)
     evaluate_table <- as.data.frame(matrix(nrow = (rep_number),ncol=12))
@@ -115,10 +119,10 @@ metrics_function<-function(species){
     ##PCC
     evaluate_table[,"PCC"]<-NA
     
+  write.csv(evaluate_table,paste0(crossValDir,"/","eval_metrics_rep.csv"),quote = F,row.names = F)
     
   }
   ################
-  write.csv(evaluate_table,paste0(crossValDir,"/","eval_metrics_rep.csv"),quote = F,row.names = F)
   return(evaluate_table)
 }
 
