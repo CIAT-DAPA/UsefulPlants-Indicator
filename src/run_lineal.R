@@ -27,6 +27,10 @@ library(plyr)
 # Load massive climate file
 base_dir = "//dapadfs"
 repo_dir = "C:/Users/HSOTELO/Desktop/src"
+temp_dir= "D:/Temp"
+if(!file.exists(temp_dir)){dir.create(temp_dir)}
+raster::rasterOptions(tmpdir=temp_dir)
+
 
 # Load the sources scripts
 source.files = list.files(repo_dir, "\\.[rR]$", full.names = TRUE, recursive = T)
