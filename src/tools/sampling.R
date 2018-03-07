@@ -6,13 +6,9 @@
 # @return (dataFrame): This function return a DataFrame with a sample of the total records of the species. 
 
 #species="5358748"
-base_dir="//dapadfs"
-source('C:/Users/MVDIAZ/Desktop/src/config.R')
-library(devtools)
-install_github("DFJL/SamplingUtil")
-library(SamplingUtil)
-
-
+#library(devtools)
+#install_github("DFJL/SamplingUtil")
+#library(SamplingUtil)
 
 sampling<-function(species){
   
@@ -23,8 +19,8 @@ sampling<-function(species){
   count_occ<-nrow(ocurr_sp)
   # ocurr_sp$num<-NA
   # ocurr_sp$num<-seq(from=1,to=count_occ,by=1)
-  #  ocurr_sp<-cbind(ocurr_sp,ocurr_sp$num )
-  Estratos<- unique(na.omit(ocurr_sp$country))
+  #ocurr_sp<-cbind(ocurr_sp,ocurr_sp$num )
+  countries<- unique(na.omit(ocurr_sp$country))
   p<-c()
   n<-c()
   x<-data.frame()
@@ -32,12 +28,12 @@ sampling<-function(species){
   muestra<-list()
   
   
-  for(i in 1:length(Estratos)){
+  for(i in 1:length(countries)){
     
-    n[i]<-nrow(ocurr_sp[which(ocurr_sp$country==Estratos[i]),])
+    n[i]<-nrow(ocurr_sp[which(ocurr_sp$country==countries[i]),])
     p[i]<-n[i]/count_occ
-    x<-ocurr_sp[which(ocurr_sp$country==Estratos[i]),]
-    y[i]<-round(nrow(x)*p[i]) 
+    #  x<-ocurr_sp[which(ocurr_sp$country==countries[i]),]
+    #  y[i]<-round(nrow(x)*p[i]) 
     if(y[i]==0){y[i]=1}
     
   }
@@ -45,8 +41,8 @@ sampling<-function(species){
     
     nsizeProp<-nstrata(n=2000,wh=p,method="proportional")
     smple<-list()
-    for(i in 1:length(Estratos)){
-      smple[[i]]<-sample(rownames(ocurr_sp[which(ocurr_sp$country==Estratos[i]),]), size=nsizeProp[i], replace=F)
+    for(i in 1:length(countries)){
+      smple[[i]]<-sample(rownames(ocurr_sp[which(ocurr_sp$country==countries[i]),]), size=nsizeProp[i], replace=F)
       muestra[[i]]<-ocurr_sp[smple[[i]],]
       
     }
@@ -68,3 +64,7 @@ sampling<-function(species){
 
 #Testing the function##
 #sampling(species)
+
+
+
+
