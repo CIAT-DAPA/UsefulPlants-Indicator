@@ -1,6 +1,6 @@
 
 
- var data = google.visualization.arrayToDataTable([
+ var data =[
     ['country', 'Index'],
     
 ['AF', 0],
@@ -175,6 +175,6 @@
 ['ZW', 0]
 
 
-]);
+];
 
 

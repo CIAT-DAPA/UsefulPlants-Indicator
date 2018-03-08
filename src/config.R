@@ -34,7 +34,7 @@ config <- function(dirs=T, cleaning=F, insitu=F, exsitu=F, modeling=F, premodeli
     folderin_raw <<- paste0(occ_dir, "/raw")
     
     ##COUNTRIES SHAPEFILES##
-    countries_sh <<- countries_sh
+    #countries_sh <<- countries_sh
     
     ##OUTPUT FOLDER IN clean_sea FUNCTION, AND INPUT IN split_occs_srs FUNCTION##
     folder_nosea <<- paste0(occ_dir,"/","no_sea")
