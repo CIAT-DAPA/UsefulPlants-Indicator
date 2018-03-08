@@ -49,12 +49,12 @@ select_sub_indicator <- function(reg_list, opt=c("min","max","mean","ex","in")) 
 #base_dir <- "~/nfs"
 #base_dir = "//dapadfs"
 
-#reg_list <- as.character(na.omit(unique(wep_list1$SUBREGIONS)))
-#indic_iso <-lapply(1:length(reg_list), function(i){
-#y <- select_sub_indicator(reg_list[[i]], opt=c("min","max","mean","ex","in"))
-#write.csv(y, paste0("//dapadfs/Workspace_cluster_9/Aichi13/indicator/subregions/ind_",reg_list[[i]],".csv"),row.names=F, quote=F)
-#return(y)
-#})
+reg_list <- as.character(na.omit(unique(wep_list1$SUBREGIONS)))
+indic_iso <-lapply(1:length(reg_list), function(i){
+y <- select_sub_indicator(reg_list[[i]], opt=c("min","max","mean","ex","in"))
+write.csv(y, paste0("//dapadfs/Workspace_cluster_9/Aichi13/indicator/subregions/","indicator_",reg_list[[i]],"_",Sys.Date(),".csv"),row.names=F, quote=F)
+return(y)
+})
 
 
 #NOTE: no Polynesia and Micronesia

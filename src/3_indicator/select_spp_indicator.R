@@ -32,7 +32,7 @@ select_spp_indicator <- function(iso_list="ALL", opt=c("min","max","mean","ex","
     indic_df <- NA
   } else {
     #create filename
-    fname <- paste(paste(c("indicator",iso_list),collapse="_"),".csv",sep="")
+    fname <- paste(paste("indicator_",iso_list,"_",Sys.Date(),sep=""),".csv",sep="")
     
     #calculate indicator for species list
     indic_df <- calc_indicator(spp_list, opt, fname)

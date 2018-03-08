@@ -51,7 +51,7 @@ cat(i, "\n")
 #  x=NULL
 #}else{
  x<- indicator_cat(usess[i], opt = c("min","max","mean","in","ex"))
-#  write.csv(x, paste0("//dapadfs/Workspace_cluster_9/Aichi13/indicator/uses/indicator_",usess[i],".csv"),row.names=F, quote=F)
+ write.csv(x, paste0("//dapadfs/Workspace_cluster_9/Aichi13/indicator/uses/indicator_",usess[i],"_",Sys.Date(), ".csv"),row.names=F, quote=F)
 #}
 return(x)
 
