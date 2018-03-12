@@ -23,6 +23,7 @@ library(rgeos)
 library(shapefiles)
 library(sp)
 library(plyr)
+library(devtools)
 #install_github("DFJL/SamplingUtil")
 library(SamplingUtil)
 
