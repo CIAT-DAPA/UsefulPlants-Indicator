@@ -61,7 +61,7 @@ config(dirs=F, cleaning=T, insitu=T, exsitu=T, modeling=T, premodeling=T)
 setwd(root)
 
 server.number = "1"
-server.species = read.csv(paste0("runs/species/server_",server.number,".csv"),sep = ",")
+server.species = read.csv(paste0("runs/species/server",server.number,".csv"),sep = ",")
 
 ##########################################   End Set Parameters  ###############################################
 
@@ -69,7 +69,7 @@ server.species = read.csv(paste0("runs/species/server_",server.number,".csv"),se
 ##########################################   Start Process    ###############################################
 
 # Run function in parallel for all species
-result_master = lapply(server.species$ID, master_run)
+result_master = lapply(server.species$taxonkey, master_run)
 
 # Stop cluster
 # sfStop()
