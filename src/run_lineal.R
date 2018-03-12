@@ -43,7 +43,6 @@ source.files = source.files[ !grepl("indicator", source.files) ]
 source.files = source.files[ !grepl("to_map", source.files) ]
 source.files = source.files[ !grepl("count_records_sp.R", source.files) ]
 source.files = source.files[ !grepl("verification_tool.R", source.files) ]
-source.files = source.files[ !grepl("sampling.R", source.files) ]
 
 #lapply(source.files, source)
 for(i in 1:length(source.files)){
