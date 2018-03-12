@@ -87,7 +87,7 @@ config <- function(dirs=T, cleaning=F, insitu=F, exsitu=F, modeling=F, premodeli
     a_insitu <<- 1.0;
     
     #PATH TO PROTECTED AREAS RASTER
-    pa.path <<- paste0(par_dir, "/protected_areas/raster/areas_protected_geographic.tif")
+    pa.path <<- paste0(par_dir, "/protected_areas/raster/wdpa_reclass.tif")
     pa.raster <<- raster(pa.path)
     
     #LOAD THE MASK OF THE WORLD
