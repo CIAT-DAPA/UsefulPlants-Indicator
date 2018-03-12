@@ -23,11 +23,19 @@ master_run <- function(species) {
     cat("...creating directories\n")
     spp_dirs <- create_sp_dirs(species)
     final_function = "0.create_sp_dirs was done"
+    
+    
     #step 2.1-clean sea
     #source(paste(repo_dir,"/0_cleaning/clean_sea.R",sep=""))
     cat("...cleaning species\n")
     spp_clean <- clean_sea(species)
     final_function = "1.clean_sea was done"
+    
+    #step 2.1.1-sampling ocurrences
+    cat("...sampling ocurrence species\n") 
+    spp_samp <- sampling(species)
+    final_function = "1.1.sampling ocurrences was done"
+    
     
     #step 2.2-create native area
     #source(paste(repo_dir,"/1_modeling/nat_area_shp.R",sep=""))
