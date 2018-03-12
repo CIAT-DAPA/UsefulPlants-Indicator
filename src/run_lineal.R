@@ -23,6 +23,7 @@ library(rgeos)
 library(shapefiles)
 library(sp)
 library(plyr)
+library(SamplingUtil)
 
 # Load massive climate file
 base_dir = "//dapadfs"
