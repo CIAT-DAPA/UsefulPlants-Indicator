@@ -32,10 +32,7 @@ sampling<-function(species){
     
     n[i]<-nrow(ocurr_sp[which(ocurr_sp$country==countries[i]),])
     p[i]<-n[i]/count_occ
-    #  x<-ocurr_sp[which(ocurr_sp$country==countries[i]),]
-    #  y[i]<-round(nrow(x)*p[i]) 
-    if(y[i]==0){y[i]=1}
-    
+   
   }
   if(count_occ>=2100){
     
@@ -58,6 +55,7 @@ sampling<-function(species){
   ocurr_sp_out<-data.frame(muestra)
   s<-paste0(folder_nosea, "/", "sampling"); if(!file.exists(s)){dir.create(s)}
   write.csv(ocurr_sp_out, paste0(s,"/",species, ".csv"), quote = F, row.names = F)
+  return(ocurr_sp_out)
   
   
 }
