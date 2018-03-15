@@ -35,7 +35,7 @@ clean_sea <- function(species) {
     spp1$ISO <- NULL
     
     #cat("writing new", files, "file", "\n")
-    write.csv(spp1, paste0(folder_nosea,"/original", species, "_original.csv"), row.names = FALSE)
+    write.csv(spp1, paste0(folder_nosea,"/original/", species, "_original.csv"), row.names = FALSE)
     #cat("DONE", "\n")
     
     rm(spp)
