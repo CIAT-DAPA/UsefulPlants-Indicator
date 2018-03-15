@@ -14,7 +14,7 @@ sampling<-function(species){
   
   config(dirs=T, cleaning=T)
   
-  ocurr_sp<- read.csv(paste0(folder_nosea, "/original", species, "_original.csv"), header=T,sep=",")
+  ocurr_sp<- read.csv(paste0(folder_nosea, "/original/", species, "_original.csv"), header=T,sep=",")
   ocurr_sp<-as.data.frame(ocurr_sp)
   count_occ<-nrow(ocurr_sp)
   # ocurr_sp$num<-NA
