@@ -19,7 +19,7 @@ select_sub_indicator <- function(reg_list, opt=c("min","max","mean","ex","in")) 
   config(dirs=T)
   
   #load list of species-by-subregion
-  wep_list1 <- read.csv(paste(par_dir,"/UNSD/subregions1.csv",sep=""),sep=",",header=T)
+  wep_list1 <- read.csv(paste(par_dir,"/UNSD/subregions.csv",sep=""),sep=",",header=T)
   
   #select species following given filter
     spp_list <- wep_list1[which(wep_list1$SUBREGIONS %in% reg_list),]
@@ -34,7 +34,7 @@ select_sub_indicator <- function(reg_list, opt=c("min","max","mean","ex","in")) 
     indic_df <- NA
   } else {
     #create filename
-    fname <- paste(paste(c("indicator",reg_list),collapse="_"),".csv",sep="")
+    fname <- paste(paste("indicator_",reg_list,"_",Sys.Date(),sep=""),".csv",sep="")
     
     #calculate indicator for species list
     indic_df <- calc_indicator(spp_list, opt, fname)
@@ -52,7 +52,7 @@ select_sub_indicator <- function(reg_list, opt=c("min","max","mean","ex","in")) 
 reg_list <- as.character(na.omit(unique(wep_list1$SUBREGIONS)))
 indic_iso <-lapply(1:length(reg_list), function(i){
 y <- select_sub_indicator(reg_list[[i]], opt=c("min","max","mean","ex","in"))
-write.csv(y, paste0("//dapadfs/Workspace_cluster_9/Aichi13/indicator/subregions/ind_",reg_list[[i]],".csv"),row.names=F, quote=F)
+write.csv(y, paste0("//dapadfs/Workspace_cluster_9/Aichi13/indicator/subregions/","indicator_",reg_list[[i]],"_",Sys.Date(),".csv"),row.names=F, quote=F)
 return(y)
 })
 
