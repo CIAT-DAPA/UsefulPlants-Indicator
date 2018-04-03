@@ -12,7 +12,6 @@
 #source('D:/Repositorios/aichi13/src/3_indicator/indicator.R')
 config(dirs=T)
 
-#usess<-"Animal_Food"
 indicator_cat <- function(usess, opt=c("min","max","mean","ex","in")){
   
 uses_sp<<- read.csv(paste0(par_dir,"/uses/uses.csv"), sep=",", header=T)
