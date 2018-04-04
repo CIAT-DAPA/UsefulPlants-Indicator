@@ -59,7 +59,7 @@ for(i in 1:nrow(coun2@data)){
   index[i]<-gsub(coun2@data$mean[i], paste0(coun2@data$mean[i],"],"), coun2@data$mean[i])
 }
 
-index[256]<-gsub(coun2@data$mean[256], paste0(coun2@data$mean[256],"]];"), coun2@data$mean[256])
+index[256]<-gsub(",", "];", index)
 coun2@data<-coun2@data[,c(1,5)]
 coun2@data<-cbind(r,coun2@data)
 coun2@data<-cbind(coun2@data,index)

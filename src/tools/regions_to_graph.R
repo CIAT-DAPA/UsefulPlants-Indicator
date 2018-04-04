@@ -82,6 +82,7 @@ for(i in 1:nrow(sub_list)){
   index[i]<-gsub(sub_list$mean[i], paste0(sub_list$mean[i],"],"), sub_list$mean[i])
 }
 
+index[22]<-gsub(",", "];", index)
 sub_list<-sub_list[,c(1,2,5)]
 sub_list<-cbind(subr,sub_list)
 sub_list<-cbind(sub_list,index)
@@ -90,5 +91,5 @@ x<-which(!is.na(sub_list$index))
 opt_list<-opt_list[x,]
 colnames(sub_list)<-c("['regions',","'codes'", "'index'],")
 
-write.table(sub_list,paste(sub_dir,"/to_graph/regions", ".js", sep=""),row.names=F,quote=F,na="")
+write.table(sub_list,paste(sub_dir,"/to_graph/regions", "1.js", sep=""),row.names=F,quote=F,na="")
 

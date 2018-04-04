@@ -47,7 +47,7 @@ for(i in 1:nrow(opt_list)){
   index[i]<-gsub(opt_list$mean[i], paste0(opt_list$mean[i],",''],"), opt_list$mean[i])
 }
 
-index[11]<-gsub(opt_list$mean[i], paste0(opt_list$mean[i],",'']];"), opt_list$mean[i])
+index[11]<-gsub(",", "];", index)
 opt_list<-opt_list[,c(1,4)]
 opt_list<-cbind(Uses,opt_list)
 opt_list<-cbind(opt_list,index)
