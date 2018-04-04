@@ -49,20 +49,23 @@ ind_dir<-paste0(root,"/","indicator")
 
 write.csv(coun2@data,paste0(ind_dir,"/","indicator_iso2c.csv"),row.names=F,quote=F,na="")
 
-#write .js object#
+######### write .js object ###########
 
 r<-c()
 index<-c()
 for(i in 1:nrow(coun2@data)){
   
   r[i]<-gsub(coun2@data$ISO2[i], paste0("['",coun2@data$ISO2[i],"',"), coun2@data$ISO2[i])
-  index[i]<-gsub(coun2@data$mean[i], paste0(coun2@data$mean[i],"];"), coun2@data$mean[i])
+  index[i]<-gsub(coun2@data$mean[i], paste0(coun2@data$mean[i],"],"), coun2@data$mean[i])
 }
 
+index[256]<-gsub(coun2@data$mean[256], paste0(coun2@data$mean[256],"]];"), coun2@data$mean[256])
 coun2@data<-coun2@data[,c(1,5)]
 coun2@data<-cbind(r,coun2@data)
 coun2@data<-cbind(coun2@data,index)
 coun2@data<-coun2@data[,-c(2,3)]
-colnames(coun2@data)<-c("country", "index")
+colnames(coun2@data)<-c("['country',", "'index'],")
+x<-which(is.na(coun2@data[,2]))
+coun2@data<-coun2@data[-x,]
 
-write.table(coun2@data,paste(ind_iso_dir,"to_graph/countries.js", sep=""),row.names=F,quote=F,na="")
+write.table(coun2@data,paste(ind_iso_dir,"/to_graph/countries2.js", sep=""),row.names=F,quote=F,na="")
