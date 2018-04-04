@@ -1,5 +1,5 @@
 
-var data = google.visualization.arrayToDataTable([
+var data = [
         ['Category', 'Understanding',{ role: 'style' }],
         ['Category', 1.0, 'opacity:0.5' ],
         ['Additive', 0, ''],
@@ -14,4 +14,4 @@ var data = google.visualization.arrayToDataTable([
         ['Pesticide', 0, ''],
         ['Social', 0, '']
 		
-		 ]);
+		 ];
