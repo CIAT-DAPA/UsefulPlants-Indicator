@@ -65,7 +65,7 @@ coun2@data<-cbind(r,coun2@data)
 coun2@data<-cbind(coun2@data,index)
 coun2@data<-coun2@data[,-c(2,3)]
 colnames(coun2@data)<-c("['country',", "'index'],")
-x<-which(is.na(coun2@data[,2]))
-coun2@data<-coun2@data[-x,]
+x<-which(!is.na(coun2@data[,2]))
+coun2@data<-coun2@data[x,]
 
 write.table(coun2@data,paste(ind_iso_dir,"/to_graph/countries2.js", sep=""),row.names=F,quote=F,na="")
