@@ -26,6 +26,8 @@ ind_dir<-paste0(root,"/","indicator")
  ind_countries_iso2<-ind_countries
  ind_countries_iso2<-gsub("indicator_","",ind_countries_iso2)
  ind_countries_iso2<-gsub(".csv","",ind_countries_iso2)
+ ind_countries_iso2<-gsub("_2018-04-03","",ind_countries_iso2)
+ 
  
  
  count_list<-lapply(1:length(ind_countries),function(i){
@@ -46,3 +48,21 @@ ind_dir<-paste0(root,"/","indicator")
 #setwd(ind_dir)
 
 write.csv(coun2@data,paste0(ind_dir,"/","indicator_iso2c.csv"),row.names=F,quote=F,na="")
+
+#write .js object#
+
+r<-c()
+index<-c()
+for(i in 1:nrow(coun2@data)){
+  
+  r[i]<-gsub(coun2@data$ISO2[i], paste0("['",coun2@data$ISO2[i],"',"), coun2@data$ISO2[i])
+  index[i]<-gsub(coun2@data$mean[i], paste0(coun2@data$mean[i],"];"), coun2@data$mean[i])
+}
+
+coun2@data<-coun2@data[,c(1,5)]
+coun2@data<-cbind(r,coun2@data)
+coun2@data<-cbind(coun2@data,index)
+coun2@data<-coun2@data[,-c(2,3)]
+colnames(coun2@data)<-c("country", "index")
+
+write.table(coun2@data,paste(ind_iso_dir,"to_graph/countries.js", sep=""),row.names=F,quote=F,na="")
