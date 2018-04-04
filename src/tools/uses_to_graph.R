@@ -37,18 +37,24 @@ opt_list<-do.call(rbind,opt_list)
 
 write.csv(opt_list,paste(ind_dir,"/indicator_uses",Sys.Date(),".csv",sep = ""),row.names=F,quote=F,na="")
 
+########CREATE A .JS OBJECT ##############
+
 Uses<-c()
 index<-c()
 for(i in 1:nrow(opt_list)){
   
   Uses[i]<-gsub(opt_list$uses[i], paste0("['",opt_list$uses[i],"',"), opt_list$uses[i])
-  index[i]<-gsub(opt_list$mean[i], paste0(opt_list$mean[i],",''];"), opt_list$mean[i])
+  index[i]<-gsub(opt_list$mean[i], paste0(opt_list$mean[i],",''],"), opt_list$mean[i])
 }
 
+index[11]<-gsub(opt_list$mean[i], paste0(opt_list$mean[i],",'']];"), opt_list$mean[i])
 opt_list<-opt_list[,c(1,4)]
 opt_list<-cbind(Uses,opt_list)
 opt_list<-cbind(opt_list,index)
 opt_list<-opt_list[,-c(2,3)]
+x<-which(!is.na(opt_list$index))
+opt_list<-opt_list[x,]
+colnames(opt_list)<-c("['country',", "'index'],")
 
 write.table(opt_list,paste(ind_us_dir,"to_graph/uses", ".js", sep=""),row.names=F,quote=F,na="")
 
