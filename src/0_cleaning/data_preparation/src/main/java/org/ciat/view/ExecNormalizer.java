@@ -12,12 +12,13 @@ import org.ciat.control.GBIFNormalizer;
 import org.ciat.control.GenesysNormalizer;
 import org.ciat.control.Normalizable;
 import org.ciat.control.Normalizer;
+import org.ciat.model.TaxonFinder;
 import org.ciat.model.Utils;
 
 public class ExecNormalizer extends Executer {
 
 	public static void main(String[] args) {
-		Executable app = new ExecNormalizer(); 
+		Executable app = new ExecNormalizer();
 		app.run();
 	}
 
@@ -59,6 +60,15 @@ public class ExecNormalizer extends Executer {
 		log("Exporting counters");
 		CountExporter.getInstance().process();
 		System.gc();
+		
+		// export counters
+		log("Exporting counters");
+		TaxaIO.exportTaxaMatched(TaxonFinder.getInstance().getMatchedTaxa(),new File(Executer.prop.getProperty("file.taxa.matched")));
+		TaxaIO.exportTaxaUnmatched(TaxonFinder.getInstance().getUnmatchedTaxa(),new File(Executer.prop.getProperty("file.taxa.unmatched")));
+		
+		TaxonFinder.getInstance().getUnmatchedTaxa();
+		System.gc();
+		
 
 	}
 

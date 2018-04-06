@@ -1,6 +1,9 @@
 package org.ciat.model;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -11,15 +14,16 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import org.ciat.view.Executer;
+import org.ciat.view.TaxaIO;
 import org.json.JSONObject;
 
 public class TaxonFinder {
-	
+
 	private static TaxonFinder instance = null;
 	private Map<String, String> matchedTaxa = new TreeMap<String, String>();
 	private Set<String> unmatchedTaxa = new TreeSet<String>();
-	
-	
+
 	public String fetchTaxonInfo(String name) {
 
 		// check first in the Map
@@ -39,7 +43,8 @@ public class TaxonFinder {
 
 		URLConnection urlc;
 		try {
-			URL url = new URL("http://api.gbif.org/v1/species/match?kingdom=Plantae&name=" + URLEncoder.encode(name,"UTF-8") + "");
+			URL url = new URL("http://api.gbif.org/v1/species/match?kingdom=Plantae&name="
+					+ URLEncoder.encode(name, "UTF-8") + "");
 
 			urlc = url.openConnection();
 			// use post mode
@@ -93,10 +98,36 @@ public class TaxonFinder {
 	}
 
 	public static TaxonFinder getInstance() {
-	      if(instance == null) {
-	          instance = new TaxonFinder();
-	       }
-	       return instance;
+		if (instance == null) {
+			instance = new TaxonFinder();
+		}
+
+		File input = new File(Executer.prop.getProperty("file.taxa.matched"));
+		if (input.exists()) {
+			try (BufferedReader reader = new BufferedReader(
+					new InputStreamReader(new FileInputStream(input), "UTF-8"))) {
+
+				String line = reader.readLine();
+				while (line != null) {
+					String[] values = line.split(TaxaIO.SEPARATOR);
+					if (values.length == 2) {
+						instance.matchedTaxa.put(values[1], values[0]);
+					}
+					line = reader.readLine();
+				}
+
+			} catch (FileNotFoundException e) {
+				System.out.println("File not found " + input.getAbsolutePath());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return instance;
+	}
+
+	public void setMatchedTaxa(Map<String, String> matchedTaxa) {
+		this.matchedTaxa = matchedTaxa;
 	}
 
 }
