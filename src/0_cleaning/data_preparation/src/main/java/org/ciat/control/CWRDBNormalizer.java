@@ -21,20 +21,21 @@ import org.ciat.view.FileProgressBar;
 
 public class CWRDBNormalizer extends Normalizer {
 
-	private static final String INPUT_SEPARATOR = "\\|";
+	private static final String SPECIFIC_SEPARATOR = "\\|";
 
 	@Override
 	public void process(File input, File output) {
 		Set<String> taxonKeys = TargetTaxa.getInstance().getSpeciesKeys();
 
 		try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(output, true)));
+				PrintWriter writerTrash = new PrintWriter(new BufferedWriter(new FileWriter(output.getParentFile()+File.separator+"trash.csv", true)));
 				BufferedReader reader = new BufferedReader(
 						new InputStreamReader(new FileInputStream(input), "UTF-8"))) {
 
 			/* header */
 			String line = reader.readLine();
 			if (colIndex.isEmpty()) {
-				colIndex = Utils.getColumnsIndex(line, INPUT_SEPARATOR);
+				colIndex = Utils.getColumnsIndex(line, SPECIFIC_SEPARATOR);
 			}
 			/* */
 
@@ -48,11 +49,12 @@ public class CWRDBNormalizer extends Normalizer {
 			while (line != null) {
 
 				line = line.replace("\"", "");
-				String[] values = line.split(INPUT_SEPARATOR);
+				String[] values = line.split(SPECIFIC_SEPARATOR);
 				if (values.length >= colIndex.size()) {
 
 					String taxonkey = TaxonFinder.getInstance().fetchTaxonInfo(values[colIndex.get("taxon_final")]);
 					Basis basis = getBasis(values[colIndex.get("source")]);
+					DataSourceName source = getDataSourceName();
 					String year = values[colIndex.get("colldate")];
 					if (year.length() > 3) {
 						year = year.substring(0, 4);
@@ -68,9 +70,11 @@ public class CWRDBNormalizer extends Normalizer {
 								writer.println(normal);
 								past = normal;
 							}
+						} else {				
+							writerTrash.println(taxonkey+Normalizer.STANDARD_SEPARATOR+ year+Normalizer.STANDARD_SEPARATOR+ basis+Normalizer.STANDARD_SEPARATOR+source);
 						}
 
-						CountExporter.getInstance().updateCounters(taxonkey, isUseful, year, basis);
+						CountExporter.getInstance().updateCounters(taxonkey, isUseful, year, basis, source);
 					}
 				}
 				/* show progress */
@@ -100,8 +104,8 @@ public class CWRDBNormalizer extends Normalizer {
 		String taxonKey = TaxonFinder.getInstance().fetchTaxonInfo(values[colIndex.get("taxon_final")]);
 		String year = values[colIndex.get("colldate")];
 		year = Utils.validateYear(year);
-		String result = taxonKey + SEPARATOR + lon + SEPARATOR + lat + SEPARATOR + country + SEPARATOR + year
-				+ SEPARATOR + basis + SEPARATOR + source;
+		String result = taxonKey + STANDARD_SEPARATOR + lon + STANDARD_SEPARATOR + lat + STANDARD_SEPARATOR + country + STANDARD_SEPARATOR + year
+				+ STANDARD_SEPARATOR + basis + STANDARD_SEPARATOR + source;
 		return result;
 	}
 

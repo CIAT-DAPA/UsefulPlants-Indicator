@@ -107,5 +107,14 @@ public class Maxentnisizer {
 		output = output.substring(0, output.length());
 		return output;
 	}
+	
+	public String getHeader() {
+		String result = "";
+		for (String field : colTarget) {
+			result += field + SEPARATOR;
+		}
+		result = result.substring(0, result.length() - 1);
+		return result;
+	}
 
 }

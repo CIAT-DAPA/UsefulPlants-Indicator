@@ -21,7 +21,7 @@ import org.ciat.view.FileProgressBar;
 
 public class GenesysNormalizer extends Normalizer {
 
-	private static final String INPUT_SEPARATOR = ",";
+	private static final String SPECIFIC_SEPARATOR = ",";
 
 	@Override
 	public void process(File input, File output) {
@@ -29,6 +29,7 @@ public class GenesysNormalizer extends Normalizer {
 		Set<String> taxonKeys = TargetTaxa.getInstance().getSpeciesKeys();
 
 		try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(output, true)));
+				PrintWriter writerTrash = new PrintWriter(new BufferedWriter(new FileWriter(output.getParentFile()+File.separator+"trash.csv", true)));
 				BufferedReader reader = new BufferedReader(
 						new InputStreamReader(new FileInputStream(input), "UTF-8"))) {
 
@@ -36,24 +37,25 @@ public class GenesysNormalizer extends Normalizer {
 			String line = reader.readLine();
 			if (colIndex.isEmpty()) {
 				line = line.replaceAll(" ", "");
-				colIndex = Utils.getColumnsIndex(line, INPUT_SEPARATOR);
+				colIndex = Utils.getColumnsIndex(line, SPECIFIC_SEPARATOR);
 			}
 
 			/* progress bar */
 			FileProgressBar bar = new FileProgressBar(input.length());
 			/* */
-
+			
 			line = reader.readLine();
 			while (line != null) {
 				line = line.replaceAll("\"", "");
-				line += SEPARATOR + " ";
+				line += STANDARD_SEPARATOR + " ";
 
-				String[] values = line.split(INPUT_SEPARATOR);
+				String[] values = line.split(SPECIFIC_SEPARATOR);
 				if (values.length >= colIndex.size()) {
 
 					String taxonkey = "";
 					taxonkey = TaxonFinder.getInstance().fetchTaxonInfo(values[colIndex.get("t.taxonName")]);
 					Basis basis = Basis.G;
+					DataSourceName source = getDataSourceName();
 					String year = values[colIndex.get("a.acqDate")];
 					if (year.length() > 3) {
 						year = year.substring(0, 4);
@@ -66,7 +68,7 @@ public class GenesysNormalizer extends Normalizer {
 							String result = normalize(values);
 							writer.println(result);
 						}
-						CountExporter.getInstance().updateCounters(taxonkey, isUseful, year, basis);
+						CountExporter.getInstance().updateCounters(taxonkey, isUseful, year, basis, source);
 					}
 				}
 
@@ -114,8 +116,8 @@ public class GenesysNormalizer extends Normalizer {
 		String taxonKey = TaxonFinder.getInstance().fetchTaxonInfo(values[colIndex.get("t.taxonName")]);
 		String year = values[colIndex.get("a.acqDate")];
 		year = Utils.validateYear(year);
-		String result = taxonKey + SEPARATOR + lon + SEPARATOR + lat + SEPARATOR + country + SEPARATOR + year
-				+ SEPARATOR + basis + SEPARATOR + source;
+		String result = taxonKey + STANDARD_SEPARATOR + lon + STANDARD_SEPARATOR + lat + STANDARD_SEPARATOR + country + STANDARD_SEPARATOR + year
+				+ STANDARD_SEPARATOR + basis + STANDARD_SEPARATOR + source;
 		return result;
 	}
 

@@ -11,13 +11,14 @@ import java.util.Map;
 
 import org.ciat.control.Normalizer;
 import org.ciat.model.Basis;
+import org.ciat.model.DataSourceName;
 import org.ciat.model.MapCounter;
 import org.ciat.model.TargetTaxa;
 import org.ciat.model.TaxonFinder;
 import org.ciat.model.Utils;
 
 public class CountExporter {
-	
+
 	private static CountExporter instance = null;
 
 	private Map<String, MapCounter> counters;
@@ -34,6 +35,9 @@ public class CountExporter {
 		this.counters.put("totalPost1950", new MapCounter());
 		this.counters.put("totalPre1950", new MapCounter());
 		this.counters.put("totalNoDate", new MapCounter());
+		this.counters.put(DataSourceName.GBIF.toString(), new MapCounter());
+		this.counters.put(DataSourceName.GENESYS.toString(), new MapCounter());
+		this.counters.put(DataSourceName.CWRDB.toString(), new MapCounter());
 	}
 
 	public Map<String, MapCounter> getCounters() {
@@ -49,10 +53,10 @@ public class CountExporter {
 
 	public void process() {
 		exportSpeciesCounters();
-		exportDatasetCounter();
+		exportDatasetCounters();
 	}
 
-	private void exportDatasetCounter() {
+	private void exportDatasetCounters() {
 		File output = new File(Executer.prop.getProperty("file.taxonfinder.summary"));
 		try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(output)))) {
 			writer.println("species.matched" + Normalizer.getSeparator() + "species.unmatched");
@@ -120,7 +124,7 @@ public class CountExporter {
 
 	}
 
-	public void updateCounters(String taxonkey, boolean useful, String year, Basis basis) {
+	public void updateCounters(String taxonkey, boolean useful, String year, Basis basis, DataSourceName source) {
 		counters.get("totalRecords").increase(taxonkey);
 
 		if (Utils.isNumeric(year)) {
@@ -147,6 +151,19 @@ public class CountExporter {
 			} else {
 				counters.get("totalHUseful").increase(taxonkey);
 			}
+		}
+
+		switch (source) {
+		case GBIF:
+			counters.get(DataSourceName.GBIF.toString()).increase(taxonkey);
+			break;
+		case GENESYS:
+			counters.get(DataSourceName.GENESYS.toString()).increase(taxonkey);
+			break;
+		case CWRDB:
+			counters.get(DataSourceName.CWRDB.toString()).increase(taxonkey);
+			break;
+
 		}
 
 	}

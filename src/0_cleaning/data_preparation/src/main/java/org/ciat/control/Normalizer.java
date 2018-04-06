@@ -11,7 +11,8 @@ import org.ciat.model.DataSourceName;
 public class Normalizer implements Normalizable {
 
 	// column separator
-	protected static final String SEPARATOR = "\t";
+	protected static final String STANDARD_SEPARATOR = ",";
+	protected static final String SPECIFIC_SEPARATOR = ",";
 	
 	public static final int YEAR_MIN = 1950;
 	public static final int YEAR_MAX = Calendar.getInstance().get(Calendar.YEAR);
@@ -50,13 +51,13 @@ public class Normalizer implements Normalizable {
 	}
 
 	public static String getSeparator() {
-		return SEPARATOR;
+		return STANDARD_SEPARATOR;
 	}
 
 	public static String getHeader() {
 		String result = "";
 		for (String field : colTarget) {
-			result += field + SEPARATOR;
+			result += field + STANDARD_SEPARATOR;
 		}
 		result = result.substring(0, result.length() - 1);
 		return result;
