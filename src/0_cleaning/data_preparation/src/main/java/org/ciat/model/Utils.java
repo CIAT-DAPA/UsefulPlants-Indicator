@@ -12,6 +12,8 @@ public class Utils {
 
 	private static Map<String, Locale> localeMap = initCountryCodeMapping();
 	public static final String NO_YEAR = "NA";
+	public static final String NO_COUNTRY2 = "ZZ";
+	public static final String NO_COUNTRY3 = "ZZZ";
 
 	public static boolean isNumeric(String str) {
 		if (str == null) {
@@ -30,7 +32,7 @@ public class Utils {
 		Map<String, Integer> colIndex = new LinkedHashMap<String, Integer>();
 		String[] columnNames = line.split(separator);
 		for (int i = 0; i < columnNames.length; i++) {
-			colIndex.put(columnNames[i], i);
+			colIndex.put(columnNames[i].trim(), i);
 		}
 		return colIndex;
 	}
@@ -66,22 +68,26 @@ public class Utils {
 	}
 
 	public static String iso3CountryCodeToIso2CountryCode(String iso3CountryCode) {
-		if (localeMap.get(iso3CountryCode) != null) {
+		if (iso3CountryCode.equals(NO_COUNTRY3)) {
+			return NO_COUNTRY2;
+		}
+		Locale locale = localeMap.get(iso3CountryCode);
+		if (locale != null) {
 			return localeMap.get(iso3CountryCode).getCountry();
 		}
-		return null;
+		return NO_COUNTRY2;
 	}
 
 	public static String iso2CountryCodeToIso3CountryCode(String iso2CountryCode) {
-		if (iso2CountryCode.equals("ZZ")) {
-			return null;
+		if (iso2CountryCode.equals(NO_COUNTRY2)) {
+			return NO_COUNTRY3;
 		}
 		Locale locale = new Locale("", iso2CountryCode);
 		try {
 			String result = locale.getISO3Country();
 			return result;
 		} catch (Exception e) {
-			return null;
+			return NO_COUNTRY3;
 		}
 	}
 

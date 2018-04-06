@@ -59,8 +59,8 @@ public class CountExporter {
 	private void exportDatasetCounters() {
 		File output = new File(Executer.prop.getProperty("file.taxonfinder.summary"));
 		try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(output)))) {
-			writer.println("species.matched" + Normalizer.getSeparator() + "species.unmatched");
-			writer.println(TaxonFinder.getInstance().getMatchedTaxa().keySet().size() + Normalizer.getSeparator()
+			writer.println("species.matched" + Normalizer.getStandardSeparator() + "species.unmatched");
+			writer.println(TaxonFinder.getInstance().getMatchedTaxa().keySet().size() + Normalizer.getStandardSeparator()
 					+ TaxonFinder.getInstance().getUnmatchedTaxa().size());
 
 		} catch (FileNotFoundException e) {
@@ -78,11 +78,11 @@ public class CountExporter {
 		String header = "";
 
 		for (String name : counters.keySet()) {
-			header += name + Normalizer.getSeparator();
+			header += name + Normalizer.getStandardSeparator();
 		}
 
 		try (PrintWriter writerSummary = new PrintWriter(new BufferedWriter(new FileWriter(outputSummary)))) {
-			writerSummary.println("taxonkey" + Normalizer.getSeparator() + header);
+			writerSummary.println("taxonkey" + Normalizer.getStandardSeparator() + header);
 
 			// for each target taxon in the list
 			for (String taxonkey : TargetTaxa.getInstance().getSpeciesKeys()) {
@@ -92,7 +92,7 @@ public class CountExporter {
 					if (counters.get(name).get(taxonkey) != null) {
 						count = counters.get(name).get(taxonkey);
 					}
-					countsLine += count + Normalizer.getSeparator();
+					countsLine += count + Normalizer.getStandardSeparator();
 				}
 
 				File outputDir = new File(Executer.prop.getProperty("path.counts") + "/" + taxonkey + "/");
@@ -108,7 +108,7 @@ public class CountExporter {
 
 					writer.println(header);
 					writer.println(countsLine);
-					writerSummary.println(taxonkey + Normalizer.getSeparator() + countsLine);
+					writerSummary.println(taxonkey + Normalizer.getStandardSeparator() + countsLine);
 
 				} catch (FileNotFoundException e) {
 					System.out.println("File not found " + output.getAbsolutePath());

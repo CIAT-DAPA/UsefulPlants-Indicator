@@ -128,7 +128,7 @@ public class Normalizer implements Normalizable {
 
 	@Override
 	public String getYear() {
-		return null;
+		return Utils.NO_YEAR;
 	}
 
 	@Override
@@ -153,7 +153,7 @@ public class Normalizer implements Normalizable {
 
 	@Override
 	public String getCountry() {
-		return null;
+		return Utils.NO_COUNTRY2;
 	}
 
 	@Override
@@ -161,7 +161,7 @@ public class Normalizer implements Normalizable {
 		return false;
 	}
 
-	public static String getSeparator() {
+	public static String getStandardSeparator() {
 		return STANDARD_SEPARATOR;
 	}
 

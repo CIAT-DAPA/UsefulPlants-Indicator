@@ -27,6 +27,7 @@ public class ExecNormalizer extends Executer {
 
 		Utils.createOutputDirectory(new File("outputs"));
 		File normalized = new File(Executer.prop.getProperty("file.normalized"));
+		File trash = new File(Executer.prop.getProperty("file.data.trash"));
 		try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(normalized)))) {
 			String header = Normalizer.getHeader();
 			writer.println(header);
@@ -39,19 +40,19 @@ public class ExecNormalizer extends Executer {
 		// Reduce and normalize
 		log("Normalizing GBIF data");
 		Normalizable gbifNormalizer = new GBIFNormalizer();
-		gbifNormalizer.process(new File(Executer.prop.getProperty("data.gbif")), normalized);
+		gbifNormalizer.process(new File(Executer.prop.getProperty("data.gbif")), normalized, trash);
 		System.gc();
 
 		// filter Genesys data
 		log("Normalizing Genesys data");
 		Normalizable genesysNormalizer = new GenesysNormalizer();
-		genesysNormalizer.process(new File(Executer.prop.getProperty("data.genesys")), normalized);
+		genesysNormalizer.process(new File(Executer.prop.getProperty("data.genesys")), normalized, trash);
 		System.gc();
 
 		// filter CWR data
 		log("Normalizing CWR data");
 		Normalizable cwrdbNormalizer = new CWRDBNormalizer();
-		cwrdbNormalizer.process(new File(Executer.prop.getProperty("data.cwr")), normalized);
+		cwrdbNormalizer.process(new File(Executer.prop.getProperty("data.cwr")), normalized, trash);
 		System.gc();
 
 		// export counters
