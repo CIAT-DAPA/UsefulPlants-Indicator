@@ -1,109 +1,28 @@
 package org.ciat.control;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.util.Set;
 
 import org.ciat.model.Basis;
 import org.ciat.model.DataSourceName;
-import org.ciat.model.TargetTaxa;
 import org.ciat.model.TaxonFinder;
 import org.ciat.model.Utils;
-import org.ciat.view.CountExporter;
-import org.ciat.view.FileProgressBar;
 
 public class CWRDBNormalizer extends Normalizer {
 
-	private static final String SPECIFIC_SEPARATOR = "\\|";
-
 	@Override
-	public void process(File input, File output) {
-		Set<String> taxonKeys = TargetTaxa.getInstance().getSpeciesKeys();
-
-		try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(output, true)));
-				PrintWriter writerTrash = new PrintWriter(new BufferedWriter(new FileWriter(output.getParentFile()+File.separator+"trash.csv", true)));
-				BufferedReader reader = new BufferedReader(
-						new InputStreamReader(new FileInputStream(input), "UTF-8"))) {
-
-			/* header */
-			String line = reader.readLine();
-			if (colIndex.isEmpty()) {
-				colIndex = Utils.getColumnsIndex(line, SPECIFIC_SEPARATOR);
-			}
-			/* */
-
-			/* progress bar */
-			FileProgressBar bar = new FileProgressBar(input.length());
-			/* */
-
-			line = reader.readLine();
-			String past = "";
-
-			while (line != null) {
-
-				line = line.replace("\"", "");
-				String[] values = line.split(SPECIFIC_SEPARATOR);
-				if (values.length >= colIndex.size()) {
-
-					String taxonkey = getTaxonkey();
-					Basis basis = getBasis();
-					DataSourceName source = getDataSourceName();
-					String year = getYear();
-
-					boolean isTargerTaxon = taxonkey != null && taxonKeys.contains(taxonkey);
-					if (isTargerTaxon) {
-						boolean isUseful = isUseful();
-						if (isUseful) {
-
-							String normal = normalize();
-							if (normal != null && !normal.equals(past)) {
-								writer.println(normal);
-								past = normal;
-							}
-						} else {				
-							writerTrash.println(taxonkey+Normalizer.STANDARD_SEPARATOR+ year+Normalizer.STANDARD_SEPARATOR+ basis+Normalizer.STANDARD_SEPARATOR+source);
-						}
-
-						CountExporter.getInstance().updateCounters(taxonkey, isUseful, year, basis, source);
-					}
-				}
-				/* show progress */
-				bar.update(line.length());
-				/* */
-
-				line = reader.readLine();
-
-			}
-			bar.finish();
-
-		} catch (FileNotFoundException e) {
-			System.out.println("File not found " + input.getAbsolutePath());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public String getDecimalLatitude() {
+		return values[colIndex.get("final_lat")];
 	}
 
 	@Override
-	public String normalize() {
-		String lon = values[colIndex.get("final_lon")];
-		String lat = values[colIndex.get("final_lat")];
+	public String getDecimalLongitude() {
+		return values[colIndex.get("final_lon")];
+	}
+
+	@Override
+	public String getCountry() {
 		String country = values[colIndex.get("final_iso2")];
 		country = Utils.iso2CountryCodeToIso3CountryCode(country);
-		Basis basis = getBasis();
-		String source = getDataSourceName().toString();
-		String taxonKey = TaxonFinder.getInstance().fetchTaxonInfo(values[colIndex.get("taxon_final")]);
-		String year = values[colIndex.get("colldate")];
-		year = Utils.validateYear(year);
-		String result = taxonKey + STANDARD_SEPARATOR + lon + STANDARD_SEPARATOR + lat + STANDARD_SEPARATOR + country + STANDARD_SEPARATOR + year
-				+ STANDARD_SEPARATOR + basis + STANDARD_SEPARATOR + source;
-		return result;
+		return country;
 	}
 
 	@Override
@@ -130,7 +49,7 @@ public class CWRDBNormalizer extends Normalizer {
 		if (!Utils.areValidCoordinates(lat, lon)) {
 			return false;
 		}
-		
+
 		Basis basis = getBasis();
 		String year = values[colIndex.get("colldate")];
 		year = Utils.validateYear(year);
@@ -160,15 +79,17 @@ public class CWRDBNormalizer extends Normalizer {
 	@Override
 	public String getYear() {
 		String year = values[colIndex.get("colldate")];
-		if (year.length() > 3) {
-			year = year.substring(0, 4);
-		}
-		return year;
+		return Utils.validateYear(year);
 	}
 
 	@Override
 	public String getTaxonkey() {
-		return  TaxonFinder.getInstance().fetchTaxonInfo(values[colIndex.get("taxon_final")]);
+		return TaxonFinder.getInstance().fetchTaxonInfo(values[colIndex.get("taxon_final")]);
+	}
+
+	@Override
+	public String getSpecificSeparator() {
+		return "\\|";
 	}
 
 }

@@ -12,12 +12,20 @@ public interface Normalizable {
 	public String getYear();
 	
 	public String getTaxonkey();
+	
+	public String getSpecificSeparator();
+	
+	public String getDecimalLatitude();
+	
+	public String getDecimalLongitude();
 
+	public String getCountry();
+	
 	public DataSourceName getDataSourceName();
 
 	public boolean isUseful();
 
-	public void process(File input, File output);
+	public void process(File input, File output, File trash);
 
 	public String normalize();
 
