@@ -44,10 +44,11 @@ ind_dir<-paste0(root,"/","indicator")
  
  count_list<-do.call(rbind,count_list)
  
- coun2<-merge(countries_sh,count_list,by.x="ISO2",by.y="iso2c")
+coun2<-merge(countries_sh,count_list,by.x="ISO2",by.y="iso2c")
 #setwd(ind_dir)
-
-write.csv(coun2@data,paste0(ind_dir,"/","indicator_iso2c.csv"),row.names=F,quote=F,na="")
+coun2@data<-coun2@data[complete.cases(coun2@data),]
+coun2@data<-coun2@data[,-c(2,3)]
+write.csv(coun2@data,paste0(ind_iso_dir,"/","countries.csv"),row.names=F,quote=F,na="")
 
 ######### write .js object ###########
 
@@ -68,4 +69,4 @@ colnames(coun2@data)<-c("['country',", "'index'],")
 x<-which(!is.na(coun2@data[,2]))
 coun2@data<-coun2@data[x,]
 
-write.table(coun2@data,paste(ind_iso_dir,"/to_graph/countries2.js", sep=""),row.names=F,quote=F,na="")
+write.table(coun2@data,paste(ind_iso_dir,"/to_graph/countries.js", sep=""),row.names=F,quote=F,na="")
