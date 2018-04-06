@@ -49,25 +49,26 @@ public class GBIFNormalizer extends Normalizer {
 			line = reader.readLine();
 			while (line != null) {
 				line += STANDARD_SEPARATOR + " ";
-				String[] values = line.split(SPECIFIC_SEPARATOR);
+				values = null;
+				values = line.split(SPECIFIC_SEPARATOR);
 				if (values.length >= colIndex.size()) {
 
-					String taxonkey = values[colIndex.get("taxonkey")];
-					Basis basis = getBasis(values[colIndex.get("basisofrecord")]);
+					String taxonkey = getTaxonkey();
+					Basis basis = getBasis();
 					DataSourceName source = getDataSourceName();
-					String year = values[colIndex.get("year")];
+					String year = getYear();
 
 					boolean isTargerTaxon = taxonkey != null && taxonKeys.contains(taxonkey);
 					if (isTargerTaxon) {
-						boolean isUseful = isUseful(values);
+						boolean isUseful = isUseful();
 						if (isUseful) {
 
-							String result = normalize(values);
+							String result = normalize();
 							writer.println(result);
 						}else {				
 							writerTrash.println(taxonkey+Normalizer.STANDARD_SEPARATOR+ year+Normalizer.STANDARD_SEPARATOR+ basis+Normalizer.STANDARD_SEPARATOR+source);
 						}
-						CountExporter.getInstance().updateCounters(taxonkey, isUseful, year, basis, source);
+						CountExporter.getInstance().updateCounters(taxonkey, isUseful, year+"", basis, source);
 					}
 				}
 
@@ -87,12 +88,13 @@ public class GBIFNormalizer extends Normalizer {
 		}
 	}
 
+
 	@Override
-	public String normalize(String[] values) {
+	public String normalize() {
 		String country = Utils.iso2CountryCodeToIso3CountryCode(values[colIndex.get("countrycode")]);
 		String lon = values[colIndex.get("decimallongitude")];
 		String lat = values[colIndex.get("decimallatitude")];
-		Basis basis = getBasis(values[colIndex.get("basisofrecord")]);
+		Basis basis = getBasis();
 		String source = getDataSourceName().toString();
 		String taxonKey = values[colIndex.get("taxonkey")];
 		String year = values[colIndex.get("year")];
@@ -104,7 +106,7 @@ public class GBIFNormalizer extends Normalizer {
 	}
 
 	@Override
-	public boolean isUseful(String[] values) {
+	public boolean isUseful() {
 
 		if (colIndex.get("datasetkey") != null
 				&& values[colIndex.get("datasetkey")].contains("07044577-bd82-4089-9f3a-f4a9d2170b2e")) {
@@ -138,7 +140,7 @@ public class GBIFNormalizer extends Normalizer {
 			return false;
 		}
 
-		Basis basis = getBasis(values[colIndex.get("basisofrecord")]);
+		Basis basis = getBasis();
 		String year = values[colIndex.get("year")];
 		year = Utils.validateYear(year);
 		if (!year.equals(Utils.NO_YEAR)) {
@@ -151,13 +153,23 @@ public class GBIFNormalizer extends Normalizer {
 	}
 
 	@Override
-	public Basis getBasis(String basisofrecord) {
-		if (basisofrecord.toUpperCase().equals("LIVING_SPECIMEN")) {
+	public Basis getBasis() {
+		if (values[colIndex.get("basisofrecord")].toUpperCase().equals("LIVING_SPECIMEN")) {
 			return Basis.G;
 		}
 		return Basis.H;
 	}
 
+	@Override
+	public String getYear() {
+		return  values[colIndex.get("year")];
+	}
+	
+	@Override
+	public String getTaxonkey() {
+		return values[colIndex.get("taxonkey")];
+	}
+	
 	@Override
 	public DataSourceName getDataSourceName() {
 		return DataSourceName.GBIF;

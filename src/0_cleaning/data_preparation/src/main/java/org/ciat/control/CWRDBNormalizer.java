@@ -52,20 +52,17 @@ public class CWRDBNormalizer extends Normalizer {
 				String[] values = line.split(SPECIFIC_SEPARATOR);
 				if (values.length >= colIndex.size()) {
 
-					String taxonkey = TaxonFinder.getInstance().fetchTaxonInfo(values[colIndex.get("taxon_final")]);
-					Basis basis = getBasis(values[colIndex.get("source")]);
+					String taxonkey = getTaxonkey();
+					Basis basis = getBasis();
 					DataSourceName source = getDataSourceName();
-					String year = values[colIndex.get("colldate")];
-					if (year.length() > 3) {
-						year = year.substring(0, 4);
-					}
+					String year = getYear();
 
 					boolean isTargerTaxon = taxonkey != null && taxonKeys.contains(taxonkey);
 					if (isTargerTaxon) {
-						boolean isUseful = isUseful(values);
+						boolean isUseful = isUseful();
 						if (isUseful) {
 
-							String normal = normalize(values);
+							String normal = normalize();
 							if (normal != null && !normal.equals(past)) {
 								writer.println(normal);
 								past = normal;
@@ -94,12 +91,12 @@ public class CWRDBNormalizer extends Normalizer {
 	}
 
 	@Override
-	public String normalize(String[] values) {
+	public String normalize() {
 		String lon = values[colIndex.get("final_lon")];
 		String lat = values[colIndex.get("final_lat")];
 		String country = values[colIndex.get("final_iso2")];
 		country = Utils.iso2CountryCodeToIso3CountryCode(country);
-		Basis basis = getBasis(values[colIndex.get("source")]);
+		Basis basis = getBasis();
 		String source = getDataSourceName().toString();
 		String taxonKey = TaxonFinder.getInstance().fetchTaxonInfo(values[colIndex.get("taxon_final")]);
 		String year = values[colIndex.get("colldate")];
@@ -110,7 +107,7 @@ public class CWRDBNormalizer extends Normalizer {
 	}
 
 	@Override
-	public boolean isUseful(String[] values) {
+	public boolean isUseful() {
 
 		if (!(values[colIndex.get("coord_source")].equals("original")
 				|| values[colIndex.get("coord_source")].equals("georef"))) {
@@ -134,7 +131,7 @@ public class CWRDBNormalizer extends Normalizer {
 			return false;
 		}
 		
-		Basis basis = getBasis(values[colIndex.get("source")]);
+		Basis basis = getBasis();
 		String year = values[colIndex.get("colldate")];
 		year = Utils.validateYear(year);
 		if (!year.equals(Utils.NO_YEAR)) {
@@ -153,11 +150,25 @@ public class CWRDBNormalizer extends Normalizer {
 	}
 
 	@Override
-	public Basis getBasis(String basisofrecord) {
-		if (basisofrecord.toUpperCase().equals("G")) {
+	public Basis getBasis() {
+		if (values[colIndex.get("source")].toUpperCase().equals("G")) {
 			return Basis.G;
 		}
 		return Basis.H;
+	}
+
+	@Override
+	public String getYear() {
+		String year = values[colIndex.get("colldate")];
+		if (year.length() > 3) {
+			year = year.substring(0, 4);
+		}
+		return year;
+	}
+
+	@Override
+	public String getTaxonkey() {
+		return  TaxonFinder.getInstance().fetchTaxonInfo(values[colIndex.get("taxon_final")]);
 	}
 
 }

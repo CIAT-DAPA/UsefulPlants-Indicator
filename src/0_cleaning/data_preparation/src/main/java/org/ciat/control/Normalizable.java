@@ -7,14 +7,18 @@ import org.ciat.model.DataSourceName;
 
 public interface Normalizable {
 	
-	public Basis getBasis(String basisofrecord);
+	public Basis getBasis();
+	
+	public String getYear();
+	
+	public String getTaxonkey();
 
 	public DataSourceName getDataSourceName();
 
-	public boolean isUseful(String[] values);
+	public boolean isUseful();
 
 	public void process(File input, File output);
 
-	public String normalize(String[] values);
+	public String normalize();
 
 }

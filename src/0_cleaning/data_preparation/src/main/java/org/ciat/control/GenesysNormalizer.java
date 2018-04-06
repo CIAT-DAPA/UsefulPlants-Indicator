@@ -52,20 +52,16 @@ public class GenesysNormalizer extends Normalizer {
 				String[] values = line.split(SPECIFIC_SEPARATOR);
 				if (values.length >= colIndex.size()) {
 
-					String taxonkey = "";
-					taxonkey = TaxonFinder.getInstance().fetchTaxonInfo(values[colIndex.get("t.taxonName")]);
-					Basis basis = Basis.G;
+					String taxonkey = getTaxonkey();
+					Basis basis = getBasis();
 					DataSourceName source = getDataSourceName();
-					String year = values[colIndex.get("a.acqDate")];
-					if (year.length() > 3) {
-						year = year.substring(0, 4);
-					}
+					String year = getYear();
 					boolean isTargerTaxon = taxonkey != null && taxonKeys.contains(taxonkey);
 					if (isTargerTaxon) {
-						boolean isUseful = isUseful(values);
+						boolean isUseful = isUseful();
 						if (isUseful) {
 
-							String result = normalize(values);
+							String result = normalize();
 							writer.println(result);
 						}
 						CountExporter.getInstance().updateCounters(taxonkey, isUseful, year, basis, source);
@@ -90,7 +86,7 @@ public class GenesysNormalizer extends Normalizer {
 	}
 
 	@Override
-	public boolean isUseful(String[] values) {
+	public boolean isUseful() {
 
 		if (Utils.iso3CountryCodeToIso2CountryCode(values[colIndex.get("a.orgCty")]) == null) {
 			return false;
@@ -106,7 +102,7 @@ public class GenesysNormalizer extends Normalizer {
 	}
 
 	@Override
-	public String normalize(String[] values) {
+	public String normalize() {
 		String lon = values[colIndex.get("g.longitude")];
 		String lat = values[colIndex.get("g.latitude")];
 		String country = Utils.iso3CountryCodeToIso2CountryCode(values[colIndex.get("a.orgCty")]);
@@ -125,5 +121,26 @@ public class GenesysNormalizer extends Normalizer {
 	public DataSourceName getDataSourceName() {
 		return DataSourceName.GENESYS;
 	}
+
+	@Override
+	public Basis getBasis() {
+		return Basis.G;
+	}
+
+	@Override
+	public String getYear() {
+		String year = values[colIndex.get("a.acqDate")];
+		if (year.length() > 3) {
+			year = year.substring(0, 4);
+		}
+		return super.getYear();
+	}
+
+	@Override
+	public String getTaxonkey() {
+		return TaxonFinder.getInstance().fetchTaxonInfo(values[colIndex.get("t.taxonName")]);
+	}
+	
+	
 
 }

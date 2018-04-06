@@ -16,6 +16,8 @@ public class Normalizer implements Normalizable {
 	
 	public static final int YEAR_MIN = 1950;
 	public static final int YEAR_MAX = Calendar.getInstance().get(Calendar.YEAR);
+	
+	protected String[] values;
 
 
 	// target columns
@@ -31,22 +33,32 @@ public class Normalizer implements Normalizable {
 	}
 
 	@Override
-	public Basis getBasis(String basisofrecord) {
+	public Basis getBasis() {
 		return null;
 	}
 
+	@Override
+	public String getYear() {
+		return null;
+	}
+	
+	@Override
+	public String getTaxonkey() {
+		return null;
+	}
+	
 	@Override
 	public DataSourceName getDataSourceName() {
 		return null;
 	}
 
 	@Override
-	public boolean isUseful(String[] values) {
+	public boolean isUseful() {
 		return false;
 	}
 
 	@Override
-	public String normalize(String[] values) {
+	public String normalize() {
 		return null;
 	}
 
@@ -62,4 +74,5 @@ public class Normalizer implements Normalizable {
 		result = result.substring(0, result.length() - 1);
 		return result;
 	}
+
 }
