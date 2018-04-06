@@ -26,8 +26,6 @@ public class Maxentnisizer {
 	// target columns
 	private String[] colTarget = { "decimallongitude", "decimallatitude", "countrycode", "year", "basis", "origin" };
 
-	private static final String SEPARATOR = "\t";
-
 	/** @return output file */
 	public void process(File input) {
 
@@ -43,7 +41,7 @@ public class Maxentnisizer {
 			/* header */
 			String line = reader.readLine();
 			if (colIndex.isEmpty()) {
-				colIndex = Utils.getColumnsIndex(line, SEPARATOR);
+				colIndex = Utils.getColumnsIndex(line, Normalizer.STANDARD_SEPARATOR);
 			}
 
 			/* progress bar */
@@ -55,9 +53,9 @@ public class Maxentnisizer {
 
 			line = reader.readLine();
 			while (line != null) {
-				line += SEPARATOR + " ";
+				line +=  Normalizer.STANDARD_SEPARATOR + " ";
 
-				String[] values = line.split(SEPARATOR);
+				String[] values = line.split(Normalizer.STANDARD_SEPARATOR);
 
 				String taxon = values[colIndex.get("taxonkey")];
 				File output = new File(outputDir.getAbsolutePath() + "/" + taxon + ".csv");
@@ -101,7 +99,7 @@ public class Maxentnisizer {
 		for (String col : colTarget) {
 			if (values.length > colIndex.size() && colIndex.get(col) != null) {
 				output += values[colIndex.get(col)];
-				output += SEPARATOR;
+				output +=  Normalizer.STANDARD_SEPARATOR;
 			}
 		}
 		output = output.substring(0, output.length());
@@ -111,7 +109,7 @@ public class Maxentnisizer {
 	public String getHeader() {
 		String result = "";
 		for (String field : colTarget) {
-			result += field + SEPARATOR;
+			result += field +  Normalizer.STANDARD_SEPARATOR;
 		}
 		result = result.substring(0, result.length() - 1);
 		return result;

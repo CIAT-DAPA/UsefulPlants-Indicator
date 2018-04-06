@@ -23,7 +23,6 @@ public class NativenessMarker {
 	private Map<String, Integer> colIndex;
 	private Map<String, Integer> natienessIndex;
 	private Map<Integer, TaxonNativeness> taxaCWR;
-	private static final String SEPARATOR = "\t";
 
 	public void process(File input, File output) {
 
@@ -36,7 +35,7 @@ public class NativenessMarker {
 
 			/* header */
 			String line = reader.readLine();
-			colIndex = Utils.getColumnsIndex(line, SEPARATOR);
+			colIndex = Utils.getColumnsIndex(line, Normalizer.STANDARD_SEPARATOR);
 			/* */
 
 			/* progress bar */
@@ -45,8 +44,8 @@ public class NativenessMarker {
 
 			line = reader.readLine();
 			while (line != null) {
-				line += SEPARATOR;
-				String[] values = line.split(SEPARATOR);
+				line += Normalizer.STANDARD_SEPARATOR;
+				String[] values = line.split(Normalizer.STANDARD_SEPARATOR);
 				if (values.length == colIndex.size() && isNative(values)) {
 					line += Nativeness.N;
 				} else {
@@ -92,11 +91,11 @@ public class NativenessMarker {
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(vocabularyFile)))) {
 
 			String line = reader.readLine();
-			natienessIndex = Utils.getColumnsIndex(line, SEPARATOR);
+			natienessIndex = Utils.getColumnsIndex(line, Normalizer.STANDARD_SEPARATOR);
 			line = reader.readLine();
 			while (line != null) {
 				if (!line.isEmpty()) {
-					String[] values = line.split(SEPARATOR);
+					String[] values = line.split(Normalizer.STANDARD_SEPARATOR);
 					if (values.length > 2) {
 						if (Utils.isNumeric(values[natienessIndex.get("taxonkey")])) {
 							Integer taxonKey = Integer.parseInt(values[natienessIndex.get("taxonkey")]);
