@@ -27,6 +27,7 @@ public class ExecNormalizer extends Executer {
 		log("Starting process");
 
 		Utils.createOutputDirectory(new File("outputs"));
+		Utils.createOutputDirectory(new File("temp"));
 		File normalized = new File(Executer.prop.getProperty("file.normalized"));
 		File trash = new File(Executer.prop.getProperty("file.data.trash"));
 		try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(normalized)))) {
