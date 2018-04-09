@@ -13,6 +13,13 @@ public class GBIFNormalizer extends Normalizer {
 	@Override
 	public boolean isUseful() {
 		
+		boolean returnSuper = super.isUseful();
+		
+		if(returnSuper == false){
+			return returnSuper;
+		}
+			
+		
 		// ignoring CWR dataset in GBIF
 		if (colIndex.get("datasetkey") != null
 				&& values[colIndex.get("datasetkey")].contains("07044577-bd82-4089-9f3a-f4a9d2170b2e")) {
@@ -26,31 +33,12 @@ public class GBIFNormalizer extends Normalizer {
 			}
 		}
 
-		String country = Utils.iso2CountryCodeToIso3CountryCode(values[colIndex.get("countrycode")]);
-		if (country == null) {
-			return false;
-		}
-
 		Set<String> issues = new LinkedHashSet<>();
 		issues.add("COORDINATE_OUT_OF_RANGE");
 		issues.add("COUNTRY_COORDINATE_MISMATCH");
 		issues.add("ZERO_COORDINATE");
 		for (String issue : issues) {
 			if (colIndex.get("issue") != null && values[colIndex.get("issue")].contains(issue)) {
-				return false;
-			}
-		}
-
-		if (!Utils.areValidCoordinates(values[colIndex.get("decimallatitude")],
-				values[colIndex.get("decimallongitude")])) {
-			return false;
-		}
-
-		Basis basis = getBasis();
-		String year = values[colIndex.get("year")];
-		year = Utils.validateYear(year);
-		if (!year.equals(Utils.NO_YEAR)) {
-			if (basis.equals(Basis.H) && Integer.parseInt(year) < Normalizer.YEAR_MIN) {
 				return false;
 			}
 		}

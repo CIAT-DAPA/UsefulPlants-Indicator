@@ -24,7 +24,7 @@ import org.ciat.view.FileProgressBar;
 public class Normalizer implements Normalizable {
 
 	// column separator
-	protected static final String STANDARD_SEPARATOR = ",";
+	protected static final String STANDARD_SEPARATOR = "\t";
 
 	public static final int YEAR_MIN = 1950;
 	public static final int YEAR_MAX = Calendar.getInstance().get(Calendar.YEAR);
@@ -121,6 +121,36 @@ public class Normalizer implements Normalizable {
 
 	}
 
+	
+	@Override
+	public boolean isUseful() {
+		
+		
+		// remove records without country
+		String country = getCountry();
+		if (country == null || country == Utils.NO_COUNTRY2 || country == Utils.NO_COUNTRY3) {
+			return false;
+		}
+		
+		// remove records with invalid coordinates
+		String lon = getDecimalLongitude();
+		String lat = getDecimalLatitude();
+		if (!Utils.areValidCoordinates(lat, lon)) {
+			return false;
+		}
+		
+		// remove records of H before the 1950
+		Basis basis = getBasis();
+		String year = getYear();		
+		if (!year.equals(Utils.NO_YEAR)) {
+			if (basis.equals(Basis.H) && Integer.parseInt(year) < Normalizer.YEAR_MIN) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+	
 	@Override
 	public Basis getBasis() {
 		return null;
@@ -156,10 +186,7 @@ public class Normalizer implements Normalizable {
 		return Utils.NO_COUNTRY2;
 	}
 
-	@Override
-	public boolean isUseful() {
-		return false;
-	}
+
 
 	public static String getStandardSeparator() {
 		return STANDARD_SEPARATOR;

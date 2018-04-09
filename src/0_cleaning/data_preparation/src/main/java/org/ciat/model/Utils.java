@@ -112,6 +112,10 @@ public class Utils {
 		if (year == null) {
 			return NO_YEAR;
 		}
+		
+		if (year.isEmpty()) {
+			return NO_YEAR;
+		}
 
 		if (year.length() < 4) {
 			return NO_YEAR;

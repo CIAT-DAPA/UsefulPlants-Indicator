@@ -39,9 +39,9 @@ public class Maxentnisizer {
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(input), "UTF-8"))) {
 
 			/* header */
-			String line = reader.readLine();
+			String header = reader.readLine();
 			if (colIndex.isEmpty()) {
-				colIndex = Utils.getColumnsIndex(line, Normalizer.STANDARD_SEPARATOR);
+				colIndex = Utils.getColumnsIndex(header, Normalizer.STANDARD_SEPARATOR);
 			}
 
 			/* progress bar */
@@ -51,7 +51,7 @@ public class Maxentnisizer {
 			Map<String, PrintWriter> writers = new TreeMap<String, PrintWriter>();
 			Map<String, Set<String>> coords = new TreeMap<String, Set<String>>();
 
-			line = reader.readLine();
+			String line = reader.readLine();
 			while (line != null) {
 				line +=  Normalizer.STANDARD_SEPARATOR + " ";
 
@@ -61,7 +61,7 @@ public class Maxentnisizer {
 				File output = new File(outputDir.getAbsolutePath() + "/" + taxon + ".csv");
 
 				if (!writers.keySet().contains(taxon)) {
-					writers.put(taxon, new PrintWriter(new BufferedWriter(new FileWriter(output, true))));
+					writers.put(taxon, new PrintWriter(new BufferedWriter(new FileWriter(output))));
 					coords.put(taxon, new TreeSet<String>());
 				}
 

@@ -27,6 +27,12 @@ public class CWRDBNormalizer extends Normalizer {
 
 	@Override
 	public boolean isUseful() {
+		
+		boolean returnSuper = super.isUseful();
+		
+		if(returnSuper == false){
+			return returnSuper;
+		}
 
 		if (!(values[colIndex.get("coord_source")].equals("original")
 				|| values[colIndex.get("coord_source")].equals("georef"))) {
@@ -35,28 +41,6 @@ public class CWRDBNormalizer extends Normalizer {
 
 		if (!(values[colIndex.get("source")].equals("G") || values[colIndex.get("source")].equals("H"))) {
 			return false;
-		}
-
-		String country = values[colIndex.get("final_iso2")];
-		country = Utils.iso2CountryCodeToIso3CountryCode(country);
-		if (country == null) {
-			return false;
-		}
-
-		String lon = values[colIndex.get("final_lon")];
-		String lat = values[colIndex.get("final_lat")];
-
-		if (!Utils.areValidCoordinates(lat, lon)) {
-			return false;
-		}
-
-		Basis basis = getBasis();
-		String year = values[colIndex.get("colldate")];
-		year = Utils.validateYear(year);
-		if (!year.equals(Utils.NO_YEAR)) {
-			if (basis.equals(Basis.H) && Integer.parseInt(year) < Normalizer.YEAR_MIN) {
-				return false;
-			}
 		}
 
 		return true;

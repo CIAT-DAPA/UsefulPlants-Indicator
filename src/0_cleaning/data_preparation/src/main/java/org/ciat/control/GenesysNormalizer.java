@@ -13,15 +13,12 @@ public class GenesysNormalizer extends Normalizer {
 	@Override
 	public boolean isUseful() {
 
-		if (Utils.iso3CountryCodeToIso2CountryCode(values[colIndex.get("a.orgCty")]) == null) {
-			return false;
+		boolean returnSuper = super.isUseful();
+		
+		if(returnSuper == false){
+			return returnSuper;
 		}
-
-		String lon = values[colIndex.get("g.longitude")];
-		String lat = values[colIndex.get("g.latitude")];
-		if (!Utils.areValidCoordinates(lat, lon)) {
-			return false;
-		}
+			
 
 		return true;
 	}

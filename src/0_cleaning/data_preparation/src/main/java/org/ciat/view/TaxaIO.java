@@ -13,7 +13,7 @@ public class TaxaIO {
 	public static final String SEPARATOR = "\t";
 
 	public static void exportTaxaMatched(Map<String, String> matchedTaxa, File output) {
-		try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(output, true)))) {
+		try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(output)))) {
 
 			for (String name : matchedTaxa.keySet()) {
 				writer.println(matchedTaxa.get(name) + SEPARATOR + name);
@@ -26,7 +26,7 @@ public class TaxaIO {
 	}
 
 	public static void exportTaxaUnmatched(Set<String> set, File output) {
-		try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(output, true)))) {
+		try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(output)))) {
 
 			for (String name : set) {
 				writer.println(name);
