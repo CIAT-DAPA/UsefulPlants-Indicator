@@ -122,6 +122,9 @@ public class Normalizer implements Normalizable {
 	}
 
 	
+	/* 
+	 * This method works with the premise that the record is useful until otherwise is proved
+	 */
 	@Override
 	public boolean isUseful() {
 		

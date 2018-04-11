@@ -28,7 +28,7 @@ public class GBIFNormalizer extends Normalizer {
 
 		// only allow species and subspecies
 		if (colIndex.get("taxonrank") != null) {
-			if (!values[colIndex.get("taxonrank")].contains("SPECIES")) {
+			if (!(values[colIndex.get("taxonrank")].contains("SPECIES") || values[colIndex.get("taxonrank")].contains("VARIETY"))) {
 				return false;
 			}
 		}

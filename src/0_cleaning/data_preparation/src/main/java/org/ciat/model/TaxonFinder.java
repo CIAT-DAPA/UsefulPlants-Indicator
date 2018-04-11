@@ -63,7 +63,7 @@ public class TaxonFinder {
 				if (object.has(rankField) && object.has(keyField)) {
 					String rank = object.get(rankField) + "";
 					// check if the taxon is an specie or subspecie
-					if (rank.contains("SPECIE")) {
+					if (rank.contains("SPECIE") || rank.contains("VARIETY")) {
 						String value = object.get(keyField) + "";
 						value = value.replaceAll("\n", "");
 						value = value.replaceAll("\r", "");

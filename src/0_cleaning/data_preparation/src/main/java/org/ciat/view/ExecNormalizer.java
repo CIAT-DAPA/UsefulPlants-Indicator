@@ -63,7 +63,7 @@ public class ExecNormalizer extends Executer {
 		System.gc();
 		
 		// export counters
-		log("Exporting counters");
+		log("Exporting taxa");
 		TaxaIO.exportTaxaMatched(TaxonFinder.getInstance().getMatchedTaxa(),new File(Executer.prop.getProperty("file.taxa.matched")));
 		TaxaIO.exportTaxaUnmatched(TaxonFinder.getInstance().getUnmatchedTaxa(),new File(Executer.prop.getProperty("file.taxa.unmatched")));
 		
