@@ -27,7 +27,7 @@ ind_subregions<-list.files(sub_dir,pattern = ".csv$",full.names = F)
 ind_subregions_un<-ind_subregions
 ind_subregions_un<-gsub("indicator_","",ind_subregions_un)
 ind_subregions_un<-gsub(".csv","",ind_subregions_un)
-ind_subregions_un<-gsub( "2018-04-03","",ind_subregions_un)
+ind_subregions_un<-gsub( "2018-04-09","",ind_subregions_un)
 ind_subregions_un<-gsub( "_","",ind_subregions_un)
 
 
@@ -63,33 +63,33 @@ zz<-do.call(rbind, z)
 
 sub_list<-lapply(1:length(ind_subregions),function(i){
   x<-read.csv(paste0(sub_dir,"/",ind_subregions[[i]]),header=T)
-  x<-x[,"P_LP_SC"]
+  x<-x[,"P_MP"]
   x<-t(x)
-  x<-as.data.frame(cbind(zz[i,1],as.numeric(zz[i,2]),x))
-  colnames(x)<-c("subregions","codes","min","max","mean","exsitu","insitu")
+  x<-as.data.frame(cbind(as.character(zz[i,2]),zz[i,1],x))
+  colnames(x)<-c("Region codes","sub continents","min","max","mean","exsitu","insitu")
   return(x)
 })
 
 sub_list<-do.call(rbind,sub_list)
 
-write.csv(sub_list,paste(sub_dir,"/regions", ".csv", sep=""),row.names=F,quote=F,na="",sep=",")
+write.csv(sub_list,paste(sub_dir,"/to_graph/MP/regions_MP", ".csv", sep=""),row.names=F,quote=F,na="",sep=",")
 
 subr<-c()
 index<-c()
 for(i in 1:nrow(sub_list)){
   
-  subr[i]<-gsub(sub_list$subregions[i], paste0("['",sub_list$subregions[i],"',"), sub_list$subregions[i])
-  index[i]<-gsub(sub_list$mean[i], paste0(sub_list$mean[i],"],"), sub_list$mean[i])
+  subr[i]<-gsub(sub_list$`Region codes`[i], paste0("['",sub_list$`Region codes`[i],"','"), sub_list$`Region codes`[i])
+  index[i]<-gsub(sub_list$mean[i], paste0("',",sub_list$mean[i],"],"), sub_list$mean[i])
 }
 
-index[22]<-gsub(",", "];", index)
+index[22]<-gsub("],", "];", index)
 sub_list<-sub_list[,c(1,2,5)]
 sub_list<-cbind(subr,sub_list)
 sub_list<-cbind(sub_list,index)
 sub_list<-sub_list[,-c(2,4)]
 x<-which(!is.na(sub_list$index))
-opt_list<-opt_list[x,]
-colnames(sub_list)<-c("['regions',","'codes'", "'index'],")
+sub_list<-sub_list[x,]
+colnames(sub_list)<-c("['Region codes',","'Sub continents',", "'Index'],")
 
-write.table(sub_list,paste(sub_dir,"/to_graph/regions", "1.js", sep=""),row.names=F,quote=F,na="")
+write.table(sub_list,paste(sub_dir,"/to_graph/MP/regions_MP", ".js", sep=""),row.names=F,quote=F,na="")
 
