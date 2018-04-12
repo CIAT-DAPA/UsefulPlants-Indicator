@@ -53,10 +53,10 @@ src/
 
 | Folder  | File|  Description |
 | ------------- | ------------- | ------------- |
-| WEP  | WEP.csv  | World Economic Plants database (USDA ARS GRIN-GLOBAL Taxonomy) |
-| GBIF  | gbif.zip |GBIF download of Plantae from 1950 to date |
-| GENESYS  | genesys_zip | GENESYS Original occurrence records from genebanks (genebank accession records)   |
-| CWR| cwr.zip  |Crop Wild Relatives database of Global CWR Project (www.cwrdiversity.org)   |
+| WEP  | WEP.csv  | World Economic Plants database (USDA ARS GRIN-GLOBAL Taxonomy https://npgsweb.ars-grin.gov/gringlobal/taxon/taxonomysearcheco.aspx) |
+| GBIF  | gbif.zip |GBIF download of Plantae from 1950 to date (https://www.gbif.org/) |
+| GENESYS  | genesys_zip | GENESYS Original occurrence records from genebanks (genebank accession records) https://www.genesys-pgr.org/welcome   |
+| CWR| cwr.zip  |Crop Wild Relatives database of Global CWR Project (https://www.cwrdiversity.org/checklist/cwr-occurrences.php)   |
 | COUNTRY  | countryISO.csv  |Country names, ISO 3166-1 alpha-3 and alpha-2  |
 
 ## Modeling variables sources
