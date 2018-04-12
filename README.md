@@ -1,5 +1,6 @@
 # Aichi13
-Project Management of the Aich13 Indicators for non-cultivated plant species with economical use
+Project Management of the Aichi13 Indicators for non-cultivated plant species with economical use ("Comprehensiveness of conservation of socioeconomically as well as culturally valuable species": An operational indicator for Aichi Biodiversity Target 13
+
 
 ## Functions documentation standard
 
@@ -52,10 +53,10 @@ src/
 
 | Folder  | File|  Description |
 | ------------- | ------------- | ------------- |
-| WEP  | WEP.csv  | World Economic Plants databse |
+| WEP  | WEP.csv  | World Economic Plants database (USDA ARS GRIN-GLOBAL Taxonomy) |
 | GBIF  | gbif.zip |GBIF download of Plantae from 1950 to date |
-| GENESYS  | genesys_zip | GENESYS Original occurrence records   |
-| CWR| cwr.zip  |Crop Wild Relatives database of CIAT   |
+| GENESYS  | genesys_zip | GENESYS Original occurrence records from genebanks (genebank accession records)   |
+| CWR| cwr.zip  |Crop Wild Relatives database of Global CWR Project (www.cwrdiversity.org)   |
 | COUNTRY  | countryISO.csv  |Country names, ISO 3166-1 alpha-3 and alpha-2  |
 
 ## Modeling variables sources
