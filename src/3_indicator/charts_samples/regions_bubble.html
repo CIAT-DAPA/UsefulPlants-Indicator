@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script type="text/javascript" src="regions_bubble.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawSeriesChart);
+
+      function drawSeriesChart() {
+        // Some raw data (not necessarily accurate)
+        var gdata = google.visualization.arrayToDataTable(data);
+
+      var options = {
+        hAxis: {title: 'HP Score'},
+        vAxis: {title: 'Richness'},
+		colorAxis: {colors: ['white', 'red']},
+		sizeAxis:  {minValue: 10,  maxSize: 10},
+        bubble: {textStyle: {fontSize: 11}}
+      };
+
+    var chart = new google.visualization.BubbleChart(document.getElementById('chart_div'));
+    chart.draw(gdata, options);
+  }
+    </script>
+  </head>
+  <body>
+    <div id="chart_div" style="width: 1080px; height: 720px;"></div>
+  </body>
+</html>
