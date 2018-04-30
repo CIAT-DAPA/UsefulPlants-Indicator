@@ -13,6 +13,7 @@ load(file=paste0(par_dir, "/gadm/shapefile/gadm28ISO.RDS"))
 
 config(dirs=F, cleaning=T, insitu=T, exsitu=T, modeling=T, premodeling=T)
 
+setwd(root)
 ind_dir<-paste0(root,"/","indicator")
 
 
@@ -26,15 +27,12 @@ ind_dir<-paste0(root,"/","indicator")
  ind_countries_iso2<-ind_countries
  ind_countries_iso2<-gsub("indicator_","",ind_countries_iso2)
  ind_countries_iso2<-gsub(".csv","",ind_countries_iso2)
- ind_countries_iso2<-gsub("_2018-04-03","",ind_countries_iso2)
- 
- 
+ ind_countries_iso2<-gsub("_2018-04-09","",ind_countries_iso2)
  
  count_list<-lapply(1:length(ind_countries),function(i){
-   
-   
+   cat(i, "\n")
    x<-read.csv(paste0(ind_iso_dir,"/",ind_countries[[i]]),header=T)
-   x<-x[,"P_LP_SC"]
+   x<-x[,12]
    x<-t(x)
    x<-as.data.frame(cbind(as.character(ind_countries_iso2[[i]]),x))
    #x<-t(x)

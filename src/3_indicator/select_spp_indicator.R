@@ -19,7 +19,7 @@ select_spp_indicator <- function(iso_list="ALL", opt=c("min","max","mean","ex","
   if (toupper(iso_list) == "ALL") {
     spp_list <- unique(paste(wep_list$taxonkey))
   } else {
-    spp_list <- wep_list[which(wep_list$ISO2 %in% toupper(iso_list)),]
+    spp_list <- wep_list[which(wep_list$ISO3 %in% toupper(iso_list)),]
     spp_list <- unique(paste(spp_list$taxonkey))
   }
   
@@ -49,8 +49,13 @@ select_spp_indicator <- function(iso_list="ALL", opt=c("min","max","mean","ex","
 
 iso_list="ALL"
 indic_iso <- select_spp_indicator(iso_list, opt=c("min","max","mean","ex","in"))
-iso_list <- as.character(na.omit(unique(wep_list$ISO2)))
+write.csv(indic_iso,paste0(root,"/indicator/ALL/" ,"indicator_",iso_list,"_",Sys.Date(),".csv"), quote=F, row.names = F)
+
+
+
+iso_list <- as.character(na.omit(unique(wep_list$ISO3)))
 indic_iso <-lapply(1:length(iso_list), function(i){
   y <- select_spp_indicator(iso_list[[i]], opt=c("min","max","mean","ex","in"))
+  write.csv(y,paste0(root,"/indicator/countries/" ,"indicator_",iso_list[[i]],"_",Sys.Date(),".csv"), quote=F, row.names = F)
   return(y)
 })

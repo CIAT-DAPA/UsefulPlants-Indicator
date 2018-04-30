@@ -6,7 +6,7 @@ suppressMessages(library(raster))
 suppressMessages(library(ff))
 suppressMessages(library(data.table))
 suppressMessages(library(gtools))
-suppressMessages(library(velox))
+#suppressMessages(library(velox))
 
 make.projections <- function(k, pnts, tmpl_raster)
 {
