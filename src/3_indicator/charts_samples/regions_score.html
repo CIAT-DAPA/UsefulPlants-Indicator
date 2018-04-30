@@ -1,0 +1,35 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script type="text/javascript" src="regions_score.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawVisualization);
+
+      function drawVisualization() {
+        // Some raw data (not necessarily accurate)
+        var gdata = google.visualization.arrayToDataTable(data);
+
+    var options = {
+      seriesType: 'bars',
+	  isStacked: 'true',
+      series: {0: { color: 'red'},
+	  1: { color: 'orange'},
+	  2: { color: 'green'},
+	  3: {type: 'line', color: 'black', targetAxisIndex:1}},
+	  vAxes: {
+            // Adds titles to each axis.
+            0: {title: 'Status'},
+            1: {title: 'Richness'}
+          }
+    };
+
+    var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+    chart.draw(gdata, options);
+  }
+    </script>
+  </head>
+  <body>
+    <div id="chart_div" style="width: 1200px; height: 500px;"></div>
+  </body>
+</html>
