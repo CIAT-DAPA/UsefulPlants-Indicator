@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<!-- saved from url=(0035)../../../../../../aichi check/index.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js?sensor=false&callback=initialize"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi?sensor=false"></script>
+<script src="jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="countries.js"></script>
+<script type="text/javascript" src="uses_comb.js"></script>
+<script type="text/javascript">
+    google.charts.load('current', {'packages':['geochart']});
+    google.charts.setOnLoadCallback(drawRegionsMap);
+	
+
+    function drawRegionsMap() {
+    var gdata = google.visualization.arrayToDataTable(countries_data);
+
+    var options = {resolution: 'country'};
+
+    var chart = new google.visualization.GeoChart(document.getElementById('countries_div'));
+
+    chart.draw(gdata, options);
+    }
+	
+	
+	
+	    google.charts.load('current', {packages: ['corechart', 'bar']});
+    google.charts.setOnLoadCallback(drawMultSeries);
+
+    function drawMultSeries() {
+      var gdata = google.visualization.arrayToDataTable(uses_data);
+
+      var options = {
+        legend: { position: "bottom", maxLines: 3, textStyle: { color: 'black',  fontName: 'Times New Roman',  fontSize: 16 } },
+        colors:['#E54D24','#F0CB69','#12A356'],
+		chartArea: {'width': '70%', 'height': '80%'},
+		bar: {groupWidth: "100%"},		
+		vAxis: {textStyle: { color: 'black',  fontName: 'Times New Roman',  fontSize: 12,  bold: false,  italic: true }},		
+		hAxis: {textStyle: { color: 'black',  fontName: 'Times New Roman',  fontSize: 12,  bold: false,  italic: true }},		
+        
+        isStacked: 'true'
+       };
+       
+      var chart = new google.visualization.BarChart(document.getElementById('uses_div'));
+      chart.draw(gdata, options);
+    }
+	
+	
+	
+	$(document).ready(function(){
+  $(window).resize(function(){
+     drawRegionsMap();
+	 drawMultSeries();
+  });
+});
+
+
+</script>
+<style>
+body, html {
+  height: 100%;
+  margin: 0;
+  font: 400 15px/1.8 "Lato", sans-serif;
+  color: #777;
+}
+
+.bgimg-1, .bgimg-2, .bgimg-3 {
+  position: relative;
+  opacity: 0.65;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+}
+.bgimg-1 {
+  background-image: url("img_parallax.jpg");
+  min-height: 100%;
+}
+
+.bgimg-2 {
+  background-image: url("img_parallax2.jpg");
+  min-height: 400px;
+}
+
+.bgimg-3 {
+  background-image: url("img_parallax3.jpg");
+  min-height: 400px;
+}
+
+.caption {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  text-align: center;
+  color: #000;
+}
+
+.caption span.border {
+  background-color: #111;
+  color: #fff;
+  padding: 18px;
+  font-size: 25px;
+  letter-spacing: 10px;
+}
+
+.contenido{
+	background-color:transparent;
+	text-align:center;
+	padding: 50px 80px;
+	text-align: justify;
+} 
+
+h3 {
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  font: 20px "Lato", sans-serif;
+  color: #111;
+}
+
+/* Turn off parallax scrolling for tablets and phones */
+@media only screen and (max-device-width: 1024px) {
+    .bgimg-1, .bgimg-2, .bgimg-3 {
+        background-attachment: scroll;
+    }
+}
+</style>
+
+</head>
+<body>
+
+
+<div class="bgimg-1">
+  <div class="caption">
+    <span class="border">WELCOME</span>
+  </div>
+</div>
+
+<div style="color: #777;background-color:white;text-align:center;padding:50px 80px;text-align: justify;">
+  <h3 style="text-align:center;">Comprehensiveness of conservation of socioeconomic and culturally valuable plants: an operational indicator for Aichi Biodiversity Target 13</h3>
+  <p>A useful indicator of progress toward conservation targets for socioeconomic and culturally important plants, such as Aichi Biodiversity Target 13 and Sustainable Development Goal 2.5, would provide a readily-computed measurement of change over time in the conservation status of the genetic diversity within these plants, including an indication of whether the trends are significant. To be able to assess the conservation status of the many thousands of these useful plant species around the world and to report the results at the scales and frequency necessary to be of use in the development and implementation of strategies aimed at minimizing genetic erosion and safeguarding genetic diversity, such an indicator should be based on well-curated and easily accessible data as well as efficient methods leading to accurate results. Gaps in the current list of indicators for these targets suggest that the development of an efficient and accurate measurement of the state of conservation of the genetic diversity in useful plants is a major challenge. Here we present a "gap analysis" indicator methodology that compares the extent of conservation of useful wild plants in genebanks and other live repositories as well as in protected natural areas, against the full range of geographic and ecological variation in their modeled native distributions, providing a pragmatic estimate of the adequacy of conservation of their genetic diversity both ex situ and in situ. The methodology entails the creation and curation of a dynamic list of socioeconomic and culturally valuable species, the compilation of reference and conservation repository occurrence data, modeling of the potential distributions of species based on these data in combination with climatic and other eco-geographic information, comparisons of the resulting distribution models to existing germplasm occurrences and to the location of protected areas, and, finally, the calculation of the indicator across species. The methodology enables a prioritization of species for immediate conservation action, and, when measured over time, quantifies progress toward the goal of comprehensive conservation of these plants at the global, regional, and national scales, including determining when that goal is met. We apply this methodology to almost 7,000 useful wild plants, finding that these species as a whole are currently highly under-conserved ex situ, while moderately well conserved in situ, leading to a combined global indicator of 2.78 on a scale of 0 to 100. Combined indicator metrics at the national and regional scales as well as by species use type varied, although all scales and use categories were highly under-conserved. The indicator data, methodology, and results are available for indicator reporting and conservation prioritization setting. </p>
+</div>
+
+<div class="bgimg-2">
+  <div class="caption">
+    <span class="border" style="font-size:25px;color: #f7f7f7;">COUNTRY LEVEL</span>
+  </div>
+</div>
+
+<div style="position:relative;">
+  <div style="contenido">
+    <p>Indicator results per country, combined conservation indicator</p>
+	<div id="countries_div"></div>
+  </div>
+</div>
+
+<div class="bgimg-3">
+  <div class="caption">
+    <span class="border" style="font-size:25px;color: #f7f7f7;">USES</span>
+  </div>
+</div>
+
+<div style="position:relative;">
+  <div class="contenido">
+    <p>Proportion of species in each conservation priority category (HP = High Priority for conservation action; MP = Medium Priority; LP&SC = Low Priority and Sufficiently Conserved)</p>
+	<div id="uses_div" style="height:900px;"></div>
+  </div>
+</div>
+
+<div class="bgimg-1">
+  <div class="caption">
+    <span class="border">THANKS!</span>
+  </div>
+</div>
+
+
+</body></html>
