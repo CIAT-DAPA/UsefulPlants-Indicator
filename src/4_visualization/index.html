@@ -6,13 +6,14 @@
 <script type="text/javascript" src="https://www.google.com/jsapi?sensor=false"></script>
 <script src="jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="countries.js"></script>
+<script type="text/javascript" src="uses_comb.js"></script>
 <script type="text/javascript">
     google.charts.load('current', {'packages':['geochart']});
     google.charts.setOnLoadCallback(drawRegionsMap);
 	
 
     function drawRegionsMap() {
-    var gdata = google.visualization.arrayToDataTable(data);
+    var gdata = google.visualization.arrayToDataTable(countries_data);
 
     var options = {resolution: 'country'};
 
@@ -21,9 +22,35 @@
     chart.draw(gdata, options);
     }
 	
+	
+	
+	    google.charts.load('current', {packages: ['corechart', 'bar']});
+    google.charts.setOnLoadCallback(drawMultSeries);
+
+    function drawMultSeries() {
+      var gdata = google.visualization.arrayToDataTable(uses_data);
+
+      var options = {
+        legend: { position: "bottom", maxLines: 3, textStyle: { color: 'black',  fontName: 'Times New Roman',  fontSize: 16 } },
+        colors:['#E54D24','#F0CB69','#12A356'],
+		chartArea: {'width': '70%', 'height': '80%'},
+		bar: {groupWidth: "100%"},		
+		vAxis: {textStyle: { color: 'black',  fontName: 'Times New Roman',  fontSize: 12,  bold: false,  italic: true }},		
+		hAxis: {textStyle: { color: 'black',  fontName: 'Times New Roman',  fontSize: 12,  bold: false,  italic: true }},		
+        
+        isStacked: 'true'
+       };
+       
+      var chart = new google.visualization.BarChart(document.getElementById('uses_div'));
+      chart.draw(gdata, options);
+    }
+	
+	
+	
 	$(document).ready(function(){
   $(window).resize(function(){
      drawRegionsMap();
+	 drawMultSeries();
   });
 });
 
@@ -78,6 +105,13 @@ body, html {
   letter-spacing: 10px;
 }
 
+.contenido{
+	background-color:transparent;
+	text-align:center;
+	padding: 50px 80px;
+	text-align: justify;
+} 
+
 h3 {
   letter-spacing: 5px;
   text-transform: uppercase;
@@ -115,7 +149,7 @@ h3 {
 </div>
 
 <div style="position:relative;">
-  <div style="background-color:transparent;text-align:center;padding:50px 80px;text-align: justify;">
+  <div style="contenido">
     <p>Indicator results per country, combined conservation indicator</p>
 	<div id="countries_div"></div>
   </div>
@@ -123,13 +157,14 @@ h3 {
 
 <div class="bgimg-3">
   <div class="caption">
-    <span class="border" style="background-color:transparent;font-size:25px;color: #000000;">SCROLL UP</span>
+    <span class="border" style="font-size:25px;color: #f7f7f7;">USES</span>
   </div>
 </div>
 
 <div style="position:relative;">
-  <div style="color:#ddd;background-color:#282E34;text-align:center;padding:50px 80px;text-align: justify;">
-    <p>Scroll up and down to really get the feeling of how Parallax Scrolling works.</p>
+  <div class="contenido">
+    <p>Proportion of species in each conservation priority category (HP = High Priority for conservation action; MP = Medium Priority; LP&SC = Low Priority and Sufficiently Conserved)</p>
+	<div id="uses_div" style="height:900px;"></div>
   </div>
 </div>
 
