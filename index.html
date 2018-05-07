@@ -11,11 +11,18 @@
     google.charts.load('current', {'packages':['geochart']});
     google.charts.setOnLoadCallback(drawRegionsMap);
 	
+	var color_green='#12A356';
+	var color_green_soft='#b7d2b7';
+	var color_yellow='#F0CB69';
+	var color_red='#E54D24';
+	
 
     function drawRegionsMap() {
     var gdata = google.visualization.arrayToDataTable(countries_data);
 
-    var options = {resolution: 'country'};
+    var options = {
+		resolution: 'country',
+		colors:[color_green_soft, color_green]};
 
     var chart = new google.visualization.GeoChart(document.getElementById('countries_div'));
 
@@ -32,7 +39,7 @@
 
       var options = {
         legend: { position: "bottom", maxLines: 3, textStyle: { color: 'black',  fontName: 'Times New Roman',  fontSize: 16 } },
-        colors:['#E54D24','#F0CB69','#12A356'],
+        colors:[color_red,color_yellow,color_green],
 		chartArea: {'width': '70%', 'height': '80%'},
 		bar: {groupWidth: "100%"},		
 		vAxis: {textStyle: { color: 'black',  fontName: 'Times New Roman',  fontSize: 12,  bold: false,  italic: true }},		
@@ -149,7 +156,7 @@ h3 {
 </div>
 
 <div style="position:relative;">
-  <div style="contenido">
+  <div class="contenido">
     <p>Indicator results per country, combined conservation indicator</p>
 	<div id="countries_div"></div>
   </div>
