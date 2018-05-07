@@ -9,6 +9,8 @@
 <script type="text/javascript" src="uses_comb.js"></script>
 <script type="text/javascript">
     google.charts.load('current', {'packages':['geochart']});
+	google.charts.load('current', {packages: ['corechart', 'bar']});
+	
     google.charts.setOnLoadCallback(drawRegionsMap);
 	
 	var color_green='#12A356';
@@ -31,19 +33,18 @@
 	
 	
 	
-	    google.charts.load('current', {packages: ['corechart', 'bar']});
     google.charts.setOnLoadCallback(drawMultSeries);
 
     function drawMultSeries() {
       var gdata = google.visualization.arrayToDataTable(uses_data);
 
       var options = {
-        legend: { position: "bottom", maxLines: 3, textStyle: { color: 'black',  fontName: 'Times New Roman',  fontSize: 16 } },
+        legend: { position: "bottom", maxLines: 3, textStyle: { color: 'black',  fontName: 'Lato',  fontSize: 16 } },
         colors:[color_red,color_yellow,color_green],
 		chartArea: {'width': '70%', 'height': '80%'},
 		bar: {groupWidth: "100%"},		
-		vAxis: {textStyle: { color: 'black',  fontName: 'Times New Roman',  fontSize: 12,  bold: false,  italic: true }},		
-		hAxis: {textStyle: { color: 'black',  fontName: 'Times New Roman',  fontSize: 12,  bold: false,  italic: true }},		
+		vAxis: {textStyle: { color: 'black',  fontName: 'Lato',  fontSize: 12,  bold: false,  italic: true }},		
+		hAxis: {textStyle: { color: 'black',  fontName: 'Lato',  fontSize: 12,  bold: false,  italic: true }},		
         
         isStacked: 'true'
        };
@@ -171,7 +172,7 @@ h3 {
 <div style="position:relative;">
   <div class="contenido">
     <p>Proportion of species in each conservation priority category (HP = High Priority for conservation action; MP = Medium Priority; LP&SC = Low Priority and Sufficiently Conserved)</p>
-	<div id="uses_div" style="height:900px;"></div>
+	<div id="uses_div" style="height:1000px;"></div>
   </div>
 </div>
 
