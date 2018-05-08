@@ -17,6 +17,7 @@
 	var color_green_soft='#b7d2b7';
 	var color_yellow='#F0CB69';
 	var color_red='#E54D24';
+	var font_name= 'Roboto'
 	
 
     function drawRegionsMap() {
@@ -24,6 +25,7 @@
 
     var options = {
 		resolution: 'country',
+		legend: {textStyle: {fontName: font_name}},
 		colors:[color_green_soft, color_green]};
 
     var chart = new google.visualization.GeoChart(document.getElementById('countries_div'));
@@ -39,12 +41,12 @@
       var gdata = google.visualization.arrayToDataTable(uses_data);
 
       var options = {
-        legend: { position: "bottom", maxLines: 3, textStyle: { color: 'black',  fontName: 'Lato',  fontSize: 16 } },
+        legend: { position: "bottom", maxLines: 3, textStyle: { color: 'black',  fontName: font_name,  fontSize: 16 } },
         colors:[color_red,color_yellow,color_green],
 		chartArea: {'width': '70%', 'height': '80%'},
 		bar: {groupWidth: "100%"},		
-		vAxis: {textStyle: { color: 'black',  fontName: 'Lato',  fontSize: 12,  bold: false,  italic: true }},		
-		hAxis: {textStyle: { color: 'black',  fontName: 'Lato',  fontSize: 12,  bold: false,  italic: true }},		
+		vAxis: {textStyle: { color: 'black',  fontName: font_name,  fontSize: 12,  bold: false,  italic: true }},		
+		hAxis: {textStyle: { color: 'black',  fontName: font_name,  fontSize: 12,  bold: false,  italic: true }},		
         
         isStacked: 'true'
        };
@@ -68,7 +70,7 @@
 body, html {
   height: 100%;
   margin: 0;
-  font: 400 15px/1.8 "Lato", sans-serif;
+  font: 400 15px/1.8 "Roboto", sans-serif;
   color: #777;
 }
 
@@ -116,14 +118,14 @@ body, html {
 .contenido{
 	background-color:transparent;
 	text-align:center;
-	padding: 50px 80px;
+	padding: 1% 3%;
 	text-align: justify;
 } 
 
 h3 {
   letter-spacing: 5px;
   text-transform: uppercase;
-  font: 20px "Lato", sans-serif;
+  font: 20px "Roboto", sans-serif;
   color: #111;
 }
 
