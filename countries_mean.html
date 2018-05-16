@@ -1,0 +1,33 @@
+<html>
+<head>
+    
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js?sensor=false&callback=initialize"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi?sensor=false"></script>
+    <script type="text/javascript" src="countries_mean.js"></script>
+    <script type="text/javascript">
+    google.charts.load('current', {'packages':['geochart']});
+
+    var color_green='#12A356';
+    var color_green_soft='#b7d2b7';
+    var color_yellow='#F0CB69';
+    var color_red='#E54D24';
+    var font_name= 'Times New Roman'
+    
+    google.charts.setOnLoadCallback(drawCountriesMap);
+
+    function drawCountriesMap() {
+    var gdata = google.visualization.arrayToDataTable(countries_mean);
+
+    var options = {
+        resolution: 'country',
+        legend: {textStyle: {fontName: font_name}},
+        colors:[color_green_soft, color_green]};
+
+    var chart = new google.visualization.GeoChart(document.getElementById('chart_div'));
+
+    chart.draw(gdata, options);
+    }
+</script>
+</head>
+     <div id="chart_div" style="width: 900px; height: 650px;"></div>
+</html>

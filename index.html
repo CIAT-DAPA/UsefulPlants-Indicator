@@ -5,9 +5,10 @@
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js?sensor=false&callback=initialize"></script>
 <script type="text/javascript" src="https://www.google.com/jsapi?sensor=false"></script>
 <script src="jquery-3.3.1.min.js"></script>
-<script type="text/javascript" src="countries.js"></script>
+<script type="text/javascript" src="countries_mean.js"></script>
 <script type="text/javascript" src="countries_insitu.js"></script>
 <script type="text/javascript" src="countries_exsitu.js"></script>
+<script type="text/javascript" src="countries_taxa.js"></script>
 <script type="text/javascript" src="uses_comb.js"></script>
 <script type="text/javascript">
     google.charts.load('current', {'packages':['geochart']});
@@ -24,7 +25,7 @@
 	google.charts.setOnLoadCallback(drawCountriesMap);
 
     function drawCountriesMap() {
-    var gdata = google.visualization.arrayToDataTable(countries_data);
+    var gdata = google.visualization.arrayToDataTable(countries_mean);
 
     var options = {
 		resolution: 'country',
@@ -70,11 +71,11 @@
     google.charts.setOnLoadCallback(drawMultSeries);
 
     function drawMultSeries() {
-      var gdata = google.visualization.arrayToDataTable(uses_data);
+      var gdata = google.visualization.arrayToDataTable(uses_comb);
 
       var options = {
         legend: { position: "bottom", maxLines: 3, textStyle: {fontName: font_name,  fontSize: 12 } },
-        colors:[color_red,color_yellow,color_green],
+        colors:[color_green,color_yellow,color_red],
 		chartArea: {'width': '70%', 'height': '95%'},
 		bar: {groupWidth: "100%"},		
 		vAxis: {textStyle: { color: 'black',  fontName: font_name,  fontSize: 11,  bold: false,  italic: true }},		
@@ -87,6 +88,21 @@
       chart.draw(gdata, options);
     }
 	
+	google.charts.setOnLoadCallback(drawCountriesTaxaMap);
+
+    function drawCountriesTaxaMap() {
+    var gdata = google.visualization.arrayToDataTable(countries_taxa);
+
+    var options = {
+		resolution: 'country',
+		legend: {textStyle: {fontName: font_name}},
+		colors:[color_green_soft, color_green]};
+
+    var chart = new google.visualization.GeoChart(document.getElementById('countries_taxa_div'));
+
+    chart.draw(gdata, options);
+    }
+	
 	
 	
 	$(document).ready(function(){
@@ -95,6 +111,8 @@
 	 drawCountriesInSituMap();
 	 drawCountriesExSituMap();
 	 drawMultSeries();
+	 drawCountriesTaxaMap();
+	 
   });
 });
 
@@ -178,6 +196,12 @@ h3 {
   color: #111;
 }
 
+.map_div-2 {
+  width:1250px;
+  height:900px;
+  margin:0 auto
+}
+
 /* Turn off parallax scrolling for tablets and phones */
 @media only screen and (max-device-width: 1024px) {
     .bgimg-1, .bgimg-2, .bgimg-3 {
@@ -203,42 +227,42 @@ h3 {
 
 <div class="bgimg-2">
   <div class="caption">
-    <span class="border" style="font-size:25px;color: #f7f7f7;">COUNTRY LEVEL</span>
+    <span class="border" style="font-size:25px;color: #f7f7f7;">INDICATOR FOR COUNTRY LEVEL</span>
   </div>
 </div>
 
 <div style="position:relative;">
   <div class="contenido">
     <p>Indicator results per country, combined conservation indicator</p>
-	<div id="countries_div"></div>
+	<div id="countries_div" class="map_div"></div>
 	</div>
   </div>
 </div>
 
 <div class="bgimg-exsitu">
   <div class="caption">
-    <span class="border" style="font-size:25px;color: #f7f7f7;">INDICATOR COUNTRY LEVEL <i>(ex situ)</i></span>
+    <span class="border" style="font-size:25px;color: #f7f7f7;">INDICATOR FOR COUNTRY LEVEL <i>(ex situ)</i></span>
   </div>
 </div>
 
 <div style="position:relative;">
   <div class="contenido">
     <p>Indicator results per country, combined conservation indicator</p>
-	<div id="countries_exsitu_div"></div>
+	<div id="countries_exsitu_div" class="map_div"></div>
 	</div>
   </div>
 </div>
 
 <div class="bgimg-insitu">
   <div class="caption">
-    <span class="border" style="font-size:25px;color: #f7f7f7;">INDICATOR COUNTRY LEVEL <i>(in situ)</i></span>
+    <span class="border" style="font-size:25px;color: #f7f7f7;">INDICATOR FOR COUNTRY LEVEL <i>(in situ)</i></span>
   </div>
 </div>
 
 <div style="position:relative;">
   <div class="contenido">
     <p>Indicator results per country, combined conservation indicator</p>
-	<div id="countries_insitu_div"></div>
+	<div id="countries_insitu_div" class="map_div"></div>
 	</div>
   </div>
 </div>
@@ -254,6 +278,20 @@ h3 {
   <div class="contenido">
     <p>Proportion of species in each conservation priority category (HP = High Priority for conservation action; MP = Medium Priority; LP&SC = Low Priority and Sufficiently Conserved)</p>
 	<div id="uses_div" style="height:1000px;"></div>
+  </div>
+</div>
+
+<div class="bgimg-2">
+  <div class="caption">
+    <span class="border" style="font-size:25px;color: #f7f7f7;">NUMBER OF SPECIES EVALUATED IN EACH COUNTRY</span>
+  </div>
+</div>
+
+<div style="position:relative;">
+  <div class="contenido">
+    <p>Number of species evaluated in each country</p>
+	<div id="countries_taxa_div" class="map_div"></div>
+	</div>
   </div>
 </div>
 

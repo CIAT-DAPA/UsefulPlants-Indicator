@@ -1,0 +1,28 @@
+<html>
+<head>
+    <div id="chart_div" style="width: 1080px; height: 1400px;"></div>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js?sensor=false&callback=initialize"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi?sensor=false"></script>
+    <script type="text/javascript" src="uses_comb.js"></script>
+    <script type="text/javascript">
+    google.charts.load('current', {packages: ['corechart', 'bar']});
+    google.charts.setOnLoadCallback(drawMultSeries);
+
+    function drawMultSeries() {
+      var gdata = google.visualization.arrayToDataTable(uses_comb);
+
+      var options = {
+        legend: { position: 'bottom', maxLines: 4, textStyle: { color: 'black',  fontName: 'Times New Roman',  fontSize: 16 } },
+        colors:['#12A356','#F0CB69','#E54D24'],
+		bar: {groupWidth: "100%"},		
+		vAxis: {textStyle: { color: 'black',  fontName: 'Times New Roman',  fontSize: 12,  bold: false,  italic: true }},		
+		hAxis: {textStyle: { color: 'black',  fontName: 'Times New Roman',  fontSize: 12,  bold: false,  italic: true }},		
+        
+        isStacked: 'true'
+       };
+       
+      var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+      chart.draw(gdata, options);
+    }
+</script>
+</html>
