@@ -1,34 +1,31 @@
 <html>
 <head>
-    <div id="chart_div" style="width: 1080px; height: 100px;"></div>
+    <div id="global_div" style="width: 1080px; height: 150px;"></div>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js?sensor=false&callback=initialize"></script>
     <script type="text/javascript" src="https://www.google.com/jsapi?sensor=false"></script>
+	<script type="text/javascript" src="colors.js"></script>
     <script type="text/javascript" src="global.js"></script>
     <script type="text/javascript">
     google.charts.load('current', {packages: ['corechart', 'bar']});
-    google.charts.setOnLoadCallback(drawMultSeries);
+    google.charts.setOnLoadCallback(drawGlobal);
 
-    var color_green='#12A356';
-    var color_green_soft='#b7d2b7';
-    var color_yellow='#F0CB69';
-    var color_red='#E54D24';
     var font_name= 'Times New Roman'
 	
-    function drawMultSeries() {
+    function drawGlobal() {
       var gdata = google.visualization.arrayToDataTable(global);
 
       var options = {
         legend: { position: 'bottom', maxLines: 4, textStyle: { color: 'black',  fontName: 'Times New Roman',  fontSize: 16 } },
         colors:[color_green,color_yellow,color_red],
-		bar: {groupWidth: "100%"},
-		chartArea: {'width': '70%', 'height': '95%'},
+        bar: {groupWidth: "90%"},
+        chartArea: {'width': '90%', 'height': '50%'},
 		vAxis: {textStyle: { color: 'black',  fontName: 'Times New Roman',  fontSize: 12,  bold: false,  italic: true }},		
 		hAxis: {textStyle: { color: 'black',  fontName: 'Times New Roman',  fontSize: 12,  bold: false,  italic: true }},		
         
         isStacked: 'true'
        };
        
-      var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+      var chart = new google.visualization.BarChart(document.getElementById('global_div'));
       chart.draw(gdata, options);
     }
 </script>
