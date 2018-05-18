@@ -1,9 +1,9 @@
 <html>
 <head>
-    <div id="chart_div" style="width: 1080px; height: 720px;"></div>
+    <div id="chart_div" style="width: 1080px; height: 100px;"></div>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js?sensor=false&callback=initialize"></script>
     <script type="text/javascript" src="https://www.google.com/jsapi?sensor=false"></script>
-    <script type="text/javascript" src="uses_comb.js"></script>
+    <script type="text/javascript" src="global.js"></script>
     <script type="text/javascript">
     google.charts.load('current', {packages: ['corechart', 'bar']});
     google.charts.setOnLoadCallback(drawMultSeries);
@@ -15,7 +15,7 @@
     var font_name= 'Times New Roman'
 	
     function drawMultSeries() {
-      var gdata = google.visualization.arrayToDataTable(uses_comb);
+      var gdata = google.visualization.arrayToDataTable(global);
 
       var options = {
         legend: { position: 'bottom', maxLines: 4, textStyle: { color: 'black',  fontName: 'Times New Roman',  fontSize: 16 } },
