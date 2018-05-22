@@ -1,0 +1,46 @@
+<html>
+<head>
+    
+	
+	<script type="text/javascript" src="jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="datatables.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="datatables.min.css"/>
+	
+
+    <script type="text/javascript" src="species.js"></script>
+    <script type="text/javascript">
+
+ 
+$(document).ready(function() {
+    $('#example').DataTable( {
+        data: species,
+        columns: [
+		
+            { title: "Taxon_key" },
+            { title: "Scientific_Name" },
+            { title: "Total_records" },
+            { title: "Total_with_coords" },
+            { title: "Total_G" },
+            { title: "Total_G_with_coords" },
+            { title: "Total_H" },
+            { title: "Total_H_with_coords" },
+            { title: "Model_type" },
+            { title: "SRS" },
+            { title: "GRS_ex" },
+            { title: "ERS_ex" },
+            { title: "FCS_ex" },
+            { title: "GRS_in" },
+            { title: "ERS_in" },
+            { title: "FCS_in" },
+            { title: "FCSc_min" },
+            { title: "FCSc_max" },
+            { title: "FCSc_mean" },
+            { title: "Priority_category"}
+
+        ]
+    } );
+} );
+	
+	
+</script></head><body><table id="example" class="display" style="width:100%"> </table></body>
+</html>
