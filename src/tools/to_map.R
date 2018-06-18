@@ -65,28 +65,45 @@ item<-function(ind_dir,date,feature,priority,folder,name_f,richness=F){
   coun2<-merge(countries_sh,count_list,by.x="ISO2",by.y="iso2c") 
   write.csv(coun2@data,paste0(ind_iso_dir,"/to_graph/",folder,"/countries_",name_f,".csv"),row.names=F,quote=F,na="")
   
-  
+  coun2@data$ISO2
   ######### write .js object ###########
   
   if(length(priority)==1){
     
+    regions<-read.csv(paste0(par_dir,"/UNSD/countries-continents-regions.csv"), header = T)
+    
     r<-c()
     index<-c()
+    country<-c()
     for(j in 1:nrow(coun2@data)){
       
       r[j]<-gsub(coun2@data$ISO2[j], paste0("['",coun2@data$ISO2[j],"',"), coun2@data$ISO2[j])
       index[j]<-gsub(coun2@data$index[j], paste0(coun2@data$index[j],"],"), coun2@data$index[j])
+      
+      if(coun2@data$ISO[j] %in% regions$ISO3){
+        
+        country[j]<-unique(as.character(regions[which(regions$ISO3 == coun2@data$ISO[j]), "Country.Name"]))
+        country[j]<-gsub(country[j], paste0(" \" ", as.character(country[j])," \" ", ","),country[j])
+        
+        
+        
+      }
+      
     }
     
-    index[256]<-gsub("],", "]];", index)
-    data<-cbind(r,coun2@data)
-    data<-cbind(data,index)
-    data<-data[,-c(2,3,4)]
-    colnames(data)<-c("var data=[['country',", "'index'],") 
+    #country[256]<-gsub("],", "]];", country[256])
+    index[256]<-gsub("],", "]];", index[256])
+    
+    data<-cbind(r,country,index)
+    # data<-cbind(data,index)
+    #  data<-data[,-c(2,3,4)]
+    # colnames(data)<-c("var data=[['ISO2',", paste0("'", priority, "',"), "'country name'],") 
+    colnames(data)<-c("var data=[['ISO2',","'country name',", "'indicator'],") 
+    
     x<-which(!is.na(data[,2]))
     data<-data[x,]
     
-    write.table(data,paste0(ind_iso_dir,"/to_graph/",folder,"/countries_",name_f,".js"),row.names=F,quote=F,na="")
+    write.table(data,paste0(ind_iso_dir,"/to_graph/",folder,"/countries_",name_f,".js"),row.names=F,quote=F,na="", qmethod = "double")
     
     
   }else{ if(length(priority)==3){
@@ -187,7 +204,7 @@ item<-function(ind_dir,date,feature,priority,folder,name_f,richness=F){
 #####TEST THE FUNCTION ########
 
 #ind_dir<-paste0(root,"/","indicator")
-#item(ind_dir,date="2018-04-30",feature=2, priority="P_LP_SC", folder="LP_SC")
+#item(ind_dir,date="2018-05-14",feature=4, priority="P_LP_SC", folder="Exsitu", name_f="exs")
 #item(ind_dir,date="2018-04-30",feature=2, priority=c("P_HP","P_MP","P_LP_SC"), folder="ALL",name_f="max",richness=T)
 
 
