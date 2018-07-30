@@ -1,4 +1,4 @@
-var countries_insitu=[['ISO2', 'country name', 'indicator'],
+var countries_insitu=[['ISO2', 'country name', 'indicator (in situ)'],
 ['AW', "Aruba", 9.09090909090909],
 ['AF', "Afghanistan", 41.1471321695761],
 ['AO', "Angola", 44.6376811594203],

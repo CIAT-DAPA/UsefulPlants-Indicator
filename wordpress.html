@@ -1,0 +1,199 @@
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js?sensor=false&callback=initialize"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi?sensor=false"></script>
+
+<script type="text/javascript" src="https://ciat-dapa.github.io/aichi13/jquery-3.3.1.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.16/r-2.2.1/datatables.min.css"/> 
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.16/r-2.2.1/datatables.min.js"></script>
+
+
+
+<script type="text/javascript" src="https://ciat-dapa.github.io/aichi13/species.js"></script>
+
+<script type="text/javascript" src="https://ciat-dapa.github.io/aichi13/colors.js"></script>
+<script type="text/javascript" src="https://ciat-dapa.github.io/aichi13/global.js"></script>
+<script type="text/javascript" src="https://ciat-dapa.github.io/aichi13/countries_mean.js"></script>
+<script type="text/javascript" src="https://ciat-dapa.github.io/aichi13/countries_insitu.js"></script>
+<script type="text/javascript" src="https://ciat-dapa.github.io/aichi13/countries_exsitu.js"></script>
+<script type="text/javascript" src="https://ciat-dapa.github.io/aichi13/countries_taxa.js"></script>
+<script type="text/javascript" src="https://ciat-dapa.github.io/aichi13/uses_comb.js"></script>
+<script type="text/javascript" src="https://ciat-dapa.github.io/aichi13/regions_comb.js"></script>
+
+<script type="text/javascript">
+
+
+ google.charts.load('current', {'packages':['geochart']});
+ google.charts.load('current', {packages: ['corechart', 'bar']});
+ 
+ var font_name= 'Roboto'
+ var font_size=12
+ 
+ google.charts.setOnLoadCallback(drawGlobal);
+ 
+ function drawGlobal() {
+ var gdata = google.visualization.arrayToDataTable(global);
+
+ var options = {
+ legend: { position: "bottom", maxLines: 3, textStyle: {fontName: font_name, fontSize: font_size } },
+ colors:[color_green,color_yellow,color_red],
+ bar: {groupWidth: "90%"},
+ chartArea: {'width': '70%', 'height': '50%'},
+ vAxis: {textStyle: { color: 'black', fontName: font_name, fontSize: font_size, bold: false, italic: true }}, 
+ hAxis: {textStyle: { color: 'black', fontName: font_name, fontSize: font_size, bold: false, italic: true }}, 
+ 
+ isStacked: 'true'
+ };
+ 
+ var chart = new google.visualization.BarChart(document.getElementById('global_div'));
+ chart.draw(gdata, options);
+ }
+ 
+ 
+ google.charts.setOnLoadCallback(drawCountriesMap);
+
+ function drawCountriesMap() {
+ var gdata = google.visualization.arrayToDataTable(countries_mean);
+
+ var options = {
+ resolution: 'country',
+ legend: {textStyle: {fontName: font_name}},
+ colors:[color_green_soft, color_green]};
+
+ var chart = new google.visualization.GeoChart(document.getElementById('countries_mean_div'));
+
+ chart.draw(gdata, options);
+ }
+ 
+ google.charts.setOnLoadCallback(drawCountriesInSituMap);
+ 
+ function drawCountriesInSituMap() {
+ var gdata = google.visualization.arrayToDataTable(countries_insitu);
+
+ var options = {
+ resolution: 'country',
+ legend: {textStyle: {fontName: font_name}},
+ colors:[color_green_soft, color_green]};
+
+ var chart = new google.visualization.GeoChart(document.getElementById('countries_insitu_div'));
+
+ chart.draw(gdata, options);
+ }
+ 
+ google.charts.setOnLoadCallback(drawCountriesExSituMap);
+ 
+ function drawCountriesExSituMap() {
+ var gdata = google.visualization.arrayToDataTable(countries_exsitu);
+
+ var options = {
+ resolution: 'country',
+ legend: {textStyle: {fontName: font_name}},
+ colors:[color_green_soft, color_green]};
+
+ var chart = new google.visualization.GeoChart(document.getElementById('countries_exsitu_div'));
+
+ chart.draw(gdata, options);
+ }
+ 
+ 
+ google.charts.setOnLoadCallback(drawUses);
+
+ function drawUses() {
+ var gdata = google.visualization.arrayToDataTable(uses_comb);
+
+ var options = {
+ legend: { position: "bottom", maxLines: 3, textStyle: {fontName: font_name, fontSize: font_size } },
+ colors:[color_green,color_yellow,color_red],
+ chartArea: {'width': '70%', 'height': '95%'},
+ bar: {groupWidth: "90%"}, 
+ vAxis: {textStyle: { color: 'black', fontName: font_name, fontSize: font_size, bold: false, italic: true }}, 
+ hAxis: {textStyle: { color: 'black', fontName: font_name, fontSize: font_size, bold: false, italic: true }}, 
+ 
+ isStacked: 'true'
+ };
+ 
+ var chart = new google.visualization.BarChart(document.getElementById('uses_div'));
+ chart.draw(gdata, options);
+ }
+
+ google.charts.setOnLoadCallback(drawRegions);
+
+ function drawRegions() {
+ var gdata = google.visualization.arrayToDataTable(regions_comb);
+
+ var options = {
+ legend: { position: "bottom", maxLines: 3, textStyle: {fontName: font_name, fontSize: font_size } },
+ colors:[color_green,color_yellow,color_red],
+ bar: {groupWidth: "100%"},
+ chartArea: {'width': '65%', 'height': '95%'},
+ vAxis: {textStyle: { color: 'black', fontName: font_name, fontSize: font_size, bold: false, italic: true }}, 
+ hAxis: {textStyle: { color: 'black', fontName: font_name, fontSize: font_size, bold: false, italic: true }}, 
+ 
+ isStacked: 'true'
+ };
+ 
+ var chart = new google.visualization.BarChart(document.getElementById('regions_div'));
+ chart.draw(gdata, options);
+ }
+
+ 
+ google.charts.setOnLoadCallback(drawCountriesTaxaMap);
+
+ function drawCountriesTaxaMap() {
+ var gdata = google.visualization.arrayToDataTable(countries_taxa);
+
+ var options = {
+ resolution: 'country',
+ legend: {textStyle: {fontName: font_name}},
+ colors:[color_green_soft, color_green]};
+
+ var chart = new google.visualization.GeoChart(document.getElementById('countries_taxa_div'));
+
+ chart.draw(gdata, options);
+ }
+ 
+ 
+
+
+function drawSpeciesTable(){
+
+var table = $('#species_table').DataTable( {
+ data: species,
+ responsive: true,
+ columns: [
+ 
+ { title: "Taxon key" },
+ { title: "Scientific Name" },
+ { title: "Total records", searchable: false },
+ { title: "G records",searchable: false },
+ { title: "H records",searchable: false },
+ { title: "Model" },
+ { title: "Indicator (ex situ)",searchable: false },
+ { title: "Indicator (in situ)",searchable: false },
+ { title: "Indicator ",searchable: false },
+ { title: "Priority category"}
+ ]
+ } );
+
+
+}
+
+$(document).ready(function() {
+ drawSpeciesTable();
+} );
+
+
+
+ $(document).ready(function(){
+ $(window).resize(function(){
+ drawGlobal();
+ drawCountriesMap();
+ drawCountriesInSituMap();
+ drawCountriesExSituMap();
+ drawUses();
+drawRegions();
+ drawCountriesTaxaMap(); 
+ });
+});
+
+
+</script>
