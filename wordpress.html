@@ -161,16 +161,16 @@ var table = $('#species_table').DataTable( {
  responsive: true,
  columns: [
  
- { title: "Taxon key" },
+ { title: "Taxon key", searchable: false, visible:false },
  { title: "Scientific Name" },
  { title: "Total records", searchable: false },
  { title: "G records",searchable: false },
  { title: "H records",searchable: false },
- { title: "Model" },
- { title: "Indicator (ex situ)",searchable: false },
- { title: "Indicator (in situ)",searchable: false },
- { title: "Indicator ",searchable: false },
- { title: "Priority category"}
+ { title: "Model", searchable: false, visible:false },
+ { title: "Indicator (<i>ex situ</i>)",searchable: false },
+ { title: "Indicator (<i>in situ</i>)",searchable: false },
+ { title: "Indicator (combined)",searchable: false },
+ { title: "Priority category",searchable: false }
  ]
  } );
 

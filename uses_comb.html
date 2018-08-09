@@ -1,26 +1,28 @@
 <html>
 <head>
-    <div id="chart_div" style="width: 1080px; height: 720px;"></div>
+    <div id="chart_div" style="width: 1080px; height: 900px;"></div>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js?sensor=false&callback=initialize"></script>
     <script type="text/javascript" src="https://www.google.com/jsapi?sensor=false"></script>
-	<script type="text/javascript" src="colors.js"></script>
+    <script type="text/javascript" src="colors.js"></script>
     <script type="text/javascript" src="uses_comb.js"></script>
     <script type="text/javascript">
     google.charts.load('current', {packages: ['corechart', 'bar']});
     google.charts.setOnLoadCallback(drawMultSeries);
 
     var font_name= 'Times New Roman'
-	
+    
     function drawMultSeries() {
       var gdata = google.visualization.arrayToDataTable(uses_comb);
 
       var options = {
         legend: { position: 'bottom', maxLines: 4, textStyle: { color: 'black',  fontName: 'Times New Roman',  fontSize: 16 } },
         colors:[color_green,color_yellow,color_red],
-		bar: {groupWidth: "100%"},
-		chartArea: {'width': '70%', 'height': '95%'},
-		vAxis: {textStyle: { color: 'black',  fontName: 'Times New Roman',  fontSize: 12,  bold: false,  italic: true }},		
-		hAxis: {textStyle: { color: 'black',  fontName: 'Times New Roman',  fontSize: 12,  bold: false,  italic: true }},		
+        bar: {groupWidth: "100%"},
+        chartArea: {'width': '70%', 'height': '85%'},
+        vAxis: {textStyle: { color: 'black',  fontName: 'Times New Roman',  fontSize: 12,  bold: false,  italic: true }},        
+        hAxis: {textStyle: { color: 'black',  fontName: 'Times New Roman',  fontSize: 12,  bold: false,  italic: true },
+                title:'Proportion of species (%)', 
+                titleTextStyle: { color: 'black',  fontName: 'Times New Roman',  fontSize: 16,  bold: false,  italic: true }},      
         
         isStacked: 'true'
        };

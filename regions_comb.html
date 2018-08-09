@@ -1,9 +1,9 @@
 <html>
 <head>
-    <div id="chart_div" style="width: 1080px; height: 1500px;"></div>
+    <div id="chart_div" style="width: 1080px; height: 1580px;"></div>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js?sensor=false&callback=initialize"></script>
     <script type="text/javascript" src="https://www.google.com/jsapi?sensor=false"></script>
-	<script type="text/javascript" src="colors.js"></script>
+    <script type="text/javascript" src="colors.js"></script>
     <script type="text/javascript" src="regions_comb.js"></script>
     <script type="text/javascript">
     google.charts.load('current', {packages: ['corechart', 'bar']});
@@ -17,10 +17,12 @@
       var options = {
         legend: { position: 'bottom', maxLines: 4, textStyle: { color: 'black',  fontName: 'Times New Roman',  fontSize: 16 } },
         colors:[color_green,color_yellow,color_red],
-		bar: {groupWidth: "100%"},
-		chartArea: {'width': '65%', 'height': '95%'},
-		vAxis: {textStyle: { color: 'black',  fontName: 'Times New Roman',  fontSize: 12,  bold: false,  italic: true }},		
-		hAxis: {textStyle: { color: 'black',  fontName: 'Times New Roman',  fontSize: 12,  bold: false,  italic: true }},		
+        bar: {groupWidth: "100%"},
+        chartArea: {'width': '65%', 'height': '90%'},
+        vAxis: {textStyle: { color: 'black',  fontName: 'Times New Roman',  fontSize: 12,  bold: false,  italic: true }},        
+        hAxis: {textStyle: { color: 'black',  fontName: 'Times New Roman',  fontSize: 12,  bold: false,  italic: true },
+                title:'Proportion of species (%)', 
+                titleTextStyle: { color: 'black',  fontName: 'Times New Roman',  fontSize: 16,  bold: false,  italic: true }},            
         
         isStacked: 'true'
        };
