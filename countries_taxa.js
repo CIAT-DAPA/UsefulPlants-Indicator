@@ -1,221 +1,222 @@
 var countries_taxa=[['country','taxa number'],
-['AD',1  ],
-['AE',10 ],
-['AF',255],
-['AG',46 ],
-['AI',16 ],
-['AL',509],
-['AM',388],
-['AN',19 ],
-['AO',95 ],
-['AR',112],
-['AT',428],
-['AU',94 ],
-['AW',2  ],
-['AZ',424],
-['BA',185],
-['BB',36 ],
-['BD',47 ],
-['BE',319],
-['BF',36 ],
-['BG',530],
-['BH',13 ],
-['BI',52 ],
-['BJ',54 ],
-['BM',8  ],
-['BN',6  ],
-['BO',118],
-['BR',132],
-['BS',43 ],
-['BT',108],
-['BW',90 ],
-['BY',294],
-['BZ',81 ],
-['CA',292],
-['CD',103],
-['CF',41 ],
-['CG',18 ],
-['CH',378],
-['CI',79 ],
-['CL',35 ],
-['CM',105],
-['CN',565],
-['CO',106],
-['CR',104],
-['CU',79 ],
-['CV',19 ],
-['CY',268],
-['CZ',271],
-['DE',412],
-['DJ',11 ],
-['DK',278],
-['DM',39 ],
-['DO',43 ],
-['DZ',386],
-['EC',102],
-['EE',252],
-['EG',231],
-['EH',2  ],
-['ER',47 ],
-['ES',604],
-['ET',157],
-['FI',216],
-['FJ',11 ],
-['FK',1  ],
-['FM',12 ],
-['FO',14 ],
-['FR',602],
-['GA',43 ],
-['GB',313],
-['GD',37 ],
-['GE',403],
-['GF',61 ],
-['GH',102],
-['GI',1  ],
-['GL',26 ],
-['GM',44 ],
-['GN',68 ],
-['GP',55 ],
-['GQ',28 ],
-['GR',580],
-['GT',135],
-['GU',6  ],
-['GW',39 ],
-['GY',65 ],
-['HK',6  ],
-['HN',104],
-['HR',348],
-['HT',40 ],
-['HU',399],
-['ID',134],
-['IE',230],
-['IL',291],
-['IN',350],
-['IQ',273],
-['IR',436],
-['IS',55 ],
-['IT',625],
-['JM',62 ],
-['JO',196],
-['JP',247],
-['KE',162],
-['KG',232],
-['KH',74 ],
-['KI',1  ],
-['KM',11 ],
-['KN',30 ],
-['KP',15 ],
-['KR',14 ],
-['KW',25 ],
-['KY',15 ],
-['KZ',268],
-['LA',86 ],
-['LB',323],
-['LC',44 ],
-['LI',2  ],
-['LK',126],
-['LR',54 ],
-['LS',33 ],
-['LT',271],
-['LU',5  ],
-['LV',254],
-['LY',228],
-['MA',399],
-['MD',297],
-['ME',181],
-['MG',64 ],
-['MH',4  ],
-['MK',182],
-['ML',79 ],
-['MM',143],
-['MN',186],
-['MP',7  ],
-['MQ',56 ],
-['MR',31 ],
-['MS',33 ],
-['MT',20 ],
-['MU',33 ],
-['MV',3  ],
-['MW',107],
-['MX',268],
-['MY',109],
-['MZ',126],
-['NA',86 ],
-['NC',9  ],
-['NE',64 ],
-['NG',125],
-['NI',99 ],
-['NL',306],
-['NO',256],
-['NP',177],
-['NU',1  ],
-['NZ',5  ],
-['OM',41 ],
-['PA',95 ],
-['PE',135],
-['PF',6  ],
-['PG',73 ],
-['PH',100],
-['PK',295],
-['PL',374],
-['PM',7  ],
-['PR',71 ],
-['PS',1  ],
-['PT',421],
-['PW',3  ],
-['PY',75 ],
-['QA',11 ],
-['RE',18 ],
-['RO',471],
-['RS',289],
-['RU',450],
-['RW',58 ],
-['SA',96 ],
-['SB',17 ],
-['SC',11 ],
-['SD',121],
-['SE',289],
-['SS',121],
-['SG',5  ],
-['SH',1  ],
-['SI',300],
-['SJ',15 ],
-['SK',268],
-['SL',76 ],
-['SN',90 ],
-['SO',79 ],
-['SR',53 ],
-['ST',11 ],
-['SV',78 ],
-['SY',336],
-['SZ',75 ],
-['TC',2  ],
-['TD',54 ],
-['TG',66 ],
-['TH',130],
-['TJ',202],
-['TL',1  ],
-['TM',225],
-['TN',306],
-['TO',3  ],
-['TR',642],
-['TT',28 ],
-['TW',155],
-['TZ',164],
-['UA',498],
-['UG',138],
-['UM',1  ],
-['US',482],
-['UY',51 ],
-['UZ',173],
-['VC',45 ],
-['VE',102],
-['VG',24 ],
-['VI',27 ],
-['VN',142],
-['VU',10 ],
-['WS',3  ],
-['YE',90 ],
-['ZA',127],
-['ZM',114],
-['ZW',119 ]]
+['AD',"Andorra",1]
+['AE',"United Arab Emirates",10]
+['AF',"Afghanistan",255]
+['AG',"Antigua and Barbuda",46]
+['AI',"Anguilla",16]
+['AL',"Albania",509]
+['AM',"Armenia",388]
+['AN',"Netherlands Antilles",19]
+['AO',"Angola",95]
+['AR',"Argentina",112]
+['AT',"Austria",428]
+['AU',"Australia",94]
+['AW',"Aruba",2]
+['AZ',"Azerbaijan",424]
+['BA',"Bosnia and Herzegovina",185]
+['BB',"Barbados",36]
+['BD',"Bangladesh",47]
+['BE',"Belgium",319]
+['BF',"Burkina Faso",36]
+['BG',"Bulgaria",530]
+['BH',"Bahrain",13]
+['BI',"Burundi",52]
+['BJ',"Benin",54]
+['BM',"Bermuda",8]
+['BN',"Brunei Darussalam",6]
+['BO',"Bolivia - Plurinational State of ",118]
+['BR',"Brazil",132]
+['BS',"Bahamas",43]
+['BT',"Bhutan",108]
+['BW',"Botswana",90]
+['BY',"Belarus",294]
+['BZ',"Belize",81]
+['CA',"Canada",292]
+['CD',"Democratic Republic of the Congo",103]
+['CF',"Central African Republic",41]
+['CG',"Congo",18]
+['CH',"Switzerland",378]
+['CI',"Côte d'Ivoire",79]
+['CL',"Chile",35]
+['CM',"Cameroon",105]
+['CN',"China",565]
+['CO',"Colombia",106]
+['CR',"Costa Rica",104]
+['CU',"Cuba",79]
+['CV',"Cabo Verde",19]
+['CY',"Cyprus",268]
+['CZ',"Czechia",271]
+['DE',"Germany",412]
+['DJ',"Djibouti",11]
+['DK',"Denmark",278]
+['DM',"Dominica",39]
+['DO',"Dominican Republic",43]
+['DZ',"Algeria",386]
+['EC',"Ecuador",102]
+['EE',"Estonia",252]
+['EG',"Egypt",231]
+['EH',"Western Sahara",2]
+['ER',"Eritrea",47]
+['ES',"Spain",604]
+['ET',"Ethiopia",157]
+['FI',"Finland",216]
+['FJ',"Fiji",11]
+['FK',"Falkland Islands - Malvinas",1]
+['FM',"Micronesia - Federated States of",12]
+['FO',"Faroe Islands",14]
+['FR',"France",602]
+['GA',"Gabon",43]
+['GB',"United Kingdom of Great Britain and Northern Ireland",313]
+['GD',"Grenada",37]
+['GE',"Georgia",403]
+['GF',"French Guiana",61]
+['GH',"Ghana",102]
+['GI',"Gibraltar",1]
+['GL',"Greenland",26]
+['GM',"Gambia",44]
+['GN',"Guinea",68]
+['GP',"Guadeloupe",55]
+['GQ',"Equatorial Guinea",28]
+['GR',"Greece",580]
+['GT',"Guatemala",135]
+['GU',"Guam",6]
+['GW',"Guinea-Bissau",39]
+['GY',"Guyana",65]
+['HK',"China Hong Kong Special Administrative Region",6]
+['HN',"Honduras",104]
+['HR',"Croatia",348]
+['HT',"Haiti",40]
+['HU',"Hungary",399]
+['ID',"Indonesia",134]
+['IE',"Ireland",230]
+['IL',"Israel",291]
+['IN',"India",350]
+['IQ',"Iraq",273]
+['IR',"Iran - Islamic Republic of",436]
+['IS',"Iceland",55]
+['IT',"Italy",625]
+['JM',"Jamaica",62]
+['JO',"Jordan",196]
+['JP',"Japan",247]
+['KE',"Kenya",162]
+['KG',"Kyrgyzstan",232]
+['KH',"Cambodia",74]
+['KI',"Kiribati",1]
+['KM',"Comoros",11]
+['KN',"Saint Kitts and Nevis",30]
+['KP',"Democratic People's Republic of Korea",15]
+['KR',"Republic of Korea",14]
+['KW',"Kuwait",25]
+['KY',"Cayman Islands",15]
+['KZ',"Kazakhstan",268]
+['LA',"Lao People's Democratic Republic",86]
+['LB',"Lebanon",323]
+['LC',"Saint Lucia",44]
+['LI',"Liechtenstein",2]
+['LK',"Sri Lanka",126]
+['LR',"Liberia",54]
+['LS',"Lesotho",33]
+['LT',"Lithuania",271]
+['LU',"Luxembourg",5]
+['LV',"Latvia",254]
+['LY',"Libya",228]
+['MA',"Morocco",399]
+['MD',"Republic of Moldova",297]
+['ME',"Montenegro",181]
+['MG',"Madagascar",64]
+['MH',"Marshall Islands",4]
+['MK',"The former Yugoslav Republic of Macedonia",182]
+['ML',"Mali",79]
+['MM',"Myanmar",143]
+['MN',"Mongolia",186]
+['MP',"Northern Mariana Islands",7]
+['MQ',"Martinique",56]
+['MR',"Mauritania",31]
+['MS',"Montserrat",33]
+['MT',"Malta",20]
+['MU',"Mauritius",33]
+['MV',"Maldives",3]
+['MW',"Malawi",107]
+['MX',"Mexico",268]
+['MY',"Malaysia",109]
+['MZ',"Mozambique",126]
+['NA',"Namibia",86]
+['NC',"New Caledonia",9]
+['NE',"Niger",64]
+['NG',"Nigeria",125]
+['NI',"Nicaragua",99]
+['NL',"Netherlands",306]
+['NO',"Norway",256]
+['NP',"Nepal",177]
+['NU',"Niue",1]
+['NZ',"New Zealand",5]
+['OM',"Oman",41]
+['PA',"Panama",95]
+['PE',"Peru",135]
+['PF',"French Polynesia",6]
+['PG',"Papua New Guinea",73]
+['PH',"Philippines",100]
+['PK',"Pakistan",295]
+['PL',"Poland",374]
+['PM',"Saint Pierre and Miquelon",7]
+['PR',"Puerto Rico",71]
+['PS',"State of Palestine",1]
+['PT',"Portugal",421]
+['PW',"Palau",3]
+['PY',"Paraguay",75]
+['QA',"Qatar",11]
+['RE',"Réunion",18]
+['RO',"Romania",471]
+['RS',"Serbia",289]
+['RU',"Russian Federation",450]
+['RW',"Rwanda",58]
+['SA',"Saudi Arabia",96]
+['SB',"Solomon Islands",17]
+['SC',"Seychelles",11]
+['SD',"Sudan",121]
+['SE',"Sweden",289]
+['SS',"South Sudan",121]
+['SG',"Singapore",5]
+['SH',"Saint Helena",1]
+['SI',"Slovenia",300]
+['SJ',"Svalbard and Jan Mayen Islands",15]
+['SK',"Slovakia",268]
+['SL',"Sierra Leone",76]
+['SN',"Senegal",90]
+['SO',"Somalia",79]
+['SR',"Suriname",53]
+['ST',"Sao Tome and Principe",11]
+['SV',"El Salvador",78]
+['SY',"Syrian Arab Republic",336]
+['SZ',"Swaziland",75]
+['TC',"Turks and Caicos Islands",2]
+['TD',"Chad",54]
+['TG',"Togo",66]
+['TH',"Thailand",130]
+['TJ',"Tajikistan",202]
+['TL',"Timor-Leste",1]
+['TM',"Turkmenistan",225]
+['TN',"Tunisia",306]
+['TO',"Tonga",3]
+['TR',"Turkey",642]
+['TT',"Trinidad and Tobago",28]
+['TW',"Tuvalu",155]
+['TZ',"United Republic of Tanzania",164]
+['UA',"Ukraine",498]
+['UG',"Uganda",138]
+['UM',"United States Minor Outlying Islands",1]
+['US',"United States of America",482]
+['UY',"Uruguay",51]
+['UZ',"Uzbekistan",173]
+['VC',"Saint Vincent and the Grenadines",45]
+['VE',"Venezuela - Bolivarian Republic of",102]
+['VG',"British Virgin Islands",24]
+['VI',"United States Virgin Islands",27]
+['VN',"Viet Nam",142]
+['VU',"Vanuatu",10]
+['WS',"Samoa",3]
+['YE',"Yemen",90]
+['ZA',"South Africa",127]
+['ZM',"Zambia",114]
+['ZW',"Zimbabwe",119]
+]
