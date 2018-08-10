@@ -1,4 +1,4 @@
-var countries_taxa=[['country','Number of taxa'],
+var countries_taxa=[['ISO2', 'country name','Number of taxa'],
 ['AD',"Andorra",1],
 ['AE',"United Arab Emirates",10],
 ['AF',"Afghanistan",255],
