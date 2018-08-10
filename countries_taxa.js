@@ -218,5 +218,4 @@ var countries_taxa=[['country','Number of taxa'],
 ['YE',"Yemen",90],
 ['ZA',"South Africa",127],
 ['ZM',"Zambia",114],
-['ZW',"Zimbabwe",119]
-]
+['ZW',"Zimbabwe",119]];
