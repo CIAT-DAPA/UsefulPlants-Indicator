@@ -27,7 +27,7 @@
 
     var font_name = 'Roboto';
     var font_size = 12;
-    var number_format = '###.0'
+    var number_format = '##0.0'
 
 
     google.charts.setOnLoadCallback(drawGlobal);
@@ -45,6 +45,7 @@
 
         var options = {
             legend: { position: "bottom", maxLines: 3, textStyle: { fontName: font_name, fontSize: font_size } },
+            tooltip: { textStyle: { fontName: font_name, fontSize: 12 } },
             colors: [color_green, color_yellow, color_red],
             bar: { groupWidth: "90%" },
             chartArea: { 'width': '70%', 'height': '50%' },
@@ -72,7 +73,8 @@
 
         var options = {
             resolution: 'country',
-            legend: { textStyle: { fontName: font_name } },
+            legend: { textStyle: { fontName: font_name } },            
+            tooltip: { textStyle: { fontName: font_name, fontSize: 12 } },
             colors: [color_green_soft, color_green]
         };
 
@@ -94,6 +96,7 @@
         var options = {
             resolution: 'country',
             legend: { textStyle: { fontName: font_name } },
+            tooltip: { textStyle: { fontName: font_name, fontSize: 12 } },
             colors: [color_green_soft, color_green]
         };
 
@@ -115,6 +118,7 @@
         var options = {
             resolution: 'country',
             legend: { textStyle: { fontName: font_name } },
+            tooltip: { textStyle: { fontName: font_name, fontSize: 12 } },
             colors: [color_green_soft, color_green]
         };
 
@@ -138,8 +142,9 @@
 
         var options = {
             legend: { position: "bottom", maxLines: 3, textStyle: { fontName: font_name, fontSize: font_size } },
+            tooltip: { textStyle: { fontName: font_name, fontSize: 12 } },
             colors: [color_green, color_yellow, color_red],
-            chartArea: { 'width': '70%', 'height': '95%' },
+            chartArea: { 'width': '70%', 'height': '90%' },
             bar: { groupWidth: "90%" },
             vAxis: { textStyle: { color: 'black', fontName: font_name, fontSize: font_size, bold: false, italic: true } },
             hAxis: { textStyle: { color: 'black', fontName: font_name, fontSize: font_size, bold: false, italic: true } },
@@ -165,6 +170,7 @@
 
         var options = {
             legend: { position: "bottom", maxLines: 3, textStyle: { fontName: font_name, fontSize: font_size } },
+            tooltip: { textStyle: { fontName: font_name, fontSize: 12 } },
             colors: [color_green, color_yellow, color_red],
             bar: { groupWidth: "100%" },
             chartArea: { 'width': '65%', 'height': '95%' },
@@ -192,6 +198,7 @@
         var options = {
             resolution: 'country',
             legend: { textStyle: { fontName: font_name } },
+            tooltip: { textStyle: { fontName: font_name, fontSize: 12 } },
             colors: [color_green_soft, color_green]
         };
 
