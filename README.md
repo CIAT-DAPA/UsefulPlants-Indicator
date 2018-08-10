@@ -1,5 +1,11 @@
 # Aichi13
-Project Management of the Aichi13 Indicators for non-cultivated plant species with economical use ("Comprehensiveness of conservation of socioeconomically as well as culturally valuable species": An operational indicator for Aichi Biodiversity Target 13)
+Project Management and method code for "Comprehensiveness of conservation of useful wild plants: an operational indicator for biodiversity and sustainable development targets"
+
+Khoury CK, Amariles D, Soto JS, Diaz MV, Sotelo S, Sosa CC, Ramírez-Villegas J, Achicanoy HA, Velásquez-Tibatá J, Guarino L, León B, Castañeda-Álvarez NP, Dempewolf H, Wiersema JH, and Andy Jarvis (2018). Comprehensiveness of conservation of useful wild plants: an operational indicator for biodiversity and sustainable development targets. Ecological Indicators. Under review.
+
+Khoury CK, Amariles D, Soto JS, Diaz MV, Sotelo S, Sosa CC, Ramírez-Villegas J, Achicanoy HA, León B, and JH Wiersema (2018). Data for the calculation of an indicator of the comprehensiveness of conservation of useful wild plants. Data in Brief. Under review.
+
+Funding: Research at the International Center for Tropical Agriculture was funded by the Biodiversity Indicators Partnership, an initiative supported by UN Environment, the European Commission and the Swiss Federal Office for the Environment. The funder played no role in study design; in the collection, analysis and interpretation of data; in the writing of the report; or in the decision to submit the article for publication.
 
 **Project Website** https://ciat.cgiar.org/aichi13/
 
