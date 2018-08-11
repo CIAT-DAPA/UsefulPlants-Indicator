@@ -38,17 +38,17 @@
 
 ##########################################   Start Functions    ###############################################
 
-# This function calculate the GRS by every species.
-# It searches the species, then load the species distribution from raster file. 
-# With the species distribution intersectes with the native area, then with the protected areas raster and calculate
-# the area from the species distribution, overlay and the proportion between both.
+# This function calculates the GRSin for every species.
+# It searches for the species, then loads the species distribution presence absence surface raster file. 
+# The species distribution intersectes with the native area, then with the protected areas raster to calculate
+# the area from that overlaps between the species distribution and protected areas.
 # It creates two files with the result (grs_result.csv, grs_intersect.tif)
-# @param (string) specie: Code of the specie
-# @param (bool) debug: Specifies whether to save the raster files. By default is FALSE
-# @return (data.frame): This function return a dataframe with the results about the process. 
-#                       It has three columns, the first has the specie code; the second has a status
-#                       of process, if value is "TRUE" the process finished good, if the result is FALSE
-#                       the process had a error; the third column has a description about process
+# @param (string) specie: Code of the species
+# @param (bool) debug: Specifies whether to save the raster files. By default is FALSE to save space
+# @return (data.frame): This function returns a dataframe with the results. 
+#                       It has three columns, the first has the species code; the second has the status
+#                       of process, if value is "TRUE" the process finished correctly, if the result is FALSE
+#                       the process had a error; the third column has a description about the process
 species="4182513"
 calculate_grs = function(species, debug=F) {
   #required packages
