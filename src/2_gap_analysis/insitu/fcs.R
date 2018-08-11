@@ -33,13 +33,12 @@
 
 ##########################################   Start Functions    ###############################################
 
-# This function calculate the FCS by every species.
-# It searches the species, then load the result from grs and ers (insitu) and calculate
-# the FCS
-# @param (string) specie: Code of the specie
-# @return (data.frame): This function return a dataframe with the results about the process. 
+# This function calculate the FCSin for each species.
+# It searches for the species, then loads the results from GRSin and ERSin and calculates the FCSin
+# @param (string) specie: Code of the species
+# @return (data.frame): This function returns a dataframe with the results. 
 #                       It has three columns, the first has the species code; the second has a status
-#                       of process, if value is "TRUE" the process finished good, if the result is "FALSE"
+#                       of process, if value is "TRUE" the process finished correctly, if the result is "FALSE"
 #                       the process had a error; the third column has a description about process
 calculate_fcs = function(species){
   #source config
@@ -98,7 +97,7 @@ calculate_fcs = function(species){
   })
 }
 
-# This function save the results of analysis ers.
+# This function saves the results of analysis ERSin.
 # @param (data.frame) df; Data.frame with the analysis of FCS
 # @param (string) species.dir: Path where the files should be saved
 # @return (void)
