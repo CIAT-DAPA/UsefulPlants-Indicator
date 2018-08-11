@@ -1,5 +1,5 @@
 ##########################################   Start Functions    ###############################################
-# This function calculates the ex-situ ERS It loads occurrences if they exist, then
+# This function calculates the ERSex It loads occurrences if they exist, then
 # loads the presence/absence surface, creates the G buffer (i.e. CA50) and finally
 # outputs the ERS and # eco classes in a data.frame (which is written into a file).
 # @param (string) species: species ID
