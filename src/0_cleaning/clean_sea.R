@@ -2,7 +2,7 @@
 # @param (chr) species: species ID
 # @return (data.frame): data.frame with filtered species records
 #-------------------------------------
-#Function for removing sea coordinates
+#Function for removing coordinates falling in the ocean rather than on land
 #Jonatan Soto
 #Based on Jeison & Alejandra advice
 #-------------------------------------
