@@ -1,6 +1,6 @@
 ##########################################   Start Functions    ###############################################
 # This function calculates the combined ex-situ and in-situ FCS (FCSc)
-# It searches the species, then loads the summary.csv from both ex-situ and in-situ 
+# It searches for the species, then loads the summary.csv from both ex-situ FCSex and in-situ FCSin 
 # then computes the FCSc and outputs a file fcs_combined.csv
 # @param (string) species: species ID
 # @return (data.frame): This function returns a data frame with the combined FCS of the ex-situ and in-situ
@@ -19,7 +19,7 @@ fcs_combine <- function(species) {
   data_in <- read.csv(file_in, sep=",", header=T)
   data_ex <- read.csv(file_ex, sep=",", header=T)
   
-  #compute FCScomb_min and FCScomb_max
+  #compute FCSc_min and FCSc_max
   data_comb <- data.frame(ID=species, FCSex=data_ex$FCS, FCSin=data_in$FCS)
   data_comb$FCSc_min <- min(c(data_ex$FCS,data_in$FCS),na.rm=T)
   data_comb$FCSc_max <- max(c(data_ex$FCS,data_in$FCS),na.rm=T)
