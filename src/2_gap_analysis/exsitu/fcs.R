@@ -1,6 +1,6 @@
 ##########################################   Start Functions    ###############################################
-# This function calculates the ex-situ FCS It loads srs.csv, grs.csv, ers.csv and
-# calculates SRS. It saves output in summary.csv
+# This function calculates the FCSex. It loads srs.csv, grs.csv, ers.csv and
+# calculates FCS. It saves output in summary.csv
 # @param (string) species: species ID
 # @return (data.frame): This function returns a data frame with ID, SRS, GRS, ERS, FCS
 #                       for a given species.
