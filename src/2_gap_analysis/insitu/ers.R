@@ -41,17 +41,16 @@
 
 ##########################################   Start Functions    ###############################################
 
-# This function calculate the ERS by every species.
-# It searches the specie, then load the specie distribution from raster file. 
-# With the specie distribution intersectes with the native area, then with ecosystems raster, with this
-# new raster makes a new intersectes with protected areas and calculate the number of ecosystems
-# in the specie distribution and number ecosystem into protected areas
+# This function calculates the ERSin for each species.
+# It searches for the species, then loads the species distribution presence absence surface raster file. 
+# The species distribution intersects with the native area, then with ecosystems raster, and finally with 
+# with protected areas and to calculate the number of ecosystems represented in the protected areas
 # It creates three files with the result (ers_result.csv, ers_specie_ecosystems.tif, ers_specie_ecosystems_pa.tif)
-# @param (string) specie: Code of the specie
-# @param (bool) debug: Specifies whether to save the raster files. By default is FALSE
-# @return (data.frame): This function return a dataframe with the results about the process. 
-#                       It has three columns, the first has the specie code; the second has a status
-#                       of process, if value is "TRUE" the process finished good, if the result is "FALSE"
+# @param (string) specie: Code of the species
+# @param (bool) debug: Specifies whether to save the raster files. By default is FALSE to save space
+# @return (data.frame): This function returns a dataframe with the results. 
+#                       It has three columns, the first has the species code; the second has a status
+#                       of process, if value is "TRUE" the process finished correctly, if the result is "FALSE"
 #                       the process had a error; the third column has a description about process
 
 #species="4182513"
