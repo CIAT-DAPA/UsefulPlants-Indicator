@@ -1,0 +1,39 @@
+<html>
+<head>
+    
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js?sensor=false&callback=initialize"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi?sensor=false"></script>
+    <script type="text/javascript" src="../js/colors.js"></script>
+    <script type="text/javascript" src="../js/google_geochart_insitu.js"></script>
+    <script type="text/javascript">
+    google.charts.load('current', {'packages':['geochart']});
+
+    var font_name= 'Times New Roman';
+    var font_size = 12;
+    var number_format = '##0.0'
+    
+    google.charts.setOnLoadCallback(drawCountriesInsituMap);
+
+    function drawCountriesInsituMap() {
+        var gdata = google.visualization.arrayToDataTable(countries_insitu);
+
+        var formatter = new google.visualization.NumberFormat(
+            { pattern: number_format });
+
+        formatter.format(gdata, 2);
+
+        var options = {
+            resolution: 'country',
+            legend: { textStyle: { fontName: font_name } },
+            tooltip: { textStyle: { fontName: font_name, fontSize: font_size } },
+            colors: [color_green_soft, color_green]
+        };
+
+        var chart = new google.visualization.GeoChart(document.getElementById('countries_insitu_div'));
+
+        chart.draw(gdata, options);
+    }
+</script>
+</head>
+     <div id="countries_insitu_div" style="width: 1300px; height: 900px;"></div>
+</html>

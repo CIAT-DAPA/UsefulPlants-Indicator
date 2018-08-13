@@ -1,0 +1,48 @@
+<html>
+
+<head>
+  <div id="bar_regions_div" style="width: 1080px; height: 1580px;"></div>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js?sensor=false&callback=initialize"></script>
+  <script type="text/javascript" src="https://www.google.com/jsapi?sensor=false"></script>
+  <script type="text/javascript" src="../js/colors.js"></script>
+  <script type="text/javascript" src="../js/google_barchart_regions.js"></script>
+  <script type="text/javascript">
+    google.charts.load('current', { packages: ['corechart', 'bar'] });
+
+    var font_name = 'Times New Roman';
+	var font_size = 12;
+    var number_format = '##0.0'
+
+    google.charts.setOnLoadCallback(drawRegions);
+
+    function drawRegions() {
+        var gdata = google.visualization.arrayToDataTable(regions_comb);
+
+        var formatter = new google.visualization.NumberFormat(
+            { pattern: number_format });
+
+        formatter.format(gdata, 1);
+        formatter.format(gdata, 3);
+        formatter.format(gdata, 5);
+
+        var options = {
+            legend: { position: "bottom", maxLines: 3, textStyle: { fontName: font_name, fontSize: font_size } },
+            tooltip: { textStyle: { fontName: font_name, fontSize: font_size } },
+            colors: [color_green, color_yellow, color_red],
+            bar: { groupWidth: "100%" },
+            chartArea: { 'width': '65%', 'height': '90%' },
+            vAxis: { textStyle: { color: 'black', fontName: font_name, fontSize: font_size, bold: false, italic: true } },
+            hAxis: {
+                textStyle: { color: 'black', fontName: font_name, fontSize: font_size, bold: false, italic: true },
+                title: 'Proportion of species (%)',
+                titleTextStyle: { color: 'black', fontName: font_name, fontSize: font_size, bold: false, italic: true }
+            },
+            isStacked: 'true'
+        };
+
+        var chart = new google.visualization.BarChart(document.getElementById('bar_regions_div'));
+        chart.draw(gdata, options);
+    }
+  </script>
+
+</html>

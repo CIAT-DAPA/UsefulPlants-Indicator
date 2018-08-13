@@ -1,0 +1,250 @@
+Country;ISO-alpha3 code;ISO-alpha2 code;ex situ;in situ;combined
+Algeria;DZA;DZ;2.31;73.8;1.68
+Egypt;EGY;EG;3.36;48.7;2.35
+Libya;LBY;LY;3.09;61.0;2.32
+Morocco;MAR;MA;2.09;78.5;1.67
+Sudan;SDN;SD;2.87;34.7;2.23
+Tunisia;TUN;TN;2.23;76.0;1.95
+Western Sahara;ESH;EH;50.00;0.0;0.00
+British Indian Ocean Territory;IOT;IO;;;
+Burundi;BDI;BI;3.39;39.8;3.39
+Comoros;COM;KM;0.00;26.7;0.00
+Djibouti;DJI;DJ;0.00;32.3;0.00
+Eritrea;ERI;ER;1.67;30.8;1.67
+Ethiopia;ETH;ET;3.44;39.5;3.15
+French Southern Territories;ATF;TF;;;
+Kenya;KEN;KE;3.31;41.8;3.55
+Madagascar;MDG;MG;0.97;28.6;0.97
+Malawi;MWI;MW;2.04;45.9;2.72
+Mauritius;MUS;MU;0.00;29.4;0.00
+Mayotte;MYT;YT;;;
+Mozambique;MOZ;MZ;1.96;41.6;2.79
+Réunion;REU;RE;0.00;30.6;0.00
+Rwanda;RWA;RW;2.80;42.7;2.80
+Seychelles;SYC;SC;0.00;25.5;0.00
+Somalia;SOM;SO;1.53;27.6;1.02
+South Sudan;SSD;SS;;;
+Uganda;UGA;UG;2.26;45.5;2.76
+United Republic of Tanzania;TZA;TZ;2.65;46.5;3.06
+Zambia;ZMB;ZM;2.51;48.0;3.13
+Zimbabwe;ZWE;ZW;2.47;45.1;3.40
+Angola;AGO;AO;2.40;44.9;2.69
+Cameroon;CMR;CM;1.79;44.0;1.79
+Central African Republic;CAF;CF;1.65;43.4;1.65
+Chad;TCD;TD;2.46;27.0;2.46
+Congo;COG;CG;2.40;51.2;2.40
+Democratic Republic of the Congo;COD;CD;2.27;48.4;2.52
+Equatorial Guinea;GNQ;GQ;0.83;50.4;0.83
+Gabon;GAB;GA;2.63;57.9;2.63
+Sao Tome and Principe;STP;ST;2.56;48.7;2.56
+Botswana;BWA;BW;4.27;42.3;5.56
+Lesotho;LSO;LS;2.90;39.1;2.90
+Namibia;NAM;NA;3.52;46.7;4.41
+South Africa;ZAF;ZA;2.04;42.5;2.54
+Swaziland;SWZ;SZ;1.51;37.7;2.51
+Benin;BEN;BJ;1.00;34.8;1.00
+Burkina Faso;BFA;BF;0.00;22.9;0.00
+Cabo Verde;CPV;CV;2.38;31.0;0.00
+Côte d'Ivoire;CIV;CI;1.54;45.4;1.54
+Gambia;GMB;GM;0.00;36.7;0.00
+Ghana;GHA;GH;1.93;41.3;1.93
+Guinea;GIN;GN;1.61;44.8;1.61
+Guinea-Bissau;GNB;GW;0.00;43.5;0.00
+Liberia;LBR;LR;2.45;55.4;2.45
+Mali;MLI;ML;1.48;31.0;1.48
+Mauritania;MRT;MR;1.67;20.0;1.67
+Niger;NER;NE;1.54;26.2;1.54
+Nigeria;NGA;NG;1.84;41.4;1.84
+Saint Helena;SHN;SH;0.00;25.0;0.00
+Senegal;SEN;SN;1.83;38.5;1.83
+Sierra Leone;SLE;SL;2.24;48.1;2.24
+Togo;TGO;TG;1.83;39.3;1.83
+Anguilla;AIA;AI;0.00;82.5;0.00
+Antigua and Barbuda;ATG;AG;0.83;82.6;0.83
+Aruba;ABW;AW;0.00;33.3;0.00
+Bahamas;BHS;BS;0.83;64.5;0.83
+Barbados;BRB;BB;0.00;81.5;0.00
+Bonaire, Sint Eustatius and Saba;BES;;;;
+British Virgin Islands;VGB;VG;0.00;75.9;0.00
+Cayman Islands;CYM;KY;0.00;75.0;0.00
+Cuba;CUB;CU;0.78;68.2;0.78
+Curaçao;CUW;;;;
+Dominica;DMA;DM;0.00;89.3;0.00
+Dominican Republic;DOM;DO;0.74;78.7;0.74
+Grenada;GRD;GD;0.87;83.5;0.87
+Guadeloupe;GLP;GP;0.60;80.8;0.60
+Haiti;HTI;HT;0.90;75.7;0.90
+Jamaica;JAM;JM;0.50;73.1;0.50
+Martinique;MTQ;MQ;0.60;85.0;0.60
+Montserrat;MSR;MS;0.00;83.0;0.00
+Puerto Rico;PRI;PR;0.94;74.2;0.47
+Saint Barthélemy;BLM;BL;;;
+Saint Kitts and Nevis;KNA;KN;0.00;87.1;0.00
+Saint Lucia;LCA;LC;0.83;81.0;0.83
+Saint Martin (French Part);MAF;MF;;;
+Saint Vincent and the Grenadines;VCT;VC;0.76;83.3;0.76
+Sint Maarten (Dutch part);SXM;;;;
+Trinidad and Tobago;TTO;TT;1.64;78.7;1.64
+Turks and Caicos Islands;TCA;TC;0.00;33.3;0.00
+United States Virgin Islands;VIR;VI;0.00;74.3;0.00
+Belize;BLZ;BZ;0.71;79.1;0.71
+Costa Rica;CRI;CR;1.35;78.1;1.35
+El Salvador;SLV;SV;1.53;74.8;1.53
+Guatemala;GTM;GT;2.81;69.1;2.34
+Honduras;HND;HN;1.39;75.0;1.39
+Mexico;MEX;MX;1.72;53.3;1.59
+Nicaragua;NIC;NI;1.39;76.5;1.39
+Panama;PAN;PA;1.15;78.7;1.15
+Argentina;ARG;AR;3.80;50.6;3.80
+Bolivia (Plurinational State of);BOL;BO;4.17;68.4;4.39
+Bouvet Island;BVT;BV;;;
+Brazil;BRA;BR;1.03;61.4;1.03
+Chile;CHL;CL;5.69;40.7;5.69
+Colombia;COL;CO;2.02;74.8;1.61
+Ecuador;ECU;EC;2.78;73.4;2.78
+Falkland Islands (Malvinas);FLK;FK;0.00;100.0;0.00
+French Guiana;GUF;GF;0.79;83.9;1.18
+Guyana;GUY;GY;1.32;80.9;1.65
+Paraguay;PRY;PY;1.13;50.8;1.13
+Peru;PER;PE;5.39;69.1;4.83
+South Georgia and the South Sandwich Islands;SGS;GS;;;
+Suriname;SUR;SR;0.74;83.0;1.11
+Uruguay;URY;UY;0.69;45.8;0.00
+Venezuela (Bolivarian Republic of);VEN;VE;1.37;81.2;1.37
+Bermuda;BMU;BM;0.00;40.9;0.00
+Canada;CAN;CA;0.19;35.9;0.00
+Greenland;GRL;GL;0.00;85.4;0.00
+Saint Pierre and Miquelon;SPM;PM;0.00;64.7;0.00
+United States of America;USA;US;0.97;37.3;0.58
+Antarctica;ATA;AQ;;;
+Kazakhstan;KAZ;KZ;3.20;58.4;1.87
+Kyrgyzstan;KGZ;KG;4.22;55.5;3.25
+Tajikistan;TJK;TJ;3.91;57.0;3.13
+Turkmenistan;TKM;TM;4.15;51.7;2.26
+Uzbekistan;UZB;UZ;4.57;49.8;2.28
+China;CHN;CN;1.86;27.0;1.28
+China, Hong Kong Special Administrative Region;HKG;HK;0.00;13.6;0.00
+China, Macao Special Administrative Region;MAC;MO;0.00;50.0;0.00
+Democratic People's Republic of Korea;PRK;KP;6.90;31.0;3.45
+Japan;JPN;JP;1.29;36.9;1.77
+Mongolia;MNG;MN;2.78;50.0;1.04
+Republic of Korea;KOR;KR;6.38;36.2;8.51
+Brunei Darussalam;BRN;BN;1.89;18.9;0.00
+Cambodia;KHM;KH;0.57;22.5;0.28
+Indonesia;IDN;ID;0.61;19.5;0.37
+Lao People's Democratic Republic;LAO;LA;0.23;22.0;0.47
+Malaysia;MYS;MY;0.97;19.2;0.69
+Myanmar;MMR;MM;0.65;19.0;0.65
+Philippines;PHL;PH;0.38;23.6;0.19
+Singapore;SGP;SG;0.00;8.9;0.00
+Thailand;THA;TH;0.66;21.5;0.53
+Timor-Leste;TLS;TL;0.00;25.0;0.00
+Viet Nam;VNM;VN;0.56;18.6;0.42
+Afghanistan;AFG;AF;3.47;43.7;2.67
+Bangladesh;BGD;BD;0.40;19.3;0.40
+Bhutan;BTN;BT;1.02;28.4;0.76
+India;IND;IN;0.79;25.1;0.71
+Iran (Islamic Republic of);IRN;IR;4.19;52.4;3.14
+Maldives;MDV;MV;0.00;28.6;0.00
+Nepal;NPL;NP;0.68;32.0;0.68
+Pakistan;PAK;PK;1.85;36.4;1.66
+Sri Lanka;LKA;LK;0.64;23.4;0.64
+Armenia;ARM;AM;4.11;68.4;3.25
+Azerbaijan;AZE;AZ;3.16;67.5;2.37
+Bahrain;BHR;BH;0.00;21.4;0.00
+Cyprus;CYP;CY;3.14;66.6;2.09
+Georgia;GEO;GE;2.31;75.3;2.10
+Iraq;IRQ;IQ;5.88;50.2;4.02
+Israel;ISR;IL;4.48;55.8;3.28
+Jordan;JOR;JO;4.05;55.0;2.70
+Kuwait;KWT;KW;6.67;23.3;6.67
+Lebanon;LBN;LB;4.36;63.5;3.00
+Oman;OMN;OM;0.00;25.0;0.00
+Qatar;QAT;QA;0.00;30.8;0.00
+Saudi Arabia;SAU;SA;2.07;31.7;0.69
+State of Palestine;PSE;PS;0.00;0.0;0.00
+Syrian Arab Republic;SYR;SY;4.87;58.7;2.82
+Turkey;TUR;TR;4.75;63.8;2.88
+United Arab Emirates;ARE;AE;0.00;20.0;0.00
+Yemen;YEM;YE;1.68;30.2;1.68
+Belarus;BLR;BY;0.00;91.4;0.00
+Bulgaria;BGR;BG;1.83;80.9;1.53
+Czechia;CZE;CZ;0.00;90.5;0.84
+Hungary;HUN;HU;0.00;89.8;0.20
+Poland;POL;PL;0.00;91.9;0.00
+Republic of Moldova;MDA;MD;0.56;85.6;0.28
+Romania;ROU;RO;0.33;84.5;0.50
+Russian Federation;RUS;RU;3.89;54.8;2.54
+Slovakia;SVK;SK;0.00;90.0;0.28
+Ukraine;UKR;UA;0.96;82.5;0.80
+Åland Islands;ALA;AX;;;
+Guernsey;GGY;GG;;;
+Jersey;JEY;JE;;;
+Sark;;;;;
+Denmark;DNK;DK;0.00;95.0;0.28
+Estonia;EST;EE;0.31;92.0;0.00
+Faroe Islands;FRO;FO;0.00;95.5;0.00
+Finland;FIN;FI;0.00;93.0;0.00
+Iceland;ISL;IS;0.00;96.3;0.00
+Ireland;IRL;IE;0.68;94.9;0.68
+Isle of Man;IMN;IM;;;
+Latvia;LVA;LV;0.00;93.5;0.00
+Lithuania;LTU;LT;0.29;92.2;0.00
+Norway;NOR;NO;0.00;93.3;0.00
+Svalbard and Jan Mayen Islands;SJM;SJ;0.00;100.0;0.00
+Sweden;SWE;SE;0.00;94.0;0.00
+United Kingdom of Great Britain and Northern Ireland;GBR;GB;0.49;94.3;0.74
+Albania;ALB;AL;1.29;85.3;1.46
+Andorra;AND;AD;0.00;100.0;0.00
+Bosnia and Herzegovina;BIH;BA;0.00;90.6;0.39
+Croatia;HRV;HR;0.22;87.3;0.22
+Gibraltar;GIB;GI;0.00;100.0;0.00
+Greece;GRC;GR;2.99;76.4;2.85
+Holy See;VAT;VA;;;
+Italy;ITA;IT;1.37;83.5;1.61
+Malta;MLT;MT;4.35;73.9;0.00
+Montenegro;MNE;ME;0.40;90.8;0.40
+Portugal;PRT;PT;1.37;85.2;1.76
+San Marino;SMR;SM;;;
+Serbia;SRB;RS;0.26;85.4;0.26
+Slovenia;SVN;SI;0.25;90.9;0.25
+Spain;ESP;ES;1.04;85.3;1.56
+The former Yugoslav Republic of Macedonia;MKD;MK;1.24;85.9;0.83
+Austria;AUT;AT;0.00;91.8;0.55
+Belgium;BEL;BE;0.00;95.7;0.24
+France;FRA;FR;0.79;88.7;1.31
+Germany;DEU;DE;0.00;93.2;0.19
+Liechtenstein;LIE;LI;0.00;100.0;0.00
+Luxembourg;LUX;LU;0.00;100.0;0.00
+Monaco;MCO;MC;;;
+Netherlands;NLD;NL;0.00;94.9;0.00
+Switzerland;CHE;CH;0.00;93.6;0.20
+Australia;AUS;AU;0.00;49.7;0.77
+Christmas Island;CXR;CX;0.00;16.7;0.00
+Cocos (Keeling) Islands;CCK;CC;0.00;0.0;0.00
+Heard Island and McDonald Islands;HMD;HM;;;
+New Zealand;NZL;NZ;0.00;86.2;0.00
+Norfolk Island;NFK;NF;;;
+Fiji;FJI;FJ;0.00;20.3;0.00
+New Caledonia;NCL;NC;0.00;20.0;0.00
+Papua New Guinea;PNG;PG;0.60;20.7;0.00
+Solomon Islands;SLB;SB;1.14;20.5;0.00
+Vanuatu;VUT;VU;0.00;24.5;0.00
+Guam;GUM;GU;0.00;4.8;0.00
+Kiribati;KIR;KI;0.00;25.0;0.00
+Marshall Islands;MHL;MH;0.00;28.6;0.00
+Micronesia (Federated States of);FSM;FM;0.00;14.8;0.00
+Nauru;NRU;NR;0.00;0.0;0.00
+Northern Mariana Islands;MNP;MP;0.00;20.0;0.00
+Palau;PLW;PW;0.00;26.3;0.00
+United States Minor Outlying Islands;UMI;UM;0.00;0.0;0.00
+American Samoa;ASM;AS;;;
+Cook Islands;COK;CK;0.00;10.0;0.00
+French Polynesia;PYF;PF;0.00;7.7;0.00
+Niue;NIU;NU;0.00;10.0;0.00
+Pitcairn;PCN;PN;0.00;33.3;0.00
+Samoa;WSM;WS;0.00;22.6;0.00
+Tokelau;TKL;TK;;;
+Tonga;TON;TO;0.00;13.6;0.00
+Tuvalu;TUV;TV;;;
+Wallis and Futuna Islands;WLF;WF;0.00;0.0;0.00

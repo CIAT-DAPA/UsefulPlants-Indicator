@@ -1,0 +1,35 @@
+<html>
+<head>
+    
+	
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.16/r-2.2.1/datatables.min.css" />
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.16/r-2.2.1/datatables.min.js"></script>
+	
+
+    <script type="text/javascript" src="../js/species.js"></script>
+    <script type="text/javascript">
+
+ 
+$(document).ready(function() {
+    $('#species_table').DataTable( {
+        data: species,
+        columns: [
+		
+                { title: "Taxon key", searchable: false, visible: false },
+                { title: "Scientific Name" },
+                { title: "Total records", searchable: false },
+                { title: "G records", searchable: false },
+                { title: "H records", searchable: false },
+                { title: "Model", searchable: false, visible: false },
+                { title: "Indicator <br> (<i>ex situ</i>)", searchable: false, decimalPlaces: 1 },
+                { title: "Indicator <br> (<i>in situ</i>)", searchable: false },
+                { title: "Indicator (combined)", searchable: false },
+                { title: "Priority category", searchable: false }
+        ]
+    } );
+} );
+	
+	
+</script></head><body><table id="species_table" class="display" style="width:100%"> </table></body>
+</html>
