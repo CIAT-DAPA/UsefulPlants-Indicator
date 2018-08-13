@@ -1,4 +1,4 @@
-var countries_mean=[['ISO2', 'country name', 'indicator'],
+var countries_mean=[['ISO2', 'country name', 'indicator (combined)'],
 ['AW', "Aruba", 0],
 ['AF', "Afghanistan", 2.49376558603491],
 ['AO', "Angola", 2.60869565217391],

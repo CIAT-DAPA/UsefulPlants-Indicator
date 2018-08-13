@@ -191,7 +191,7 @@
             var gdata = google.visualization.arrayToDataTable(countries_taxa);
 
             var formatter = new google.visualization.NumberFormat(
-                { pattern: number_format });
+                { pattern: '###0' });
 
             formatter.format(gdata, 2);
 
