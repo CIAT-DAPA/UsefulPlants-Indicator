@@ -56,7 +56,7 @@
             resolution: 'country',
             legend: { textStyle: { fontName: font_name } },
             tooltip: { textStyle: { fontName: font_name, fontSize: font_size } },
-            colors: [color_green_soft, color_green]
+            colors: [color_red, color_yellow, color_green_soft, color_green]
         };
 
         var chart = new google.visualization.GeoChart(document.getElementById('countries_mean_div'));
@@ -78,7 +78,7 @@
             resolution: 'country',
             legend: { textStyle: { fontName: font_name } },
             tooltip: { textStyle: { fontName: font_name, fontSize: font_size } },
-            colors: [color_green_soft, color_green]
+            colors: [color_red, color_yellow, color_green_soft, color_green]
         };
 
         var chart = new google.visualization.GeoChart(document.getElementById('countries_insitu_div'));
@@ -100,7 +100,7 @@
             resolution: 'country',
             legend: { textStyle: { fontName: font_name } },
             tooltip: { textStyle: { fontName: font_name, fontSize: font_size } },
-            colors: [color_green_soft, color_green]
+            colors: [color_red, color_yellow, color_green_soft, color_green]
         };
 
         var chart = new google.visualization.GeoChart(document.getElementById('countries_exsitu_div'));
