@@ -210,9 +210,9 @@
                 { title: "G records", searchable: false },
                 { title: "H records", searchable: false },
                 { title: "Model", searchable: false, visible: false },
-                { title: "Indicator <br> (<i>ex situ</i>)", searchable: false, decimalPlaces: 1 },
-                { title: "Indicator <br> (<i>in situ</i>)", searchable: false },
-                { title: "Indicator (combined)", searchable: false },
+                { title: "Indicator <br> (<i>ex situ</i>)", searchable: false, render: $.fn.dataTable.render.number( ',', '.', 1, '' ) },
+                { title: "Indicator <br> (<i>in situ</i>)", searchable: false, render: $.fn.dataTable.render.number( ',', '.', 1, '' ) },
+                { title: "Indicator (combined)", searchable: false, render: $.fn.dataTable.render.number( ',', '.', 1, '' ) },
                 { title: "Priority category", searchable: false }
             ]
         });
