@@ -8,7 +8,7 @@ Khoury CK, Amariles D, Soto JS, Diaz MV, Sotelo S, Sosa CC, Ramírez-Villegas J,
 
 Funding: Research at the International Center for Tropical Agriculture was funded by the Biodiversity Indicators Partnership, an initiative supported by UN Environment, the European Commission and the Swiss Federal Office for the Environment. The funder played no role in study design; in the collection, analysis and interpretation of data; in the writing of the report; or in the decision to submit the article for publication.
 
-**Project Website** https://ciat.cgiar.org/aichi13/
+**Project Website** https://ciat.cgiar.org/usefulplants-indicator/. 
 
 ## Functions documentation standard
 
