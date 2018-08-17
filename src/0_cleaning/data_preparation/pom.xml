@@ -25,6 +25,12 @@
 			<artifactId>json</artifactId>
 			<version>${json.version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.javadocmd</groupId>
+			<artifactId>simplelatlng</artifactId>
+			<version>RELEASE</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -86,7 +92,7 @@
 							</archive>
 						</configuration>
 					</execution>
-					
+
 					<execution>
 						<id>build-export</id>
 						<phase>package</phase>
