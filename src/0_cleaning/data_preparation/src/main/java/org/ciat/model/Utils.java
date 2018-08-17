@@ -112,7 +112,7 @@ public class Utils {
 		if (year == null) {
 			return NO_YEAR;
 		}
-		
+
 		if (year.isEmpty()) {
 			return NO_YEAR;
 		}
@@ -133,10 +133,10 @@ public class Utils {
 		return year;
 	}
 
-	public static boolean areCentroidCoordinates(String lat, String lon) {
-		// TODO Auto-generated method stub
-		return true;
+	public static boolean areCentroidCoordinates(Double lat, Double lng) {
+		CentroidFinder cf = CentroidFinder.getInstance();
+		
+		return cf.areCentroid(lat, lng);
 	}
-
 
 }

@@ -84,7 +84,7 @@ public class Normalizer implements Normalizable {
 								writer.println(normal);
 								past = normal;
 							}
-							
+
 						} else {
 							writerTrash.println(normal + STANDARD_SEPARATOR + validateResults);
 						}
@@ -93,9 +93,9 @@ public class Normalizer implements Normalizable {
 						// TODO move this validation to validate();
 						validateResults += centroidValidation();
 						// end centroid validation
-						
-						
-						CountExporter.getInstance().updateCounters(taxonkey, isUseful, year, basis, source, validateResults);
+
+						CountExporter.getInstance().updateCounters(taxonkey, isUseful, year, basis, source,
+								validateResults);
 					}
 				}
 				/* show progress */
@@ -152,10 +152,6 @@ public class Normalizer implements Normalizable {
 			result += "NO_VALID_COORDINATES";
 		}
 
-		if (!Utils.areValidCoordinates(lat, lon)) {
-			result += "CENTROID_COORDINATES";
-		}
-
 		// remove records of H before the 1950
 		Basis basis = getBasis();
 		String year = getYear();
@@ -167,20 +163,22 @@ public class Normalizer implements Normalizable {
 
 		return result;
 	}
-	
+
 	public String centroidValidation() {
 
 		String result = "";
 
+		if (Utils.areValidCoordinates(getDecimalLatitude(), getDecimalLongitude())) {
 
-		// remove records with invalid coordinates
-		String lon = getDecimalLongitude();
-		String lat = getDecimalLatitude();
-		if (Utils.areCentroidCoordinates(lat, lon)) {
-			result += "CENTROID_COORDINATES;";
+			// remove records with invalid coordinates
+			Double lng = Double.parseDouble(getDecimalLongitude());
+			Double lat = Double.parseDouble(getDecimalLatitude());
+
+			if (Utils.areCentroidCoordinates(lat, lng)) {
+				result += "CENTROID_COORDINATES;";
+			}
+
 		}
-
-
 		return result;
 	}
 

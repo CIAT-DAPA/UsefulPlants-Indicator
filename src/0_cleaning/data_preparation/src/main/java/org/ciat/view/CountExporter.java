@@ -133,9 +133,6 @@ public class CountExporter {
 
 	}
 
-	public void updateCounters(String taxonkey, boolean useful, String year, Basis basis, DataSourceName source) {
-		updateCounters(taxonkey, useful, year, basis, source, "");
-	}
 
 	public void updateCounters(String taxonkey, boolean useful, String year, Basis basis, DataSourceName source,
 			String comments) {
