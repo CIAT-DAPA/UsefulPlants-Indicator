@@ -1,6 +1,5 @@
 package org.ciat.control;
 
-
 import org.ciat.model.Basis;
 import org.ciat.model.DataSourceName;
 import org.ciat.model.TaxonFinder;
@@ -26,24 +25,26 @@ public class CWRDBNormalizer extends Normalizer {
 	}
 
 	@Override
-	public boolean isUseful() {
-		
-		boolean returnSuper = super.isUseful();
-		
-		if(returnSuper == false){
+	public String validate() {
+
+		String result = VALID;
+
+		String returnSuper = super.validate();
+
+		if (!returnSuper.equals(VALID)) {
 			return returnSuper;
 		}
 
 		if (!(values[colIndex.get("coord_source")].equals("original")
 				|| values[colIndex.get("coord_source")].equals("georef"))) {
-			return false;
+			return result += "CWR_UNSTRUSTED_COORDINATES_SOURCE";
 		}
 
 		if (!(values[colIndex.get("source")].equals("G") || values[colIndex.get("source")].equals("H"))) {
-			return false;
+			return result += "CWR_UNTRUSTED_SOURCE";
 		}
 
-		return true;
+		return result;
 
 	}
 

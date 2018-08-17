@@ -11,16 +11,16 @@ public class GenesysNormalizer extends Normalizer {
 
 
 	@Override
-	public boolean isUseful() {
+	public String validate() {
 
-		boolean returnSuper = super.isUseful();
+		String returnSuper = super.validate();
 		
-		if(returnSuper == false){
+		if(!returnSuper.equals(VALID)){
 			return returnSuper;
 		}
 			
 
-		return true;
+		return VALID;
 	}
 
 	@Override

@@ -23,7 +23,7 @@ public interface Normalizable {
 	
 	public DataSourceName getDataSourceName();
 
-	public boolean isUseful();
+	public String validate();
 
 	public void process(File input, File output, File trash);
 

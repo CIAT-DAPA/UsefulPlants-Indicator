@@ -35,9 +35,18 @@ public class CountExporter {
 		this.counters.put("totalPost1950", new MapCounter());
 		this.counters.put("totalPre1950", new MapCounter());
 		this.counters.put("totalNoDate", new MapCounter());
+
 		this.counters.put(DataSourceName.GBIF.toString(), new MapCounter());
 		this.counters.put(DataSourceName.GENESYS.toString(), new MapCounter());
 		this.counters.put(DataSourceName.CWRDB.toString(), new MapCounter());
+
+		this.counters.put(DataSourceName.GBIF.toString() + "Useful", new MapCounter());
+		this.counters.put(DataSourceName.GENESYS.toString() + "Useful", new MapCounter());
+		this.counters.put(DataSourceName.CWRDB.toString() + "Useful", new MapCounter());
+
+		this.counters.put(DataSourceName.GBIF.toString() + "CentroidIssue", new MapCounter());
+		this.counters.put(DataSourceName.GENESYS.toString() + "CentroidIssue", new MapCounter());
+		this.counters.put(DataSourceName.CWRDB.toString() + "CentroidIssue", new MapCounter());
 	}
 
 	public Map<String, MapCounter> getCounters() {
@@ -60,8 +69,8 @@ public class CountExporter {
 		File output = new File(Executer.prop.getProperty("file.taxonfinder.summary"));
 		try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(output)))) {
 			writer.println("species.matched" + Normalizer.getStandardSeparator() + "species.unmatched");
-			writer.println(TaxonFinder.getInstance().getMatchedTaxa().keySet().size() + Normalizer.getStandardSeparator()
-					+ TaxonFinder.getInstance().getUnmatchedTaxa().size());
+			writer.println(TaxonFinder.getInstance().getMatchedTaxa().keySet().size()
+					+ Normalizer.getStandardSeparator() + TaxonFinder.getInstance().getUnmatchedTaxa().size());
 
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found " + output.getAbsolutePath());
@@ -125,6 +134,11 @@ public class CountExporter {
 	}
 
 	public void updateCounters(String taxonkey, boolean useful, String year, Basis basis, DataSourceName source) {
+		updateCounters(taxonkey, useful, year, basis, source, "");
+	}
+
+	public void updateCounters(String taxonkey, boolean useful, String year, Basis basis, DataSourceName source,
+			String comments) {
 		counters.get("totalRecords").increase(taxonkey);
 
 		if (Utils.isNumeric(year)) {
@@ -156,12 +170,30 @@ public class CountExporter {
 		switch (source) {
 		case GBIF:
 			counters.get(DataSourceName.GBIF.toString()).increase(taxonkey);
+			if (useful) {
+				counters.get(DataSourceName.GBIF.toString() + "Useful").increase(taxonkey);
+			}
+			if (comments.contains("CENTROID_COORDINATES;")) {
+				counters.get(DataSourceName.GBIF.toString() + "CentroidIssue").increase(taxonkey);
+			}
 			break;
 		case GENESYS:
 			counters.get(DataSourceName.GENESYS.toString()).increase(taxonkey);
+			if (useful) {
+				counters.get(DataSourceName.GENESYS.toString() + "Useful").increase(taxonkey);
+			}
+			if (comments.contains("CENTROID_COORDINATES;")) {
+				counters.get(DataSourceName.GENESYS.toString() + "CentroidIssue").increase(taxonkey);
+			}
 			break;
 		case CWRDB:
 			counters.get(DataSourceName.CWRDB.toString()).increase(taxonkey);
+			if (useful) {
+				counters.get(DataSourceName.CWRDB.toString() + "Useful").increase(taxonkey);
+			}
+			if (comments.contains("CENTROID_COORDINATES;")) {
+				counters.get(DataSourceName.CWRDB.toString() + "CentroidIssue").increase(taxonkey);
+			}
 			break;
 
 		}

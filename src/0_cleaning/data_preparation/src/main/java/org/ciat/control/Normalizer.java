@@ -28,6 +28,7 @@ public class Normalizer implements Normalizable {
 
 	public static final int YEAR_MIN = 1950;
 	public static final int YEAR_MAX = Calendar.getInstance().get(Calendar.YEAR);
+	public static final String VALID = "";
 
 	protected String[] values;
 
@@ -74,19 +75,27 @@ public class Normalizer implements Normalizable {
 
 					boolean isTargetTaxon = taxonkey != null && taxonKeys.contains(taxonkey);
 					if (isTargetTaxon) {
-						boolean isUseful = isUseful();
+						String validateResults = validate();
 						String normal = normalize();
+						boolean isUseful = validateResults.equals("");
 						if (isUseful) {
 
 							if (!normal.equals(past)) {
 								writer.println(normal);
 								past = normal;
 							}
+							
 						} else {
-							writerTrash.println(normal);
+							writerTrash.println(normal + STANDARD_SEPARATOR + validateResults);
 						}
 
-						CountExporter.getInstance().updateCounters(taxonkey, isUseful, year, basis, source);
+						// CENTROID VALIDATION
+						// TODO move this validation to validate();
+						validateResults += centroidValidation();
+						// end centroid validation
+						
+						
+						CountExporter.getInstance().updateCounters(taxonkey, isUseful, year, basis, source, validateResults);
 					}
 				}
 				/* show progress */
@@ -121,39 +130,60 @@ public class Normalizer implements Normalizable {
 
 	}
 
-	
-	/* 
-	 * This method works with the premise that the record is useful until otherwise is proved
+	/*
+	 * This method works with the premise that the record is useful until
+	 * otherwise is proved
 	 */
 	@Override
-	public boolean isUseful() {
-		
-		
+	public String validate() {
+
+		String result = "";
+
 		// remove records without country
 		String country = getCountry();
 		if (country == null || country == Utils.NO_COUNTRY2 || country == Utils.NO_COUNTRY3) {
-			return false;
+			result += "NO_COUNTRY;";
 		}
-		
+
 		// remove records with invalid coordinates
 		String lon = getDecimalLongitude();
 		String lat = getDecimalLatitude();
 		if (!Utils.areValidCoordinates(lat, lon)) {
-			return false;
+			result += "NO_VALID_COORDINATES";
 		}
-		
+
+		if (!Utils.areValidCoordinates(lat, lon)) {
+			result += "CENTROID_COORDINATES";
+		}
+
 		// remove records of H before the 1950
 		Basis basis = getBasis();
-		String year = getYear();		
+		String year = getYear();
 		if (!year.equals(Utils.NO_YEAR)) {
 			if (basis.equals(Basis.H) && Integer.parseInt(year) < Normalizer.YEAR_MIN) {
-				return false;
+				result += "BEFORE_1950";
 			}
 		}
 
-		return true;
+		return result;
 	}
 	
+	public String centroidValidation() {
+
+		String result = "";
+
+
+		// remove records with invalid coordinates
+		String lon = getDecimalLongitude();
+		String lat = getDecimalLatitude();
+		if (Utils.areCentroidCoordinates(lat, lon)) {
+			result += "CENTROID_COORDINATES;";
+		}
+
+
+		return result;
+	}
+
 	@Override
 	public Basis getBasis() {
 		return null;
@@ -188,8 +218,6 @@ public class Normalizer implements Normalizable {
 	public String getCountry() {
 		return Utils.NO_COUNTRY2;
 	}
-
-
 
 	public static String getStandardSeparator() {
 		return STANDARD_SEPARATOR;

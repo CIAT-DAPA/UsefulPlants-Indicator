@@ -9,27 +9,27 @@ import org.ciat.model.Utils;
 
 public class GBIFNormalizer extends Normalizer {
 
-
 	@Override
-	public boolean isUseful() {
-		
-		boolean returnSuper = super.isUseful();
-		
-		if(returnSuper == false){
+	public String validate() {
+		String result = VALID;
+
+		String returnSuper = super.validate();
+
+		if (!returnSuper.equals(VALID)) {
 			return returnSuper;
 		}
-			
-		
+
 		// ignoring CWR dataset in GBIF
 		if (colIndex.get("datasetkey") != null
 				&& values[colIndex.get("datasetkey")].contains("07044577-bd82-4089-9f3a-f4a9d2170b2e")) {
-			return false;
+			result += "GBIF_ALREADY_IN_CWR;";
 		}
 
 		// only allow species and subspecies
 		if (colIndex.get("taxonrank") != null) {
-			if (!(values[colIndex.get("taxonrank")].contains("SPECIES") || values[colIndex.get("taxonrank")].contains("VARIETY"))) {
-				return false;
+			if (!(values[colIndex.get("taxonrank")].contains("SPECIES")
+					|| values[colIndex.get("taxonrank")].contains("VARIETY"))) {
+				result += "GBIF_RANK_IS_" + colIndex.get("taxonrank") + ";";
 			}
 		}
 
@@ -39,11 +39,11 @@ public class GBIFNormalizer extends Normalizer {
 		issues.add("ZERO_COORDINATE");
 		for (String issue : issues) {
 			if (colIndex.get("issue") != null && values[colIndex.get("issue")].contains(issue)) {
-				return false;
+				result += "GBIF_" + issue + ";";
 			}
 		}
 
-		return true;
+		return result;
 	}
 
 	@Override
@@ -77,14 +77,14 @@ public class GBIFNormalizer extends Normalizer {
 
 	@Override
 	public String getCountry() {
-		return  Utils.iso2CountryCodeToIso3CountryCode(values[colIndex.get("countrycode")]);
+		return Utils.iso2CountryCodeToIso3CountryCode(values[colIndex.get("countrycode")]);
 	}
 
 	@Override
 	public DataSourceName getDataSourceName() {
 		return DataSourceName.GBIF;
 	}
-	
+
 	@Override
 	public String getSpecificSeparator() {
 		return "\t";

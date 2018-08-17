@@ -133,4 +133,10 @@ public class Utils {
 		return year;
 	}
 
+	public static boolean areCentroidCoordinates(String lat, String lon) {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+
 }
