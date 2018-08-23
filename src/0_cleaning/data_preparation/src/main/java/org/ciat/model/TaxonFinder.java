@@ -21,18 +21,21 @@ import org.json.JSONObject;
 public class TaxonFinder {
 
 	private static TaxonFinder instance = null;
-	private Map<String, String> matchedTaxa = new HashMap<String, String>();
-	private Set<String> unmatchedTaxa = new HashSet<String>();
+	private Map<String, String> matchedTaxaKeys = new HashMap<String, String>();
+	private Set<String> unmatchedTaxaKeys = new HashSet<String>();
+	private final String rankField = "rank";
+	private final String nameField = "scientificName";
+	private final String keyField = "usageKey";
 
-	public String fetchTaxonInfo(String name) {
+	public String fetchTaxonKey(String name) {
 
 		// check first in the Map
 
-		String result = matchedTaxa.get(name);
+		String result = matchedTaxaKeys.get(name);
 		if (result != null) {
 			return result;
 		} else {
-			if (unmatchedTaxa.contains(name)) {
+			if (unmatchedTaxaKeys.contains(name)) {
 				return null;
 			} else {
 				result = "";
@@ -56,8 +59,6 @@ public class TaxonFinder {
 
 				// get result
 				String json = br.readLine();
-				String keyField = "usageKey";
-				String rankField = "rank";
 
 				JSONObject object = new JSONObject(json);
 				if (object.has(rankField) && object.has(keyField)) {
@@ -69,7 +70,7 @@ public class TaxonFinder {
 						value = value.replaceAll("\r", "");
 						result += value;
 						// add result in the Map
-						matchedTaxa.put(name, value);
+						matchedTaxaKeys.put(name, value);
 						return result;
 					}
 				}
@@ -85,16 +86,68 @@ public class TaxonFinder {
 			e.printStackTrace();
 		}
 
-		unmatchedTaxa.add(name);
+		unmatchedTaxaKeys.add(name);
+		return null;
+	}
+	
+	public String fetchTaxonName(String name) {
+
+		String result = "" ;
+		// make connection
+
+		URLConnection urlc;
+		try {
+			URL url = new URL("http://api.gbif.org/v1/species/match?kingdom=Plantae&name="
+					+ URLEncoder.encode(name, "UTF-8") + "");
+
+			urlc = url.openConnection();
+			// use post mode
+			urlc.setDoOutput(true);
+			urlc.setAllowUserInteraction(false);
+
+			// send query
+			try (BufferedReader br = new BufferedReader(new InputStreamReader(urlc.getInputStream()))) {
+
+				// get result
+				String json = br.readLine();
+
+
+				JSONObject object = new JSONObject(json);
+				if (object.has(rankField) && object.has(nameField)) {
+					String rank = object.get(rankField) + "";
+					// check if the taxon is an specie or subspecie
+					if (rank.contains("SPECIE") || rank.contains("VARIETY")) {
+						String value = object.get(nameField) + "";
+						value = value.replaceAll("\n", "");
+						value = value.replaceAll("\r", "");
+						result += value;
+						// add result in the Map
+						matchedTaxaKeys.put(name, value);
+						return result;
+					}
+				}
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		unmatchedTaxaKeys.add(name);
 		return null;
 	}
 
 	public Map<String, String> getMatchedTaxa() {
-		return matchedTaxa;
+		return matchedTaxaKeys;
 	}
 
 	public Set<String> getUnmatchedTaxa() {
-		return unmatchedTaxa;
+		return unmatchedTaxaKeys;
 	}
 
 	public static TaxonFinder getInstance() {
@@ -111,7 +164,7 @@ public class TaxonFinder {
 					while (line != null) {
 						String[] values = line.split(TaxaIO.SEPARATOR);
 						if (values.length == 2) {
-							instance.matchedTaxa.put(values[1], values[0]);
+							instance.matchedTaxaKeys.put(values[1], values[0]);
 						}
 						line = reader.readLine();
 					}
@@ -123,7 +176,7 @@ public class TaxonFinder {
 				}
 			}
 			
-			System.out.println(instance.matchedTaxa.size()+" taxa imported");
+			System.out.println(instance.matchedTaxaKeys.size()+" taxa imported");
 		}
 
 
@@ -131,7 +184,7 @@ public class TaxonFinder {
 	}
 
 	public void setMatchedTaxa(Map<String, String> matchedTaxa) {
-		this.matchedTaxa = matchedTaxa;
+		this.matchedTaxaKeys = matchedTaxa;
 	}
 
 }

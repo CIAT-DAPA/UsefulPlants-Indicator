@@ -63,7 +63,7 @@ public class CWRDBNormalizer extends Normalizer {
 
 	@Override
 	public String getTaxonkey() {
-		return TaxonFinder.getInstance().fetchTaxonInfo(values[colIndex.get("taxon_final")]);
+		return TaxonFinder.getInstance().fetchTaxonKey(values[colIndex.get("taxon_final")]);
 	}
 
 	@Override

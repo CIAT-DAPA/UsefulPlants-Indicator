@@ -54,7 +54,7 @@ public class GenesysNormalizer extends Normalizer {
 
 	@Override
 	public String getTaxonkey() {
-		return TaxonFinder.getInstance().fetchTaxonInfo(values[colIndex.get("t.taxonName")]);
+		return TaxonFinder.getInstance().fetchTaxonKey(values[colIndex.get("t.taxonName")]);
 	}
 	
 	@Override
