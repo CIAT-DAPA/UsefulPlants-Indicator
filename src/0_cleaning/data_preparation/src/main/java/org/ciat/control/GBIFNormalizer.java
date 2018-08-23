@@ -20,13 +20,8 @@ public class GBIFNormalizer extends Normalizer {
 
 	@Override
 	public String validate() {
-		String result = VALID;
 
-		String returnSuper = super.validate();
-
-		if (!returnSuper.equals(VALID)) {
-			return returnSuper;
-		}
+		String result = super.validate();
 
 		// ignoring CWR dataset in GBIF
 		if (colIndex.get("datasetkey") != null

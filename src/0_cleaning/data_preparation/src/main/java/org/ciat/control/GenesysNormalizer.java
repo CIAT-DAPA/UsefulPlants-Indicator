@@ -13,14 +13,10 @@ public class GenesysNormalizer extends Normalizer {
 	@Override
 	public String validate() {
 
-		String returnSuper = super.validate();
+		String result = super.validate();
 		
-		if(!returnSuper.equals(VALID)){
-			return returnSuper;
-		}
-			
-
-		return VALID;
+		
+		return result;
 	}
 
 	@Override

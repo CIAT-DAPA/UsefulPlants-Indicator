@@ -27,21 +27,15 @@ public class CWRDBNormalizer extends Normalizer {
 	@Override
 	public String validate() {
 
-		String result = VALID;
-
-		String returnSuper = super.validate();
-
-		if (!returnSuper.equals(VALID)) {
-			return returnSuper;
-		}
+		String result = super.validate();
 
 		if (!(values[colIndex.get("coord_source")].equals("original")
 				|| values[colIndex.get("coord_source")].equals("georef"))) {
-			return result += "CWR_UNSTRUSTED_COORDINATES_SOURCE";
+			return result += "CWR_UNSTRUSTED_COORDINATES_SOURCE;";
 		}
 
 		if (!(values[colIndex.get("source")].equals("G") || values[colIndex.get("source")].equals("H"))) {
-			return result += "CWR_UNTRUSTED_SOURCE";
+			return result += "CWR_UNTRUSTED_BASIS_SOURCE;";
 		}
 
 		return result;
