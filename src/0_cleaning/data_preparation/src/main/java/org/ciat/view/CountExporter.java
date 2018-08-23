@@ -43,10 +43,16 @@ public class CountExporter {
 		this.counters.put(DataSourceName.GBIF.toString() + "Useful", new MapCounter());
 		this.counters.put(DataSourceName.GENESYS.toString() + "Useful", new MapCounter());
 		this.counters.put(DataSourceName.CWRDB.toString() + "Useful", new MapCounter());
+		
+		this.counters.put(DataSourceName.GBIF.toString() + "Georeferenced", new MapCounter());
+		this.counters.put(DataSourceName.GENESYS.toString() + "Georeferenced", new MapCounter());
+		this.counters.put(DataSourceName.CWRDB.toString() + "Georeferenced", new MapCounter());
 
 		this.counters.put(DataSourceName.GBIF.toString() + "CentroidIssue", new MapCounter());
 		this.counters.put(DataSourceName.GENESYS.toString() + "CentroidIssue", new MapCounter());
 		this.counters.put(DataSourceName.CWRDB.toString() + "CentroidIssue", new MapCounter());
+		
+		
 	}
 
 	public Map<String, MapCounter> getCounters() {
@@ -173,6 +179,9 @@ public class CountExporter {
 			if (comments.contains("CENTROID_COORDINATES;")) {
 				counters.get(DataSourceName.GBIF.toString() + "CentroidIssue").increase(taxonkey);
 			}
+			if (!comments.contains("NO_VALID_COORDINATES;")) {
+				counters.get(DataSourceName.GBIF.toString() + "Georeferenced").increase(taxonkey);
+			}			
 			break;
 		case GENESYS:
 			counters.get(DataSourceName.GENESYS.toString()).increase(taxonkey);
@@ -182,6 +191,9 @@ public class CountExporter {
 			if (comments.contains("CENTROID_COORDINATES;")) {
 				counters.get(DataSourceName.GENESYS.toString() + "CentroidIssue").increase(taxonkey);
 			}
+			if (!comments.contains("NO_VALID_COORDINATES;")) {
+				counters.get(DataSourceName.GENESYS.toString() + "Georeferenced").increase(taxonkey);
+			}
 			break;
 		case CWRDB:
 			counters.get(DataSourceName.CWRDB.toString()).increase(taxonkey);
@@ -190,6 +202,9 @@ public class CountExporter {
 			}
 			if (comments.contains("CENTROID_COORDINATES;")) {
 				counters.get(DataSourceName.CWRDB.toString() + "CentroidIssue").increase(taxonkey);
+			}
+			if (!comments.contains("NO_VALID_COORDINATES;")) {
+				counters.get(DataSourceName.CWRDB.toString() + "Georeferenced").increase(taxonkey);
 			}
 			break;
 

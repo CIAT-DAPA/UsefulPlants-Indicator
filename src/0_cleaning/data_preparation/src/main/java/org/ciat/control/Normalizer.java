@@ -75,9 +75,10 @@ public class Normalizer implements Normalizable {
 
 					boolean isTargetTaxon = taxonkey != null && taxonKeys.contains(taxonkey);
 					if (isTargetTaxon) {
-						String validateResults = validate();
+						String validationComments = validate();
 						String normal = normalize();
-						boolean isUseful = validateResults.equals("");
+						// if no comments it's because record is useful.
+						boolean isUseful = validationComments.equals(VALID);
 						if (isUseful) {
 
 							if (!normal.equals(past)) {
@@ -86,18 +87,21 @@ public class Normalizer implements Normalizable {
 							}
 
 						} else {
-							//TODO activate this line
-							//writerTrash.println(normal + STANDARD_SEPARATOR + validateResults);
+							// TODO activate this line again
+							// writerTrash.println(normal + STANDARD_SEPARATOR +
+							// validateResults);
 						}
 
 						// CENTROID VALIDATION
 						// TODO move this validation to validate();
-						validateResults += centroidValidation();
-						writerTrash.println(normal + STANDARD_SEPARATOR + validateResults);
+						validationComments += centroidValidation();
+						if (!validationComments.equals(VALID)) {
+							writerTrash.println(normal + STANDARD_SEPARATOR + validationComments);
+						}
 						// end centroid validation
 
 						CountExporter.getInstance().updateCounters(taxonkey, isUseful, year, basis, source,
-								validateResults);
+								validationComments);
 					}
 				}
 				/* show progress */
@@ -139,7 +143,7 @@ public class Normalizer implements Normalizable {
 	@Override
 	public String validate() {
 
-		String result = "";
+		String result = VALID;
 
 		// remove records without country
 		String country = getCountry();
@@ -151,7 +155,7 @@ public class Normalizer implements Normalizable {
 		String lon = getDecimalLongitude();
 		String lat = getDecimalLatitude();
 		if (!Utils.areValidCoordinates(lat, lon)) {
-			result += "NO_VALID_COORDINATES";
+			result += "NO_VALID_COORDINATES;";
 		}
 
 		// remove records of H before the 1950
@@ -159,7 +163,7 @@ public class Normalizer implements Normalizable {
 		String year = getYear();
 		if (!year.equals(Utils.NO_YEAR)) {
 			if (basis.equals(Basis.H) && Integer.parseInt(year) < Normalizer.YEAR_MIN) {
-				result += "BEFORE_1950";
+				result += "BEFORE_1950;";
 			}
 		}
 
@@ -168,7 +172,7 @@ public class Normalizer implements Normalizable {
 
 	public String centroidValidation() {
 
-		String result = "";
+		String result = VALID;
 
 		if (Utils.areValidCoordinates(getDecimalLatitude(), getDecimalLongitude())) {
 
