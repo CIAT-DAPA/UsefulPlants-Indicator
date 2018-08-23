@@ -86,12 +86,14 @@ public class Normalizer implements Normalizable {
 							}
 
 						} else {
-							writerTrash.println(normal + STANDARD_SEPARATOR + validateResults);
+							//TODO activate this line
+							//writerTrash.println(normal + STANDARD_SEPARATOR + validateResults);
 						}
 
 						// CENTROID VALIDATION
 						// TODO move this validation to validate();
 						validateResults += centroidValidation();
+						writerTrash.println(normal + STANDARD_SEPARATOR + validateResults);
 						// end centroid validation
 
 						CountExporter.getInstance().updateCounters(taxonkey, isUseful, year, basis, source,

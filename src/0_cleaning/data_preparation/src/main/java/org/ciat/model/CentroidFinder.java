@@ -3,6 +3,8 @@ package org.ciat.model;
 import org.ciat.view.Executer;
 
 import com.javadocmd.simplelatlng.LatLng;
+import com.javadocmd.simplelatlng.LatLngTool;
+import com.javadocmd.simplelatlng.util.LengthUnit;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -10,7 +12,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.text.DecimalFormat;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -18,13 +19,23 @@ public class CentroidFinder {
 
 	private static CentroidFinder instance = null;
 	private Set<LatLng> centroids = new LinkedHashSet<LatLng>();
-	private final DecimalFormat DFORMAT = new DecimalFormat("#.###");
 
 	public boolean areCentroid(double lat, double lng) {
 
-		LatLng point = new LatLng(Double.parseDouble(DFORMAT.format(lat)), Double.parseDouble(DFORMAT.format(lng)));
+		LatLng point = new LatLng(lat, lng);
 
-		return centroids.contains(point);
+		if (centroids.contains(point)) {
+			return true;
+		}
+		double distance = 0;
+		for (LatLng centroid : centroids) {
+			distance = LatLngTool.distance(point, centroid, LengthUnit.METER);
+			if (distance > 100) {
+				return true;
+			}
+		}
+
+		return false;
 
 	}
 
@@ -44,12 +55,13 @@ public class CentroidFinder {
 
 					String line = reader.readLine();
 					while (line != null) {
-						String[] values = line.split(",");
-						double lat = Double.parseDouble(values[4]);
-						double lng = Double.parseDouble(values[5]);
-						if (values.length > 4) {
-							instance.centroids.add(new LatLng(Double.parseDouble(instance.DFORMAT.format(lat)),
-									Double.parseDouble(instance.DFORMAT.format(lng))));
+						String[] values = line.split("\t");
+						if (Utils.isNumeric(values[4])) {
+							double lat = Double.parseDouble(values[4]);
+							double lng = Double.parseDouble(values[5]);
+							if (values.length > 4) {
+								instance.centroids.add(new LatLng(lat, lng));
+							}
 						}
 						line = reader.readLine();
 					}
