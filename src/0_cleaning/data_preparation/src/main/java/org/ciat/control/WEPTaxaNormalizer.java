@@ -30,7 +30,7 @@ public class WEPTaxaNormalizer {
 			
 			for(String taxa:targetTaxa){
 				String info = TaxonFinder.getInstance().fetchTaxonName(taxa);
-				writer.println(taxa +"\t"+ info );
+				writer.println(taxa +org.ciat.control.Normalizer.STANDARD_SEPARATOR + info );
 			}
 			
 		} catch (IOException e) {

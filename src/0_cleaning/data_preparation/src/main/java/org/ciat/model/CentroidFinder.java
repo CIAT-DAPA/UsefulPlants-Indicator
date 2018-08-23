@@ -77,8 +77,8 @@ public class CentroidFinder {
 					while (line != null) {
 						String[] values = line.split("\t");
 						if (Utils.isNumeric(values[4])) {
-							double lat = Double.parseDouble(values[4]);
-							double lng = Double.parseDouble(values[5]);
+							double lng = Double.parseDouble(values[4]);
+							double lat = Double.parseDouble(values[5]);
 							if (values.length > 4) {
 								instance.centroids.add(new LatLng(lat, lng));
 								lat = Double.parseDouble(instance.DFORMAT.format(lat));

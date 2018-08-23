@@ -24,7 +24,7 @@ import org.ciat.view.FileProgressBar;
 public class Normalizer implements Normalizable {
 
 	// column separator
-	protected static final String STANDARD_SEPARATOR = "\t";
+	public static final String STANDARD_SEPARATOR = "\t";
 
 	public static final int YEAR_MIN = 1950;
 	public static final int YEAR_MAX = Calendar.getInstance().get(Calendar.YEAR);
@@ -75,10 +75,10 @@ public class Normalizer implements Normalizable {
 
 					boolean isTargetTaxon = taxonkey != null && taxonKeys.contains(taxonkey);
 					if (isTargetTaxon) {
-						String validationComments = validate();
+						String comments = validate();
 						String normal = normalize();
 						// if no comments it's because record is useful.
-						boolean isUseful = validationComments.equals(VALID);
+						boolean isUseful = comments.equals(VALID);
 						if (isUseful) {
 
 							if (!normal.equals(past)) {
@@ -94,14 +94,14 @@ public class Normalizer implements Normalizable {
 
 						// CENTROID VALIDATION
 						// TODO move this validation to validate();
-						validationComments += centroidValidation();
-						if (!validationComments.equals(VALID)) {
-							writerTrash.println(normal + STANDARD_SEPARATOR + validationComments);
+						comments += centroidValidation();
+						if (comments.contains("CENTROID_COORDINATES;")) {
+							writerTrash.println(normal + STANDARD_SEPARATOR + comments);
 						}
 						// end centroid validation
 
 						CountExporter.getInstance().updateCounters(taxonkey, isUseful, year, basis, source,
-								validationComments);
+								comments);
 					}
 				}
 				/* show progress */

@@ -97,6 +97,7 @@ public class TaxonFinder {
 
 		URLConnection urlc;
 		try {
+			name.replace('×', 'x');
 			URL url = new URL("http://api.gbif.org/v1/species/match?kingdom=Plantae&name="
 					+ URLEncoder.encode(name, "UTF-8") + "");
 
@@ -117,12 +118,11 @@ public class TaxonFinder {
 					String rank = object.get(rankField) + "";
 					// check if the taxon is an specie or subspecie
 					if (rank.contains("SPECIE") || rank.contains("VARIETY")) {
-						String value = object.get(nameField) + "";
+						String value =  object.get(keyField)+ org.ciat.control.Normalizer.STANDARD_SEPARATOR + object.get(nameField) + "";
 						value = value.replaceAll("\n", "");
 						value = value.replaceAll("\r", "");
 						result += value;
 						// add result in the Map
-						matchedTaxaKeys.put(name, value);
 						return result;
 					}
 				}
@@ -138,7 +138,6 @@ public class TaxonFinder {
 			e.printStackTrace();
 		}
 
-		unmatchedTaxaKeys.add(name);
 		return null;
 	}
 
