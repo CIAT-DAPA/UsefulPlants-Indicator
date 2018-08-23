@@ -30,7 +30,7 @@ public class CentroidFinder {
 		double distance = 0;
 		for (LatLng centroid : centroids) {
 			distance = LatLngTool.distance(point, centroid, LengthUnit.METER);
-			if (distance > 100) {
+			if (distance < 100) {
 				return true;
 			}
 		}
