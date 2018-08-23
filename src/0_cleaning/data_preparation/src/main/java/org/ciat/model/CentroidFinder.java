@@ -12,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.DecimalFormat;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -19,14 +20,33 @@ public class CentroidFinder {
 
 	private static CentroidFinder instance = null;
 	private Set<LatLng> centroids = new LinkedHashSet<LatLng>();
+	private Set<LatLng> centroidsFormatted = new LinkedHashSet<LatLng>();
+	private final DecimalFormat DFORMAT = new DecimalFormat("#.###");
 
 	public boolean areCentroid(double lat, double lng) {
+		return areCentroidFormmatted(lat, lng);
+	}
+	
+	public boolean areCentroidFormmatted(double lat, double lng) {
+		lat = Double.parseDouble(instance.DFORMAT.format(lat));
+		lng = Double.parseDouble(instance.DFORMAT.format(lng));
+
+		if(centroidsFormatted.contains(new LatLng(lat,lng))){
+			return true;
+		}
+		
+		return false;
+	}
+
+	//this function takes too much time for all the records we are dealing with
+	public boolean areCentroid100m(double lat, double lng) {
 
 		LatLng point = new LatLng(lat, lng);
 
 		if (centroids.contains(point)) {
 			return true;
 		}
+
 		double distance = 0;
 		for (LatLng centroid : centroids) {
 			distance = LatLngTool.distance(point, centroid, LengthUnit.METER);
@@ -61,6 +81,9 @@ public class CentroidFinder {
 							double lng = Double.parseDouble(values[5]);
 							if (values.length > 4) {
 								instance.centroids.add(new LatLng(lat, lng));
+								lat = Double.parseDouble(instance.DFORMAT.format(lat));
+								lng = Double.parseDouble(instance.DFORMAT.format(lng));
+								instance.centroidsFormatted.add(new LatLng(lat, lng));
 							}
 						}
 						line = reader.readLine();

@@ -8,6 +8,15 @@ import org.ciat.model.DataSourceName;
 import org.ciat.model.Utils;
 
 public class GBIFNormalizer extends Normalizer {
+	
+	Set<String> issues = new LinkedHashSet<>();
+
+	public GBIFNormalizer() {
+		super();
+		issues.add("COORDINATE_OUT_OF_RANGE");
+		issues.add("COUNTRY_COORDINATE_MISMATCH");
+		issues.add("ZERO_COORDINATE");
+	}
 
 	@Override
 	public String validate() {
@@ -33,10 +42,6 @@ public class GBIFNormalizer extends Normalizer {
 			}
 		}
 
-		Set<String> issues = new LinkedHashSet<>();
-		issues.add("COORDINATE_OUT_OF_RANGE");
-		issues.add("COUNTRY_COORDINATE_MISMATCH");
-		issues.add("ZERO_COORDINATE");
 		for (String issue : issues) {
 			if (colIndex.get("issue") != null && values[colIndex.get("issue")].contains(issue)) {
 				result += "GBIF_" + issue + ";";
@@ -45,6 +50,7 @@ public class GBIFNormalizer extends Normalizer {
 
 		return result;
 	}
+
 
 	@Override
 	public Basis getBasis() {
