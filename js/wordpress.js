@@ -31,7 +31,7 @@
             hAxis: {
                 textStyle: { color: 'black', fontName: font_name, fontSize: font_size, bold: false, italic: true },
                 title: 'Proportion of species (%)',
-                maxValue: 100,
+                viewWindow: {max: 100},
                 titleTextStyle: { color: 'black', fontName: font_name, fontSize: font_size, bold: false, italic: true }
             },
             isStacked: 'true'
@@ -132,6 +132,7 @@
             hAxis: {
                 textStyle: { color: 'black', fontName: font_name, fontSize: font_size, bold: false, italic: true },
                 title: 'Proportion of species (%)',
+                viewWindow: {max: 100},
                 titleTextStyle: { color: 'black', fontName: font_name, fontSize: font_size, bold: false, italic: true }
             },
             isStacked: 'true'
@@ -163,6 +164,7 @@
             hAxis: {
                 textStyle: { color: 'black', fontName: font_name, fontSize: font_size, bold: false, italic: true },
                 title: 'Proportion of species (%)',
+                viewWindow: {max: 100},
                 titleTextStyle: { color: 'black', fontName: font_name, fontSize: font_size, bold: false, italic: true }
             },
             isStacked: 'true'
