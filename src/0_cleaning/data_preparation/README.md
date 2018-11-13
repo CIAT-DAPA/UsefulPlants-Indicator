@@ -3,10 +3,27 @@
 
 This part of the code was designed to read, clean and integrate specifically three sources of biodiversity data: Genesys-PGR, GBIF.org and the CWR Database.
 
+### Install Java
+
+Install Java verison 8 or higher as recommended in the Oracle Website according to your OS.
+
+
+https://www.java.com/en/download/help/download_options.xml
+
+
 ### Obtain the distributable version
 
-1.
-2.
+For obtaining the distributable JAR files you have two options:
+
+1. Download from the following links and jump to _Prepare working directory section_
+
+[maxenisizer-jar-with-dependencies.jar](https://ciat-dapa.github.io/UsefulPlants-Indicator/downloads/maxenisizer-jar-with-dependencies.jar)
+
+[nativeness-jar-with-dependencies.jar](https://ciat-dapa.github.io/UsefulPlants-Indicator/downloads/nativeness-jar-with-dependencies.jar)
+
+[normalizer-jar-with-dependencies.jar](https://ciat-dapa.github.io/UsefulPlants-Indicator/downloads/normalizer-jar-with-dependencies.jar)
+
+2. Build by your own using Maven using the following instructions.
 
 #### Install Maven
 
@@ -51,9 +68,7 @@ target/
 
 ### Prepare working directory
 
-The working directory is location in disk on which you want to run the `data_preparation`
-
-
+The working directory is location in disk on which you want to run the `data_preparation`. In this step, the idea is to achieve the the following directory structure and files:
 
 
 ```
@@ -66,10 +81,6 @@ working/
 │   ├── centroids.csv
 │   ├── nativeness.csv
 │   └── taxa.csv
-├── resources
-│   ├── centroids.csv
-│   ├── nativeness.csv
-│   └── taxa.csv
 ├── config.properties
 ├── maxenisizer-jar-with-dependencies.bat
 ├── nativeness-jar-with-dependencies.bat
@@ -77,16 +88,70 @@ working/
 ├── maxenisizer-jar-with-dependencies.jar
 ├── nativeness-jar-with-dependencies.jar
 ├── normalizer-jar-with-dependencies.jar
-├── run.bat
+└── run.bat
 
-    
+```
 
-### Decompress data
+### Organize inputs data
+
+Decompress the source input files in order to organize the input folder
 
 - decompress `gbif.zip`
 - decompress `genesys.zip`
 - decompress `cwr.zip`
 
+The `input` folder should look like this:
+
+```
+working/
+├── inputs/
+    ├── cwr.csv
+    ├── gbif.csv
+    └── genesys.csv
+```
+
+
+### Organize resource data
+
+
+The `resource` folder should look like this:
+
+```
+working/
+├── resources/
+    ├── centroids.csv
+    ├── nativeness.csv
+    └── taxa.csv
+```
+
+### Organize files for execution
+
+Organize the JAR files you got in the previous section _Obtain the distributable version_.
+
+For windows users
+
+
+The excutable files hould look like this:
+
+```
+working/
+├── maxenisizer-jar-with-dependencies.bat
+├── nativeness-jar-with-dependencies.bat
+├── normalizer-jar-with-dependencies.bat
+├── maxenisizer-jar-with-dependencies.jar
+├── nativeness-jar-with-dependencies.jar
+├── normalizer-jar-with-dependencies.jar
+└── run.bat
+```
+
 ### Run
 
-Run `run.bat`
+Using java command
+
+```
+java -jar normalizer-jar-with-dependencies.jar
+java -jar nativeness-jar-with-dependencies.jar
+java -jar maxenisizer-jar-with-dependencies.jar
+```
+
+Fow Windows users, just need to execute the `run.bat` file, and it will run 
