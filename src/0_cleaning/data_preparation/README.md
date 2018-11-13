@@ -82,9 +82,6 @@ working/
 │   ├── nativeness.csv
 │   └── taxa.csv
 ├── config.properties
-├── maxenisizer-jar-with-dependencies.bat
-├── nativeness-jar-with-dependencies.bat
-├── normalizer-jar-with-dependencies.bat
 ├── maxenisizer-jar-with-dependencies.jar
 ├── nativeness-jar-with-dependencies.jar
 ├── normalizer-jar-with-dependencies.jar
@@ -126,23 +123,45 @@ working/
 
 ### Organize files for execution
 
-Organize the JAR files you got in the previous section _Obtain the distributable version_.
+Organize the `.jar` files you got in the previous section _Obtain the distributable version_.
 
-For windows users
-
+For windows users, there is an additional file `run.dat` that will run the `.jar` files in the correct order.
 
 The excutable files hould look like this:
 
 ```
 working/
-├── maxenisizer-jar-with-dependencies.bat
-├── nativeness-jar-with-dependencies.bat
-├── normalizer-jar-with-dependencies.bat
 ├── maxenisizer-jar-with-dependencies.jar
 ├── nativeness-jar-with-dependencies.jar
 ├── normalizer-jar-with-dependencies.jar
 └── run.bat
 ```
+
+### Configure
+
+In the file `config.properties` you can configure input files to determinate where they should be read from and output file to determinate where they should be exported to:
+
+The deafult configuration in the file ins the following, and all the properties in this file are required.
+
+
+```Properties
+data.gbif=inputs/gbif.csv
+data.genesys=inputs/genesys.csv
+data.cwr=inputs/cwr.csv
+resource.nativeness=resources/nativeness.csv
+resource.targettaxa=resources/taxa.csv
+resource.centroids=resources/centroids.csv
+file.normalized=outputs/normalized.csv
+file.native=outputs/native.csv
+path.counts=outputs/gap_analysis
+path.raw=outputs/parameters/occurrences/raw
+file.taxonfinder.summary=outputs/taxonfinder.csv
+file.counts.summary=outputs/counts.csv
+file.data.trash=outputs/trash.csv
+file.taxa.matched=temp/taxa_matched.csv
+file.taxa.unmatched=temp/taxa_unmatched.csv
+```
+
 
 ### Run
 
@@ -154,4 +173,4 @@ java -jar nativeness-jar-with-dependencies.jar
 java -jar maxenisizer-jar-with-dependencies.jar
 ```
 
-Fow Windows users, just need to execute the `run.bat` file, and it will run 
+Fow Windows users, just need to execute the `run.bat` file, and it will run in the right order.
