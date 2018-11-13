@@ -1,7 +1,32 @@
 
+# Data Preparation 
+
 ## Description
 
 This part of the code was designed to read, clean and integrate specifically three sources of biodiversity data: Genesys-PGR, GBIF.org and the CWR Database.
+
+This code is divided in three subprograms that can be run independently and refers to three different phases of the data preparation:
+
+### Normalize: 
+
+- transform each data source to a unique format with the attributes of interest.
+- normalize taxa using the GBIF species API https://www.gbif.org/developer/species
+- select records that belongs to the listed target taxa.
+- select records identified at species level or lower.
+- makes integration by interpreting the different values from the sources to common standard values such country code, type (G or H), latitude and longitude.
+- ignores records with geospatial issues tagged from source.
+- export un-useful records with the tag of the issue found on it.
+
+
+### Nativeness
+
+Marks the record as native or cultivated according to the country on with it's documented and the list of taxa their contries on which they are native.
+
+### Mazenisizer
+
+Generate outputs for facilitate the use of the date in Maxent, and counts for GAP analysis.
+
+## Use
 
 ### Install Java
 
