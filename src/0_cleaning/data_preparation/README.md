@@ -88,7 +88,7 @@ This three JAR files will be copied in the working folder
 target/
 ├── maxenisizer-jar-with-dependencies.jar
 ├── nativeness-jar-with-dependencies.jar
-├── normalizer-jar-with-dependencies.jar
+└── normalizer-jar-with-dependencies.jar
 ```
 
 ### Prepare working directory
@@ -126,7 +126,7 @@ The `input` folder should look like this:
 
 ```
 working/
-├── inputs/
+└── inputs/
     ├── cwr.csv
     ├── gbif.csv
     └── genesys.csv
@@ -140,7 +140,7 @@ The `resource` folder should look like this:
 
 ```
 working/
-├── resources/
+└── resources/
     ├── centroids.csv
     ├── nativeness.csv
     └── taxa.csv
