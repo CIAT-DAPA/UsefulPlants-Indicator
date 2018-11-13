@@ -187,6 +187,26 @@ file.taxa.matched=temp/taxa_matched.csv
 file.taxa.unmatched=temp/taxa_unmatched.csv
 ```
 
+The description for each of the properties is the following
+
+|Property|Description|
+|---|---|
+|data.gbif| Source file of GBIF.org data|
+|data.genesys| Source file of Genesys-PGR data|
+|data.cwr| Source file of CWR data|
+|resource.nativeness| List of taxa and their countries where they are native|
+|resource.targettaxa| List of taxa of the study|
+|resource.centroids| List of the places centroids in different administrative levels|
+|file.normalized| Output file for the normalization phase |
+|file.native| Output file for the nativeness phase|
+|path.counts| Output folder for the counts for the maxenisizer phase|
+|path.raw| Output folder for the records for the maxenisizer phase|
+|file.taxonfinder.summary| Output summary file of the counts of taxa that matched and didn't match with the GBIF Species API|
+|file.counts.summary| Output summary of all count by specie|
+|file.data.trash| Output of records that weren't useful and the tagged issue|
+|file.taxa.matched| Output of original taxa that matched the GBIF Species API, if you don't delete it manually, then this file is reused in each run to avoid massive call to GBIF services.|
+|file.taxa.unmatched| Output of original taxa that didn't match the GBIF Species API, if you don't delete it manually, then this file is reused in each run to avoid massive call to GBIF services.|
+
 
 ### Run
 
