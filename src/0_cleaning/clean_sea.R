@@ -19,7 +19,7 @@ clean_sea <- function(species) {
   if (file.exists(paste0(folderin_raw,"/",species,".csv"))) {
     #load raw species occurrences
     spp <- read.csv(paste0(folderin_raw,"/",species,".csv"), header = FALSE, sep="\t") ##read file
-    colnames(spp) <- c("lon", "lat", "country", "type", "native")
+    colnames(spp) <- c("lon", "lat", "country", "year", "type", "native")
     #cat("loading species ID=", species, "file", "\n")
     
     #transform spp data.frame into SpatialPointsDataFrame
