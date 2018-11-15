@@ -10,7 +10,6 @@
 # @param (string) priority: Choose: "P_HP", "P_MP",and/or "P_LP_SC"(comprehensiveness indicator).
 # @param (string) prior_name: if priority is "P_HP": prior_name = "HP". "P_MP":  prior_name ="MP". "P_LP_SC": prior_name = "LP_SC". 
 # @param (string) feat_name: if feature 1: feat_name="min". 2: feat_name="max", 3: feat_name="mean", 4: feat_name="exsitu", 5: feat_name="insitu"  
-# @param (logical) richness: FALSE by default. TRUE if you want to know the species richness in each catgeorie of uses. 
 # @return (dataframe): This function return .csv file with the summary of the priority (or comprehensiveness) indicator for all uses
 
 ####################### START ########################################
@@ -32,49 +31,49 @@ item<-function(ind_dir, date,feature,priority,prior_name,feat_name){
   ind_uses1<-gsub(date,"",ind_uses1)
   ind_uses1<-gsub("_","",ind_uses1)
   
-if(length(priority)==3){
-   
-   opt_list<-lapply(1:length(ind_uses),function(i){
-     
-     u<-read.csv(paste0(ind_us_dir,"/",ind_uses[[i]]),header=T)
-     u<-u[feature,priority]
-         u<-as.data.frame(cbind(as.character(ind_uses1[[i]]),u))
-     colnames(u)<-c("uses",priority)
-     return(u)
-   })
-   
-   opt_list<-do.call(rbind,opt_list)
-   write.csv(opt_list,paste(ind_us_dir,"/to_graph/ALL/uses11.csv",sep = ""),row.names=F,quote=F,na="")
-  
-   ## 1.FIRST ... 
-   
-   hp<-c()
-   mp<-c()
-   Uses<-c()
-   index<-c()
-   for(i in 1:nrow(opt_list)){
-     
-     Uses[i]<-gsub(opt_list$uses[i], paste0("['",opt_list$uses[i],"',"), opt_list$uses[i])
-     hp[i]<-gsub(opt_list$P_HP[i], paste0(opt_list$P_HP[i],","), opt_list$P_HP[i])
-     mp[i]<-gsub(opt_list$P_MP[i], paste0(opt_list$P_MP[i],","), opt_list$P_MP[i])
-     index[i]<-gsub(opt_list$P_LP_SC[i], paste0(opt_list$P_LP_SC[i],","), opt_list$P_LP_SC[i])
-   }
-   
-   new1<-rep("'bar {'+'stroke-width: 10;' +'stroke-color: #E54D24}',", nrow(opt_list))
-   new1.1<-rep("'bar {'+'stroke-width: 10;' +'stroke-color: #F0CB69}',", nrow(opt_list))
-   new<-rep("'bar {'+'stroke-width: 10;' +'stroke-color: #12A356}'],", nrow(opt_list))
-   opt_list1<-cbind(Uses, hp)
-   opt_list1<-cbind(opt_list1,new1,mp,new1.1,index,new)
-  
-   opt_list1[11,"new"]<-gsub("],", "]];", opt_list1[11,"new"])
-   colnames(opt_list1)<-c("var data=[['uses',", " '%HP species',","{ role: 'style' },","'%MP species', ","{ role: 'style' },","'%LP&SC species',", " { role: 'style' }],")
-   rm(new1,new1.1,new)
-   
-   ## 2.SECOND ...
-   ########## INSITU ##########
-   
-   feature1=4
-   opt_list<-lapply(1:length(ind_uses),function(i){
+  if(length(priority)==3){
+    
+    opt_list<-lapply(1:length(ind_uses),function(i){
+      
+      u<-read.csv(paste0(ind_us_dir,"/",ind_uses[[i]]),header=T)
+      u<-u[feature,priority]
+      u<-as.data.frame(cbind(as.character(ind_uses1[[i]]),u))
+      colnames(u)<-c("uses",priority)
+      return(u)
+    })
+    
+    opt_list<-do.call(rbind,opt_list)
+    write.csv(opt_list,paste(ind_us_dir,"/to_graph/ALL/uses11.csv",sep = ""),row.names=F,quote=F,na="")
+    
+    ## 1.FIRST ... 
+    
+    hp<-c()
+    mp<-c()
+    Uses<-c()
+    index<-c()
+    for(i in 1:nrow(opt_list)){
+      
+      Uses[i]<-gsub(opt_list$uses[i], paste0("['",opt_list$uses[i],"',"), opt_list$uses[i])
+      hp[i]<-gsub(opt_list$P_HP[i], paste0(opt_list$P_HP[i],","), opt_list$P_HP[i])
+      mp[i]<-gsub(opt_list$P_MP[i], paste0(opt_list$P_MP[i],","), opt_list$P_MP[i])
+      index[i]<-gsub(opt_list$P_LP_SC[i], paste0(opt_list$P_LP_SC[i],","), opt_list$P_LP_SC[i])
+    }
+    
+    new1<-rep("'bar {'+'stroke-width: 10;' +'stroke-color: #E54D24}',", nrow(opt_list))
+    new1.1<-rep("'bar {'+'stroke-width: 10;' +'stroke-color: #F0CB69}',", nrow(opt_list))
+    new<-rep("'bar {'+'stroke-width: 10;' +'stroke-color: #12A356}'],", nrow(opt_list))
+    opt_list1<-cbind(Uses, hp)
+    opt_list1<-cbind(opt_list1,new1,mp,new1.1,index,new)
+    
+    opt_list1[11,"new"]<-gsub("],", "]];", opt_list1[11,"new"])
+    colnames(opt_list1)<-c("var data=[['uses',", " '%HP species',","{ role: 'style' },","'%MP species', ","{ role: 'style' },","'%LP&SC species',", " { role: 'style' }],")
+    rm(new1,new1.1,new)
+    
+    ## 2.SECOND ...
+    ########## INSITU ##########
+    
+    feature1=4
+    opt_list<-lapply(1:length(ind_uses),function(i){
       
       u<-read.csv(paste0(ind_us_dir,"/",ind_uses[[i]]),header=T)
       u<-u[feature1,priority]
@@ -182,45 +181,45 @@ if(length(priority)==3){
     #NOTE: You have to delete "]];" in Social indicator row, and relaplace it for "],"
     
     write.table(opt_list_n,paste(ind_us_dir,"/to_graph/all/uses_comb11", ".js", sep=""),row.names=F,quote=F,na="")
-     
-   
+    
+    
   }else{ if(length(feature)==1){
+    
+    opt_list<-lapply(1:length(ind_uses),function(i){
+      u<-read.csv(paste0(ind_us_dir,"/",ind_uses[[i]]),header=T)
+      u<-u[feature,priority]
+      u<-as.data.frame(cbind(as.character(ind_uses1[[i]]),u))
+      colnames(u)<-c("uses",priority)
+      return(u)
+    })
+    
+    opt_list<-do.call(rbind,opt_list)
+    write.csv(opt_list,paste(ind_us_dir,"/to_graph/",feat_name,"/",prior_name,"1.csv",sep = ""),row.names=F,quote=F,na="")
+    
+    
+  }else{
+    
+    opt_list<-lapply(1:length(ind_uses),function(i){
+      
+      u<-read.csv(paste0(ind_us_dir,"/",ind_uses[[i]]),header=T)
+      u1<-u[feature ,priority]
+      u1<-t(u1)
+      u1<-as.data.frame(cbind(as.character(ind_uses1[[i]]),u1))
+      colnames(u1)<-c("uses",as.character(u[feature,"opt"]))
+      return(u1)
+    })
+    
+    opt_list<-do.call(rbind,opt_list)
+    write.csv(opt_list,paste(ind_dir,"/to_graph/",prior_name,"/uses_all1.csv",sep = ""),row.names=F,quote=F,na="")
+    
+    
+  }
+    
+    
+  }
   
-       opt_list<-lapply(1:length(ind_uses),function(i){
-       u<-read.csv(paste0(ind_us_dir,"/",ind_uses[[i]]),header=T)
-       u<-u[feature,priority]
-       u<-as.data.frame(cbind(as.character(ind_uses1[[i]]),u))
-       colnames(u)<-c("uses",priority)
-       return(u)
-     })
-     
-     opt_list<-do.call(rbind,opt_list)
-     write.csv(opt_list,paste(ind_us_dir,"/to_graph/",feat_name,"/",prior_name,"1.csv",sep = ""),row.names=F,quote=F,na="")
-     
-     
- }else{
-   
-   opt_list<-lapply(1:length(ind_uses),function(i){
-     
-     u<-read.csv(paste0(ind_us_dir,"/",ind_uses[[i]]),header=T)
-     u1<-u[feature ,priority]
-     u1<-t(u1)
-     u1<-as.data.frame(cbind(as.character(ind_uses1[[i]]),u1))
-     colnames(u1)<-c("uses",as.character(u[feature,"opt"]))
-     return(u1)
-   })
-   
-   opt_list<-do.call(rbind,opt_list)
-   write.csv(opt_list,paste(ind_dir,"/to_graph/",prior_name,"/uses_all1.csv",sep = ""),row.names=F,quote=F,na="")
- 
-   
- }
+}
 
-   
- }
- 
-    }
-  
 
 
 
