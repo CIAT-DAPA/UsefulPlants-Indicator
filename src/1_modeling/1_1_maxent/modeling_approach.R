@@ -64,9 +64,9 @@ spModeling <- function(species){
     
     # Output folder
     crossValDir <- paste0(gap_dir, "/", species, "/", run_version, "/modeling/maxent")
-    xy_data$type<-as.numeric(as.character(xy_data$type))
-    xy_data_na<-subset(xy_data, is.na(xy_data$type))
-    xy_data<-subset(xy_data, xy_data$type>=1950)
+    xy_data$year<-as.numeric(as.character(xy_data$year))
+    xy_data_na<-subset(xy_data, is.na(xy_data$year))
+    xy_data<-subset(xy_data, xy_data$year>=1950)
     xy_data<-rbind(xy_data, xy_data_na)
     xy_data<-xy_data[,c("lon","lat")]
     rm(xy_data_na)
