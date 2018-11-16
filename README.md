@@ -2,7 +2,7 @@
 
 Project Management and method code for "Comprehensiveness of conservation of useful wild plants: an operational indicator for biodiversity and sustainable development targets"
 
-Khoury CK, Amariles D, Soto JS, Diaz MV, Sotelo S, Sosa CC, Ramírez-Villegas J, Achicanoy HA, Velásquez-Tibatá J, Guarino L, León B, Castañeda-Álvarez NP, Dempewolf H, Wiersema JH, and Andy Jarvis (2018). Comprehensiveness of conservation of useful wild plants: an operational indicator for biodiversity and sustainable development targets. Ecological Indicators. Under review.
+Khoury CK, Amariles D, Soto JS, Diaz MV, Sotelo S, Sosa CC, Ramírez-Villegas J, Achicanoy HA, Velásquez-Tibatá J, Guarino L, León B, Navarro-Racines C, Castañeda-Álvarez NP, Dempewolf H, Wiersema JH, and Andy Jarvis (2018). Comprehensiveness of conservation of useful wild plants: an operational indicator for biodiversity and sustainable development targets. Ecological Indicators 98: 420-429. doi: 10.1016/j.ecolind.2018.11.016. Available online at: https://doi.org/10.1016/j.ecolind.2018.11.016 
 
 Khoury CK, Amariles D, Soto JS, Diaz MV, Sotelo S, Sosa CC, Ramírez-Villegas J, Achicanoy HA, León B, and JH Wiersema (2018). Data for the calculation of an indicator of the comprehensiveness of conservation of useful wild plants. Data in Brief. Under review.
 
