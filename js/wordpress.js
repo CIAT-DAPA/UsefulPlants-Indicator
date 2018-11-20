@@ -220,6 +220,15 @@
             ]
         } );
 
+        $("#country_selector").change(function() {
+            console.log("country: "+ $(this).val());
+      
+                 $('#species_table').DataTable()
+                                     .columns( 10 )
+                                     .search( $(this).val() )
+                                     .draw();
+                             } );
+
 
     }
 
