@@ -17,7 +17,7 @@
 
 
 
-    <script type="text/javascript" src="../js/species.js"></script>
+    <script type="text/javascript" src="../js/species_countries.js"></script>
     <script type="text/javascript">
 
  
@@ -27,7 +27,7 @@ $(document).ready(function() {
         columns: [
 		
                 { title: "Taxon key", searchable: false, visible: false },
-                { title: "Scientific Name" },
+                { title: "Scientific Name",searchable: false  },
                 { title: "Total records", searchable: false },
                 { title: "G records", searchable: false },
                 { title: "H records", searchable: false },
@@ -35,7 +35,8 @@ $(document).ready(function() {
                 { title: "Indicator <br> (<i>ex situ</i>)", searchable: false, decimalPlaces: 1, render: $.fn.dataTable.render.number( ',', '.', 1, '' )},
                 { title: "Indicator <br> (<i>in situ</i>)", searchable: false, render: $.fn.dataTable.render.number( ',', '.', 1, '' ) },
                 { title: "Indicator (combined)", searchable: false, render: $.fn.dataTable.render.number( ',', '.', 1, '' ) },
-                { title: "Priority category", searchable: false }
+                { title: "Priority category", searchable: false },
+                { title: "Countries", searchable: true,visible: false }
         ]
     } );
 } );
