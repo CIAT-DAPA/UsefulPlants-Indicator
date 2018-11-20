@@ -207,7 +207,7 @@ function drawSpeciesTable() {
         columns: [
 
             { title: "Taxon key", searchable: false, visible: false },
-            { title: "Scientific Name", searchable: false },
+            { title: "Scientific Name", searchable: true },
             { title: "Total records", searchable: false },
             { title: "G records", searchable: false },
             { title: "H records", searchable: false },
