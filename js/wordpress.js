@@ -202,23 +202,23 @@
 
     function drawSpeciesTable() {
 
-        var table = $('#species_table').DataTable({
+     $('#species_table').DataTable( {
             data: species,
-            responsive: true,
             columns: [
-
-                { title: "Taxon key", searchable: false, visible: false },
-                { title: "Scientific Name" },
-                { title: "Total records", searchable: false },
-                { title: "G records", searchable: false },
-                { title: "H records", searchable: false },
-                { title: "Model", searchable: false, visible: false },
-                { title: "Indicator <br> (<i>ex situ</i>)", searchable: false, render: $.fn.dataTable.render.number( ',', '.', 1, '' ) },
-                { title: "Indicator <br> (<i>in situ</i>)", searchable: false, render: $.fn.dataTable.render.number( ',', '.', 1, '' ) },
-                { title: "Indicator <br> (combined)", searchable: false, render: $.fn.dataTable.render.number( ',', '.', 1, '' ) },
-                { title: "Priority category", searchable: false }
+            
+                    { title: "Taxon key", searchable: false, visible: false },
+                    { title: "Scientific Name",searchable: false  },
+                    { title: "Total records", searchable: false },
+                    { title: "G records", searchable: false },
+                    { title: "H records", searchable: false },
+                    { title: "Model", searchable: false, visible: false },
+                    { title: "Indicator <br> (<i>ex situ</i>)", searchable: false, decimalPlaces: 1, render: $.fn.dataTable.render.number( ',', '.', 1, '' )},
+                    { title: "Indicator <br> (<i>in situ</i>)", searchable: false, render: $.fn.dataTable.render.number( ',', '.', 1, '' ) },
+                    { title: "Indicator (combined)", searchable: false, render: $.fn.dataTable.render.number( ',', '.', 1, '' ) },
+                    { title: "Priority category", searchable: false },
+                    { title: "Countries", searchable: true,visible: false }
             ]
-        });
+        } );
 
 
     }
