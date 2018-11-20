@@ -1,256 +1,265 @@
 
 
-    google.charts.load('current', { 'packages': ['geochart'] });
-    google.charts.load('current', { packages: ['corechart', 'bar'] });
+google.charts.load('current', { 'packages': ['geochart'] });
+google.charts.load('current', { packages: ['corechart', 'bar'] });
 
-    var font_name = 'Open Sans';
-    var font_size = 12;
-    var number_format = '##0.0'
-
-
-    google.charts.setOnLoadCallback(drawGlobal);
-
-    function drawGlobal() {
-        var gdata = google.visualization.arrayToDataTable(global);
+var font_name = 'Open Sans';
+var font_size = 12;
+var number_format = '##0.0'
 
 
-        var formatter = new google.visualization.NumberFormat(
-            { pattern: number_format });
+google.charts.setOnLoadCallback(drawGlobal);
 
-        formatter.format(gdata, 1);
-        formatter.format(gdata, 3);
-        formatter.format(gdata, 5);
-
-        var options = {
-            legend: { position: "bottom", maxLines: 3, textStyle: { fontName: font_name, fontSize: font_size } },
-            tooltip: { textStyle: { fontName: font_name, fontSize: font_size } },
-            colors: [color_green, color_yellow, color_red],
-            bar: { groupWidth: "90%" },
-            chartArea: { 'width': '70%', 'height': '45%' },
-            vAxis: { textStyle: { color: 'black', fontName: font_name, fontSize: font_size, bold: false, italic: true } },
-            hAxis: {
-                textStyle: { color: 'black', fontName: font_name, fontSize: font_size, bold: false, italic: true },
-                title: 'Proportion of species (%)',
-                viewWindow: {max: 100},
-                titleTextStyle: { color: 'black', fontName: font_name, fontSize: font_size, bold: false, italic: true }
-            },
-            isStacked: 'true'
-        };
-
-        var chart = new google.visualization.BarChart(document.getElementById('bar_global_div'));
-        chart.draw(gdata, options);
-    }
+function drawGlobal() {
+    var gdata = google.visualization.arrayToDataTable(global);
 
 
-    google.charts.setOnLoadCallback(drawCountriesMap);
+    var formatter = new google.visualization.NumberFormat(
+        { pattern: number_format });
 
-    function drawCountriesMap() {
-        var gdata = google.visualization.arrayToDataTable(countries_mean);
+    formatter.format(gdata, 1);
+    formatter.format(gdata, 3);
+    formatter.format(gdata, 5);
 
-        var formatter = new google.visualization.NumberFormat(
-            { pattern: number_format });
+    var options = {
+        legend: { position: "bottom", maxLines: 3, textStyle: { fontName: font_name, fontSize: font_size } },
+        tooltip: { textStyle: { fontName: font_name, fontSize: font_size } },
+        colors: [color_green, color_yellow, color_red],
+        bar: { groupWidth: "90%" },
+        chartArea: { 'width': '70%', 'height': '45%' },
+        vAxis: { textStyle: { color: 'black', fontName: font_name, fontSize: font_size, bold: false, italic: true } },
+        hAxis: {
+            textStyle: { color: 'black', fontName: font_name, fontSize: font_size, bold: false, italic: true },
+            title: 'Proportion of species (%)',
+            viewWindow: { max: 100 },
+            titleTextStyle: { color: 'black', fontName: font_name, fontSize: font_size, bold: false, italic: true }
+        },
+        isStacked: 'true'
+    };
 
-        formatter.format(gdata, 2);
-
-
-        var options = {
-            resolution: 'country',
-            legend: { textStyle: { fontName: font_name } },
-            tooltip: { textStyle: { fontName: font_name, fontSize: font_size } },
-            colors: [color_red, color_yellow, color_green_soft, color_green]
-        };
-
-        var chart = new google.visualization.GeoChart(document.getElementById('countries_mean_div'));
-
-        chart.draw(gdata, options);
-    }
-
-    google.charts.setOnLoadCallback(drawCountriesInSituMap);
-
-    function drawCountriesInSituMap() {
-        var gdata = google.visualization.arrayToDataTable(countries_insitu);
-
-        var formatter = new google.visualization.NumberFormat(
-            { pattern: number_format });
-
-        formatter.format(gdata, 2);
-
-        var options = {
-            resolution: 'country',
-            legend: { textStyle: { fontName: font_name } },
-            tooltip: { textStyle: { fontName: font_name, fontSize: font_size } },
-            colors: [color_red, color_yellow, color_green_soft, color_green]
-        };
-
-        var chart = new google.visualization.GeoChart(document.getElementById('countries_insitu_div'));
-
-        chart.draw(gdata, options);
-    }
-
-    google.charts.setOnLoadCallback(drawCountriesExSituMap);
-
-    function drawCountriesExSituMap() {
-        var gdata = google.visualization.arrayToDataTable(countries_exsitu);
-
-        var formatter = new google.visualization.NumberFormat(
-            { pattern: number_format });
-
-        formatter.format(gdata, 2);
-
-        var options = {
-            resolution: 'country',
-            legend: { textStyle: { fontName: font_name } },
-            tooltip: { textStyle: { fontName: font_name, fontSize: font_size } },
-            colors: [color_red, color_yellow, color_green_soft, color_green]
-        };
-
-        var chart = new google.visualization.GeoChart(document.getElementById('countries_exsitu_div'));
-
-        chart.draw(gdata, options);
-    }
+    var chart = new google.visualization.BarChart(document.getElementById('bar_global_div'));
+    chart.draw(gdata, options);
+}
 
 
-    google.charts.setOnLoadCallback(drawUses);
+google.charts.setOnLoadCallback(drawCountriesMap);
 
-    function drawUses() {
-        var gdata = google.visualization.arrayToDataTable(uses_comb);
+function drawCountriesMap() {
+    var gdata = google.visualization.arrayToDataTable(countries_mean);
 
-        var formatter = new google.visualization.NumberFormat(
-            { pattern: number_format });
+    var formatter = new google.visualization.NumberFormat(
+        { pattern: number_format });
 
-        formatter.format(gdata, 1);
-        formatter.format(gdata, 3);
-        formatter.format(gdata, 5);
-
-        var options = {
-            legend: { position: "bottom", maxLines: 3, textStyle: { fontName: font_name, fontSize: font_size } },
-            tooltip: { textStyle: { fontName: font_name, fontSize: font_size } },
-            colors: [color_green, color_yellow, color_red],
-            chartArea: { 'width': '70%', 'height': '90%' },
-            bar: { groupWidth: "90%" },
-            vAxis: { textStyle: { color: 'black', fontName: font_name, fontSize: font_size, bold: false, italic: true } },
-            hAxis: {
-                textStyle: { color: 'black', fontName: font_name, fontSize: font_size, bold: false, italic: true },
-                title: 'Proportion of species (%)',
-                viewWindow: {max: 100},
-                titleTextStyle: { color: 'black', fontName: font_name, fontSize: font_size, bold: false, italic: true }
-            },
-            isStacked: 'true'
-        };
-
-        var chart = new google.visualization.BarChart(document.getElementById('bar_uses_div'));
-        chart.draw(gdata, options);
-    }
-
-    google.charts.setOnLoadCallback(drawRegions);
-
-    function drawRegions() {
-        var gdata = google.visualization.arrayToDataTable(regions_comb);
-
-        var formatter = new google.visualization.NumberFormat(
-            { pattern: number_format });
-
-        formatter.format(gdata, 1);
-        formatter.format(gdata, 3);
-        formatter.format(gdata, 5);
-
-        var options = {
-            legend: { position: "bottom", maxLines: 3, textStyle: { fontName: font_name, fontSize: font_size } },
-            tooltip: { textStyle: { fontName: font_name, fontSize: font_size } },
-            colors: [color_green, color_yellow, color_red],
-            bar: { groupWidth: "100%" },
-            chartArea: { 'width': '65%', 'height': '90%' },
-            vAxis: { textStyle: { color: 'black', fontName: font_name, fontSize: font_size, bold: false, italic: true } },
-            hAxis: {
-                textStyle: { color: 'black', fontName: font_name, fontSize: font_size, bold: false, italic: true },
-                title: 'Proportion of species (%)',
-                viewWindow: {max: 100},
-                titleTextStyle: { color: 'black', fontName: font_name, fontSize: font_size, bold: false, italic: true }
-            },
-            isStacked: 'true'
-        };
-
-        var chart = new google.visualization.BarChart(document.getElementById('bar_regions_div'));
-        chart.draw(gdata, options);
-    }
+    formatter.format(gdata, 2);
 
 
-    google.charts.setOnLoadCallback(drawCountriesTaxaMap);
+    var options = {
+        resolution: 'country',
+        legend: { textStyle: { fontName: font_name } },
+        tooltip: { textStyle: { fontName: font_name, fontSize: font_size } },
+        colors: [color_red, color_yellow, color_green_soft, color_green]
+    };
 
-    function drawCountriesTaxaMap() {
-        var gdata = google.visualization.arrayToDataTable(countries_taxa);
+    var chart = new google.visualization.GeoChart(document.getElementById('countries_mean_div'));
 
-        var formatter = new google.visualization.NumberFormat(
-            { pattern: '###0' });
+    chart.draw(gdata, options);
+}
 
-        formatter.format(gdata, 2);
+google.charts.setOnLoadCallback(drawCountriesInSituMap);
 
-        var options = {
-            resolution: 'country',
-            legend: { textStyle: { fontName: font_name } },
-            tooltip: { textStyle: { fontName: font_name, fontSize: font_size } },
-            colors: [color_green_soft, color_green]
-        };
+function drawCountriesInSituMap() {
+    var gdata = google.visualization.arrayToDataTable(countries_insitu);
 
-        var chart = new google.visualization.GeoChart(document.getElementById('countries_taxa_div'));
+    var formatter = new google.visualization.NumberFormat(
+        { pattern: number_format });
 
-        chart.draw(gdata, options);
-    }
+    formatter.format(gdata, 2);
+
+    var options = {
+        resolution: 'country',
+        legend: { textStyle: { fontName: font_name } },
+        tooltip: { textStyle: { fontName: font_name, fontSize: font_size } },
+        colors: [color_red, color_yellow, color_green_soft, color_green]
+    };
+
+    var chart = new google.visualization.GeoChart(document.getElementById('countries_insitu_div'));
+
+    chart.draw(gdata, options);
+}
+
+google.charts.setOnLoadCallback(drawCountriesExSituMap);
+
+function drawCountriesExSituMap() {
+    var gdata = google.visualization.arrayToDataTable(countries_exsitu);
+
+    var formatter = new google.visualization.NumberFormat(
+        { pattern: number_format });
+
+    formatter.format(gdata, 2);
+
+    var options = {
+        resolution: 'country',
+        legend: { textStyle: { fontName: font_name } },
+        tooltip: { textStyle: { fontName: font_name, fontSize: font_size } },
+        colors: [color_red, color_yellow, color_green_soft, color_green]
+    };
+
+    var chart = new google.visualization.GeoChart(document.getElementById('countries_exsitu_div'));
+
+    chart.draw(gdata, options);
+}
+
+
+google.charts.setOnLoadCallback(drawUses);
+
+function drawUses() {
+    var gdata = google.visualization.arrayToDataTable(uses_comb);
+
+    var formatter = new google.visualization.NumberFormat(
+        { pattern: number_format });
+
+    formatter.format(gdata, 1);
+    formatter.format(gdata, 3);
+    formatter.format(gdata, 5);
+
+    var options = {
+        legend: { position: "bottom", maxLines: 3, textStyle: { fontName: font_name, fontSize: font_size } },
+        tooltip: { textStyle: { fontName: font_name, fontSize: font_size } },
+        colors: [color_green, color_yellow, color_red],
+        chartArea: { 'width': '70%', 'height': '90%' },
+        bar: { groupWidth: "90%" },
+        vAxis: { textStyle: { color: 'black', fontName: font_name, fontSize: font_size, bold: false, italic: true } },
+        hAxis: {
+            textStyle: { color: 'black', fontName: font_name, fontSize: font_size, bold: false, italic: true },
+            title: 'Proportion of species (%)',
+            viewWindow: { max: 100 },
+            titleTextStyle: { color: 'black', fontName: font_name, fontSize: font_size, bold: false, italic: true }
+        },
+        isStacked: 'true'
+    };
+
+    var chart = new google.visualization.BarChart(document.getElementById('bar_uses_div'));
+    chart.draw(gdata, options);
+}
+
+google.charts.setOnLoadCallback(drawRegions);
+
+function drawRegions() {
+    var gdata = google.visualization.arrayToDataTable(regions_comb);
+
+    var formatter = new google.visualization.NumberFormat(
+        { pattern: number_format });
+
+    formatter.format(gdata, 1);
+    formatter.format(gdata, 3);
+    formatter.format(gdata, 5);
+
+    var options = {
+        legend: { position: "bottom", maxLines: 3, textStyle: { fontName: font_name, fontSize: font_size } },
+        tooltip: { textStyle: { fontName: font_name, fontSize: font_size } },
+        colors: [color_green, color_yellow, color_red],
+        bar: { groupWidth: "100%" },
+        chartArea: { 'width': '65%', 'height': '90%' },
+        vAxis: { textStyle: { color: 'black', fontName: font_name, fontSize: font_size, bold: false, italic: true } },
+        hAxis: {
+            textStyle: { color: 'black', fontName: font_name, fontSize: font_size, bold: false, italic: true },
+            title: 'Proportion of species (%)',
+            viewWindow: { max: 100 },
+            titleTextStyle: { color: 'black', fontName: font_name, fontSize: font_size, bold: false, italic: true }
+        },
+        isStacked: 'true'
+    };
+
+    var chart = new google.visualization.BarChart(document.getElementById('bar_regions_div'));
+    chart.draw(gdata, options);
+}
+
+
+google.charts.setOnLoadCallback(drawCountriesTaxaMap);
+
+function drawCountriesTaxaMap() {
+    var gdata = google.visualization.arrayToDataTable(countries_taxa);
+
+    var formatter = new google.visualization.NumberFormat(
+        { pattern: '###0' });
+
+    formatter.format(gdata, 2);
+
+    var options = {
+        resolution: 'country',
+        legend: { textStyle: { fontName: font_name } },
+        tooltip: { textStyle: { fontName: font_name, fontSize: font_size } },
+        colors: [color_green_soft, color_green]
+    };
+
+    var chart = new google.visualization.GeoChart(document.getElementById('countries_taxa_div'));
+
+    chart.draw(gdata, options);
+}
 
 
 
 
-    function drawSpeciesTable() {
+function drawSpeciesTable() {
 
-     $('#species_table').DataTable( {
-            data: species,
-            columns: [
-            
-                    { title: "Taxon key", searchable: false, visible: false },
-                    { title: "Scientific Name",searchable: false },
-                    { title: "Total records", searchable: false },
-                    { title: "G records", searchable: false },
-                    { title: "H records", searchable: false },
-                    { title: "Model", searchable: false, visible: false },
-                    { title: "Indicator <br> (<i>ex situ</i>)", searchable: false, decimalPlaces: 1, render: $.fn.dataTable.render.number( ',', '.', 1, '' )},
-                    { title: "Indicator <br> (<i>in situ</i>)", searchable: false, render: $.fn.dataTable.render.number( ',', '.', 1, '' ) },
-                    { title: "Indicator (combined)", searchable: false, render: $.fn.dataTable.render.number( ',', '.', 1, '' ) },
-                    { title: "Priority category", searchable: false },
-                    { title: "Countries", searchable: true, visible: false }
-            ]
-        } );
+    $('#species_table').DataTable({
+        data: species,
+        columns: [
+
+            { title: "Taxon key", searchable: false, visible: false },
+            { title: "Scientific Name", searchable: false },
+            { title: "Total records", searchable: false },
+            { title: "G records", searchable: false },
+            { title: "H records", searchable: false },
+            { title: "Model", searchable: false, visible: false },
+            { title: "Indicator <br> (<i>ex situ</i>)", searchable: false, decimalPlaces: 1, render: $.fn.dataTable.render.number(',', '.', 1, '') },
+            { title: "Indicator <br> (<i>in situ</i>)", searchable: false, render: $.fn.dataTable.render.number(',', '.', 1, '') },
+            { title: "Indicator (combined)", searchable: false, render: $.fn.dataTable.render.number(',', '.', 1, '') },
+            { title: "Priority category", searchable: false },
+            { title: "Countries", searchable: true, visible: false }
+        ]
+    });
 
     $("#species_table_filter").hide();
-    
-    $("#country_selector").change(function() {
-            console.log("country: "+ $(this).val());
-      
-                 $('#species_table').DataTable()
-                                     .columns( 10 )
-                                     .search( $(this).val() )
-                                     .draw();
-                             } );
 
-       
+    $("#country_selector").change(function () {
+        console.log("country: " + $(this).val());
 
+        $('#species_table').DataTable()
+            .columns(10)
+            .search($(this).val())
+            .draw();
+    });
 
-    }
+    $("#species_search").change(function () {
+        console.log("country: " + $(this).val());
 
-    $(document).ready(function () {
-        drawSpeciesTable();
+        $('#species_table').DataTable()
+            .columns(1)
+            .search($(this).val())
+            .draw();
     });
 
 
 
-    $(document).ready(function () {
-        $(window).resize(function () {
-            drawGlobal();
-            drawCountriesMap();
-            drawCountriesInSituMap();
-            drawCountriesExSituMap();
-            drawUses();
-            drawRegions();
-            drawCountriesTaxaMap();
-        });
+
+}
+
+$(document).ready(function () {
+    drawSpeciesTable();
+});
+
+
+
+$(document).ready(function () {
+    $(window).resize(function () {
+        drawGlobal();
+        drawCountriesMap();
+        drawCountriesInSituMap();
+        drawCountriesExSituMap();
+        drawUses();
+        drawRegions();
+        drawCountriesTaxaMap();
     });
+});
 
