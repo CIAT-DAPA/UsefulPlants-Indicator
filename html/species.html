@@ -36,11 +36,33 @@ $(document).ready(function() {
                 { title: "Indicator <br> (<i>in situ</i>)", searchable: false, render: $.fn.dataTable.render.number( ',', '.', 1, '' ) },
                 { title: "Indicator (combined)", searchable: false, render: $.fn.dataTable.render.number( ',', '.', 1, '' ) },
                 { title: "Priority category", searchable: false },
-                { title: "Countries", searchable: true,visible: false }
+                { title: "Countries", searchable: true,visible: true }
         ]
     } );
+
+    $("#species_table_filter").hide();
+        
+    $("#country_selector").change(function() {
+       console.log("country: "+ $(this).val());
+ 
+            $('#species_table').DataTable()
+                                .columns( 10 )
+                                .search( $(this).val() )
+                                .draw();
+                        } );
+
 } );
-	
-	
-</script></head><body><table id="species_table" class="display" style="width:100%"> </table></body>
+
+
+    
+
+</script></head><body>
+    <select id="country_selector">
+        <option value="">ALL</option>
+        <option value="COL">Colombia</option>
+        <option value="CAN">Canada</option>
+      </select>
+    
+    <table id="species_table" class="display" style="width:100%"> </table></body>
+
 </html>

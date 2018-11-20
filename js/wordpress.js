@@ -207,7 +207,7 @@
             columns: [
             
                     { title: "Taxon key", searchable: false, visible: false },
-                    { title: "Scientific Name",searchable: false  },
+                    { title: "Scientific Name",searchable: false },
                     { title: "Total records", searchable: false },
                     { title: "G records", searchable: false },
                     { title: "H records", searchable: false },
@@ -216,11 +216,13 @@
                     { title: "Indicator <br> (<i>in situ</i>)", searchable: false, render: $.fn.dataTable.render.number( ',', '.', 1, '' ) },
                     { title: "Indicator (combined)", searchable: false, render: $.fn.dataTable.render.number( ',', '.', 1, '' ) },
                     { title: "Priority category", searchable: false },
-                    { title: "Countries", searchable: true,visible: false }
+                    { title: "Countries", searchable: true, visible: false }
             ]
         } );
 
-        $("#country_selector").change(function() {
+    $("#species_table_filter").hide();
+    
+    $("#country_selector").change(function() {
             console.log("country: "+ $(this).val());
       
                  $('#species_table').DataTable()
@@ -228,6 +230,8 @@
                                      .search( $(this).val() )
                                      .draw();
                              } );
+
+       
 
 
     }
