@@ -1,4 +1,4 @@
-var =[['ISO2','Country name', 'Number of taxa'],
+var countries_taxa=[['ISO2','Country name', 'Number of taxa'],
 ['AW', 'Aruba', 3],
 ['AF', 'Afghanistan', 393],
 ['AO', 'Angola', 337],
