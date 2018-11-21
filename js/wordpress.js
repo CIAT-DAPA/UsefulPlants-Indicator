@@ -205,7 +205,7 @@ function drawSpeciesTable() {
     $('#species_table').DataTable({
         data: species,
         dom: 'Bfrtip',
-        buttons: ['copy', 'csv'],
+        buttons: ['csv'],
         columns: [
 
             { title: "Taxon key", searchable: false, visible: false },
