@@ -4,7 +4,7 @@ Project Management and method code for "Comprehensiveness of conservation of use
 
 Khoury CK, Amariles D, Soto JS, Diaz MV, Sotelo S, Sosa CC, Ramírez-Villegas J, Achicanoy HA, Velásquez-Tibatá J, Guarino L, León B, Navarro-Racines C, Castañeda-Álvarez NP, Dempewolf H, Wiersema JH, and Andy Jarvis (2018). Comprehensiveness of conservation of useful wild plants: an operational indicator for biodiversity and sustainable development targets. Ecological Indicators 98: 420-429. doi: 10.1016/j.ecolind.2018.11.016. https://doi.org/10.1016/j.ecolind.2018.11.016 
 
-Khoury CK, Amariles D, Soto JS, Diaz MV, Sotelo S, Sosa CC, Ramírez-Villegas J, Achicanoy HA, León B, and JH Wiersema (2018). Data for the calculation of an indicator of the comprehensiveness of conservation of useful wild plants. Data in Brief. doi: 10.1016/j.dib.2018.11.125. https://doi.org/10.1016/j.dib.2018.11.125
+Khoury CK, Amariles D, Soto JS, Diaz MV, Sotelo S, Sosa CC, Ramírez-Villegas J, Achicanoy HA, León B, and JH Wiersema (2018). Data for the calculation of an indicator of the comprehensiveness of conservation of useful wild plants. Data in Brief 22:90-97. doi: 10.1016/j.dib.2018.11.125. https://doi.org/10.1016/j.dib.2018.11.125
 
 Funding: Research at the International Center for Tropical Agriculture was funded by the Biodiversity Indicators Partnership, an initiative supported by UN Environment, the European Commission and the Swiss Federal Office for the Environment. The funder played no role in study design; in the collection, analysis and interpretation of data; in the writing of the report; or in the decision to submit the article for publication.
 
