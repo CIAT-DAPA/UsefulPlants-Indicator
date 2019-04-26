@@ -30,6 +30,9 @@ ers_exsitu <- function(species, debug=F) {
     msk <- raster(paste(sp_dir,"/bioclim/narea_mask.tif",sep=""))
     
     #load maxent metrics file
+    
+    if(file.exists(paste(sp_dir,"/modeling/alternatives/ca50_total_narea.tif",sep=""))){
+
     mx_metrics <- read.csv(paste(sp_dir,"/modeling/maxent/eval_metrics.csv",sep=""),header=T)
     if (mx_metrics$VALID) {
       pa_spp <- raster(paste(sp_dir,"/modeling/maxent/spdist_thrsld.tif",sep=""))
@@ -78,6 +81,15 @@ ers_exsitu <- function(species, debug=F) {
      
       #calculate ERS
       ers <- min(c(100, (gbuf_nclass/pa_nclass)*100))
+    
+      } else {
+      ers <- 0
+      gbuf_nclass <- 0
+      pa_nclass <- NA
+    }
+    
+    
+    
     } else {
       ers <- 0
       gbuf_nclass <- 0
