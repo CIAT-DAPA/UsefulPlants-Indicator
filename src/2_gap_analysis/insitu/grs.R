@@ -77,6 +77,8 @@ calculate_grs = function(species, debug=F) {
     if (file.exists(paste(occ_dir,"/no_sea/",species,".csv",sep="")) & sp_counts$totalUseful != 0) {
       alternative.path = paste0(species.dir,"modeling/alternatives/ca50_total_narea.tif")
       maxent.path = paste0(species.dir,"modeling/maxent/spdist_thrsld.tif")
+      
+       if(file.exists(alternative.path) | file.exists(maxent.path)){
       model.selected = read.csv(paste0(species.dir,"modeling/maxent/eval_metrics.csv"), header = T, sep=",")
       if(model.selected$VALID == TRUE){
         species.distribution = raster(maxent.path)
@@ -142,12 +144,18 @@ calculate_grs = function(species, debug=F) {
         proportion <- 0
         species.area <- overlay.area <- NA
         
-      }else{
+         }else{
         proportion=proportion
       }
       
       
-    } else {
+      } else {
+        proportion <- 0
+        overlay.area <- species.area <- NA
+      }
+      
+      
+      }else {
       proportion <- 0
       overlay.area <- species.area <- NA
     }
