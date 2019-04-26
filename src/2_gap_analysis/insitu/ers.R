@@ -81,6 +81,9 @@ calculate_ers = function(species, debug=F){
       # to do the insitu gap analysis
       alternative.path = paste0(species.dir,"modeling/alternatives/ca50_total_narea.tif")
       maxent.path = paste0(species.dir,"modeling/maxent/spdist_thrsld.tif")
+      
+            if(file.exists(alternative.path) | file.exists(maxent.path)){
+
       model.selected = read.csv(paste0(species.dir,"modeling/maxent/eval_metrics.csv"), header = T, sep=",")
       if(model.selected$VALID){
         species.distribution = raster(maxent.path)
@@ -130,11 +133,16 @@ calculate_ers = function(species, debug=F){
         proportion <- 0
         eco.species.distribution.count <- eco.species.distribution.pa.count <- NA
       
-      }else{
+       }else{
         proportion=proportion
         }
       
       #print("Calculated ecosystems numbers")
+      } else {
+        proportion <- 0
+        eco.species.distribution.count <- eco.species.distribution.pa.count <- NA
+      }
+      
     } else {
       proportion <- 0
       eco.species.distribution.count <- eco.species.distribution.pa.count <- NA
