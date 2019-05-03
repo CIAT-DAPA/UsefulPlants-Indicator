@@ -1,4 +1,4 @@
-#María Victoria Díaz
+#MarÃ­a Victoria DÃ­az
 #CIAT,2018
 
 # This function takes a list of the uses of the species, and calculate the proportion of species with that uses in all categories (HP, MP, LP, SC).
@@ -12,6 +12,7 @@
 #source('D:/Repositorios/aichi13/src/3_indicator/indicator.R')
 config(dirs=T)
 
+#usess<-"Animal_Food"
 indicator_cat <- function(usess, opt=c("min","max","mean","ex","in")){
   
 uses_sp<<- read.csv(paste0(par_dir,"/uses/uses.csv"), sep=",", header=T)
@@ -23,22 +24,39 @@ spp_exist <- lapply(spp_list, FUN=function(x) {file.exists(paste(gap_dir,"/",x,"
 spp_exist <- unlist(unlist(spp_exist))
 spp_list <- spp_list[which(spp_exist)]
 
+
 if (length(spp_list) == 0) {
   indic_df <- NA
 } else {
-  #create filename
-  fname <- paste(paste("indicator_",usess,"_",Sys.Date(),sep=""),".csv",sep="")
-  
+
   #calculate indicator for species list
-  indic_df <- calc_indicator(spp_list, opt, fname)
+  indic_df <- calc_indicator(spp_list, opt, save_file = F)
   
 }
+
+date = Sys.Date()
+
+if(!file.exists(paste0(root,"/indicator/uses/",date))){dir.create(paste0(root,"/indicator/uses/",date))}
+
+
+new_names<- ifelse(usess == "Food_Additives", "Food additives", 
+                   ifelse(usess == "Animal_Food", "Animal foods",
+                          ifelse(usess == "Bee_Plants", "Bee plants",
+                                 ifelse(usess == "Environmental", "Environmental use plants",
+                                        ifelse(usess == "Genetic_Sources", "Genetic sources",
+                                               ifelse(usess == "Human_Food", "Human foods", 
+                                                      ifelse( usess == "Medicine", "Medicines",
+                                                              ifelse(usess == "Pesticide", "Pesticides",
+                                                                     ifelse(usess == "Social", "Socially relevant plants", usess)))))))))
+
+
+write.csv(indic_df, paste(root,"/indicator/uses/",date, "/ind_",new_names, ".csv",sep=""), row.names=F, quote=F)
+
 
 return(indic_df)
 
 
 }
-
 
 ###########testing the function############
 usess<- c("Additive", "Animal_Food", "Bee_Plants", "Environmental", "Fuels", "Genetic_Sources", "Human_Food", "Materials", "Medicine", "Pesticide", "Social" )
