@@ -79,4 +79,28 @@ result_master = lapply(server.species$taxonkey, master_run)
 df = ldply(result_master, data.frame)
 write.csv(df, paste0("runs/results/server_",server.number,".csv"), row.names = FALSE, quote = FALSE)
 
+
+
+
+#########################
+#### Indicators #########
+#########################
+
+#species = read.csv("//dapadfs/Workspace_cluster_9/Aichi13/indicator/species/summary/species_summary_2019-04-22.csv",sep = ",")
+
+countries_and_regions <-readRDS("//dapadfs/Workspace_cluster_9/Aichi13/indicator/countries/iso_list.RDS") #A list which has 1) ISO2 of all the countries and 2) Name of subregions.
+
+uses<- c("Food_Additives", "Animal_Food", "Bee_Plants", "Environmental", "Fuels", "Genetic_Sources", "Human_Food", "Materials", "Medicine", "Pesticide", "Social" )
+
+iso2c_shp<- countrycode(countries_sh$ISO,"iso3c","iso2c")
+iso2c_shp[which(is.na(iso2c_shp))]<-""
+countries_sh$ISO2<-iso2c_shp
+
+
+result_indicator = master_indicators(opt = c("min","max","mean","ex","in"),
+                                    shapefile = countries_sh,
+                                    species = species, #species$Taxon_key, 
+                                    iso_list = countries_and_regions, 
+                                    usess = uses)
+
 ##########################################   End Process    ###############################################
