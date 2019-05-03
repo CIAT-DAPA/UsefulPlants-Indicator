@@ -4,11 +4,12 @@
 # The output is returned as a value.
 # @param (string) sp_list: vector with list species IDs
 # @param (string) opt: which field(s) to calculate indicator for (min, max, mean)
+# @param (logical) save_file: If want to save the results as a csv. FALSE by default. It'll be used in the select_spp_indicator.R function
 # @return (data.frame): This function returns a data frame with the indicator requested
 #                       for the list of species provided.
 
 #sp_list="2653244"
-calc_indicator <- function(sp_list, opt=c("min","max","mean","in","ex"), filename="indicator.csv") {
+calc_indicator <- function(sp_list, opt=c("min","max","mean","in","ex"), save_file = FALSE) {
   #load global config
   config(dirs=T)
   
@@ -104,7 +105,16 @@ calc_indicator <- function(sp_list, opt=c("min","max","mean","in","ex"), filenam
   
   
   #save file
-
+  
+ if(save_file){
+    
+    date = Sys.Date()
+    
+    if(!file.exists(paste0(root,"/indicator/species/",date))){dir.create(paste0(root,"/indicator/species/",date))}
+    
+    write.csv(out_df, paste(root,"/indicator/species/",date, "/ind_",sp_list, ".csv",sep=""), row.names=F, quote=F)
+    
+  }
   #  write.csv(out_df, paste(root,"/indicator/",filename,sep=""), row.names=F, quote=F)
   
   
