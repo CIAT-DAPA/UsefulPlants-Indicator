@@ -1,180 +1,250 @@
-#María Victoria Díaz
-#CIAT,2018
+#Maria Victoria Diaz Lopez
+#CIAT 2018
 
-################################### REGIONS TO MAP ############################
+################################### TO GRAPH ############################
+#Function to make a summary of the main priority (or comprehensiveness) indicators for each subregion
 
-# This function summarizes the "min","max","mean","exsitu",or "insitu" (or all) values for each subregion where the species are located
+# @param (string) priority: write P_LP_SC, P_MP, P_HP 
+# @param (string) component: write mean (or min, max), and exsitu and insitu 
 
-# @param (string) ind_dir: The folder where the indicators are located
-# @param (char) date: Creation date of the indicator to summarize.
-# @param (int) feature: Choose 1,2,3,4 or 5:  1=min, 2=max, 3=mean, 4=exsitu, 5=insitu. 
-# @param (string) priority: Choose: "P_HP", "P_MP", "P_LP_SC"(comprehensiveness indicator). Or a vector with all priority levels
-# @param (string) folder: Folder name where the summary will be save
-# @param (string) name_f: if feature is 1: name_f = min. 2:  name_f =max. 3: name_f = mean. 4: name_f = exsitu. 5: name_f = insitu. 
-# @param (logical) richness: FALSE by default. TRUE if you want to know the species richness in each subregion and the continent it is located. 
-# @return (dataframe): This function return .csv file with the summary of the priority (or comprehensiveness) indicator for all subregions
+# @return (dataframe): This function return .csv file with the summary of the priority (or comprehensiveness) indicator for all uses
 
 ####################### START ########################################
 
-#Load the packages
-require(raster);require(countrycode);require(maptools);require(rgdal)
-
-base_dir = "//dapadfs"
-repo_dir = "//dapadfs/Workspace_cluster_9/Aichi13/runs/src"
-
-# Load the sources script
-source(paste0(repo_dir,"/config.R"))
-
-#Load world shapefile
-config(dirs=T)
-load(file=paste0(par_dir, "/gadm/shapefile/gadm28ISO.RDS"))
-config(dirs=F, cleaning=T, insitu=T, exsitu=T, modeling=T, premodeling=T)
 
 
-names_subreg<-countrycode(countries_sh$ISO, origin="iso3c", destination = "region")
-names_subreg[which(is.na(names_subreg))]<-""
-countries_sh$REG<-names_subreg
+require(raster);require(countrycode);require(maptools);require(rgdal); require(rJava);require(rChoiceDialogs)
 
 
-
-item<-function(sub_dir,date,feature,priority,folder,name_f,richness=F ){
+regions<-function(...){
   
-  ind_subregions<-list.files(sub_dir,pattern = ".csv$",full.names = F)
-  ind_subregions_un<-gsub("indicator_","",ind_subregions)
-  ind_subregions_un<-gsub(".csv","",ind_subregions_un)
-  ind_subregions_un<-gsub( date,"",ind_subregions_un)
-  ind_subregions_un<-gsub( "_","",ind_subregions_un)
   
-  unsd <<- read.csv(paste0(par_dir,"/UNSD/UNSD_Methodology.csv"), sep=",", header=T)
-  sub <- read.csv(paste0(par_dir,"/UNSD/subregions1.csv"), sep="," , header=T)
   
-  y<-list(); src<-list(); irc<-list()
+  cat(paste0("Please select the folder with the regions indicators..."), "\n")
   
-  for( i in 1:length(ind_subregions_un)){
+  setwd(paste0(root, "/indicator"))
+  
+  ind_dir<-paste0(root, "/indicator")
+  sub_dir<- jchoose.dir() 
+  
+  date<-Sys.Date()
+  #date<-"2019-04-24"
+  
+  
+  cat(paste0("Listing files ..."), "\n")
+  
+  
+  regions1<-list.files(sub_dir,pattern = ".csv$",full.names = F)
+  regions<-gsub("ind_","",regions1)
+  regions<-gsub(".csv","",regions)
+  
+  region_list<-c("Eastern Africa", "Middle Africa", "Northern Africa","Southern Africa","Western Africa", 'Caribbean', "Central America", "South America",
+                 "Northern America", "Central Asia", "Eastern Asia", "South-Eastern Asia", "Southern Asia", "Western Asia", "Eastern Europe","Northern Europe",
+                 "Southern Europe",   "Western Europe", "Australia and New Zealand","Melanesia", "Micronesia", "Polynesia")
+  d<-c()
+  
+  for(i in 1:length(region_list)){
     
-    y[[i]]<-subset(unsd,tolower(unsd$Intermediate.Region.Name)==tolower(ind_subregions_un[i]) |tolower(unsd$Sub.region.Name)==tolower(ind_subregions_un[i]))
-    src[[i]]<-unique(na.omit(y[[i]]$Sub.region.Code))
-    irc[[i]]<-unique(na.omit(y[[i]]$Intermediate.Region.Code))
+    d[i]<-which(regions == region_list[i])
+    
   }
+                 
+  regions<-regions[d]; regions1<-regions1[d]
+  rm(d,region_list)
   
-  n<-cbind(irc,src)
-  irc[[1]]=irc[[4]]=irc[[6]]=irc[[10]]=irc[[13]]=irc[[16]]=irc[[19]]=irc[[7]]=irc[[8]]=irc[[17]]=irc[[20]]=irc[[11]]=0
-  n[which(n[,1]==0),1]<- n[which(n[,1]==0) ,2]
-  nn<-n[,1]
+  warning("please write the priority levels in the order you want to see", immediate. = TRUE, noBreaks. = T)
   
-  s<-list()
-  z<-list()
-  for( i in 1:length(ind_subregions_un)){
-    s[[i]]<-subset(sub,sub$SUBREGIONS %in% ind_subregions_un[i])
-    z[[i]]<-cbind(as.character(unique(s[[i]][,4])), unique(s[[i]][,5]))
-  }
+  priority1 <- readline(prompt="write the first priority level you want to show: ") 
+  priority2 <- readline(prompt="write the second priority level you want to show: ") 
+  priority3 <- readline(prompt="write the third priority level you want to show: ") 
   
   
-  zz<-do.call(rbind, z)
+  priority<-c(priority1, priority2, priority3) ; rm(priority1, priority2, priority3)
   
   
-  sub_list<-lapply(1:length(ind_subregions),function(i){
-    if(length(priority)==1){
-      x<-read.csv(paste0(sub_dir,"/",ind_subregions[[i]]),header=T)
-      x<-x[feature,priority]
-      x<-t(x)
-      x<-as.data.frame(cbind(as.character(zz[i,2]),zz[i,1],x))
-      colnames(x)<-c("Region codes","sub continents","index") 
+  warning("please write the three components in the order you want to see (ex: mean, exsitu, insitu)", immediate. = TRUE, noBreaks. = T)
+  
+  component1 <- readline(prompt="please write the first component you want to show: ") 
+  component2 <- readline(prompt="please write the second component you want to show: ") 
+  component3 <- readline(prompt="please write the third component you want to show: ") 
+  
+  
+  component<-c(component1, component2, component3) ; rm(component1, component2, component3)
+  
+  for_uses<-lapply(1:length(regions), function(j){ 
+    
+    opt_list<-  lapply(1:length(component), function(i){
       
-      #  x<-as.data.frame(cbind(zz[i,1],x)) ## Run if you don't want to know the Region code
-      # colnames(x)<-c("sub continents","index") 
       
-    }else{if(length(priority)==3){
+      feature<- ifelse(component[i] == "min", 1,
+                       ifelse(component[i] == "max", 2, 
+                              ifelse(component[i] == "mean", 3,
+                                     ifelse(component[i] == "exsitu", 4,
+                                            ifelse(component[i] == "insitu", 5, NA
+                                            )))))
       
-      x<-read.csv(paste0(sub_dir,"/",ind_subregions[[i]]),header=T)
-      x<-x[feature,priority] #when priority=c("P_HP","P_MP", "P_LP_SC")
-      x<-as.data.frame(cbind(as.character(zz[i,2]),zz[i,1],x))
-      colnames(x)<-c("Region codes","sub continents","HP","MP","LP_SC")
-    }}
-    return(x)
+      cat(paste0("Organizing indicator values per uses"), "\n")
+      
+      
+      u<-read.csv(paste0(sub_dir,"/",regions1[j]),header=T)
+      u<-u[feature,priority]
+      u<-as.data.frame(cbind(as.character(regions[j]),u))
+      colnames(u)<-c("regions",priority)
+      
+      
+      
+      
+      
+      cat(paste0("Preparing the json file for ", component[i]), "\n")
+      
+      
+      first_row <- data.frame("['',", as.numeric(0), ",'',", as.numeric(0), ",'',", as.numeric(0), ",''],", stringsAsFactors=FALSE)
+      
+      d<-gsub(u[1,2], paste0(u[1,2],","), u[1,2])
+      c<-gsub(u[1,3], paste0(u[1,3],","), u[1,3])
+      b<-gsub(u[1,4], paste0(u[1,4],","), u[1,4])
+      
+      
+      
+      if(component[i] == "mean"){
+        
+        
+        a<-gsub(u$regions, paste0("['",u$regions,"',"), u$regions)
+        
+        
+        col_1<- "'bar {'+'stroke-width: 10;' +'stroke-color: #E54D24}'],"
+        col_2<- "'bar {'+'stroke-width: 10;' +'stroke-color: #F0CB69}',"
+        col_3<- "'bar {'+'stroke-width: 10;' +'stroke-color: #12A356}',"
+        
+        opt_list<-data.frame(a,d,col_3,c, col_2, b, col_1, stringsAsFactors=FALSE)
+        
+        colnames(first_row)<-colnames(opt_list)
+        
+        opt_list<-rbind(first_row, opt_list, first_row, first_row)
+        
+        
+        
+        
+      }else{
+        
+        
+        col_1<- "'',"
+        col_2<- "'',"
+        col_3<- "''],"
+        
+        if(component[i] == "exsitu"){
+          
+          
+          a<-gsub(u$regions, paste0("['",u$regions," ex situ',"), u$regions)
+          
+          opt_list<-data.frame(a,d,col_1,c, col_2, b, col_3, stringsAsFactors=FALSE)
+          
+          colnames(first_row)<-colnames(opt_list)
+          
+          opt_list<-rbind(opt_list, first_row)
+          
+          
+        } else{
+          
+          a<-gsub(u$regions, paste0("['",u$regions," in situ',"), u$regions)
+          
+          opt_list<-data.frame(a,d,col_1,c, col_2, b, col_3, stringsAsFactors=FALSE)
+          
+          colnames(first_row)<-colnames(opt_list)
+          
+          opt_list<-rbind(opt_list, first_row, first_row, first_row)
+          
+          
+        }
+        
+        
+      }
+      
+      colnames(opt_list)<-c("var data=[['Subregions',", " 'Low Priority and Sufficiently Conserved',","{ role: 'style' },","'Medium Priority', ","{ role: 'style' },","'High Priority',", " { role: 'style' }],")
+      
+      rm(a,b,c,d,col_1,col_2,col_3, first_row)
+      
+      
+      for_csv<-u
+      for_js<-opt_list
+      
+      
+      return(list(JS = for_js, CSV = for_csv))
+      
+      
+    })
+    
+    
+    JS<-do.call(rbind, list(opt_list[[1]]$JS, opt_list[[2]]$JS, opt_list[[3]]$JS))
+    
+    CSV<-list(mean = opt_list[[1]]$CSV, exsitu = opt_list[[2]]$CSV, insitu = opt_list[[3]]$CSV)
+    
+    X<-list(JS = JS,CSV = CSV)
+    
+    return(X)
+    
   })
   
-  sub_list<-do.call(rbind, sub_list)
-  write.csv(sub_list,paste(sub_dir,"/to_graph/",folder,"/regions_",name_f,".csv", sep=""),row.names=F,quote=F,na="",sep=",")
-  
-  ############## write a js object #################
-  
-  if(length(priority)==1){
-    subr<-c()
-    index<-c()
-    for(i in 1:nrow(sub_list)){
-      
-      subr[i]<-gsub(sub_list$`Region codes`[i], paste0("['",sub_list$`Region codes`[i],"','"), sub_list$`Region codes`[i])
-      index[i]<-gsub(sub_list$mean[i], paste0("',",sub_list$mean[i],"],"), sub_list$mean[i])
-    }
-    
-    index[22]<-gsub("],", "]];", index)
-    sub_list_js<-sub_list[,c(1,2,5)]
-    sub_list_js<-cbind(subr,sub_list_js)
-    sub_list_js<-cbind(sub_list_js,index)
-    sub_list_js<-sub_list_js[,-c(2,4)]
-    x<-which(!is.na(sub_list_js$index))
-    sub_list_js<-sub_list_js[x,]
-    colnames(sub_list_js)<-c("var data=[['Region codes',","'Sub continents',", "'Index'],")
-    
-    write.table(sub_list_js,paste(sub_dir,"/to_graph/",folder,"/regions_",name_f,".js", sep=""),row.names=F,quote=F,na="")
-    
-  }else{if(length(priority)==3 & richness){
-    
-    ############### write .js object summary of scores and comprehensiveness indicator, and add richness (and/or continent)  for each region ######
-    
-    regions<-read.csv("//dapadfs/Workspace_cluster_9/Aichi13/parameters_201802/UNSD/SUBREGIONS-CONTINENTS1.csv", header = T)
-    count_reg<-read.csv("//dapadfs/Workspace_cluster_9/Aichi13/parameters_201802/UNSD/counts_regions.csv", header = T)
-    
-    r<-c();mp<-c();hp<-c();lp<-c();cont<-list();cont1<-c();counts<-c()
-    
-    
-    for(i in 1:nrow(sub_list)){
-      cat(i,"\n")
-      
-      r[i]<-gsub(sub_list$`sub continents`[i], paste0("['",sub_list$`sub continents`[i],"'"), sub_list$`sub continents`[i])
-      lp[i]<-gsub(sub_list$LP_SC[i], paste0(sub_list$LP_SC[i],","), sub_list$LP_SC[i])
-      mp[i]<-gsub(sub_list$MP[i], paste0(",",sub_list$MP[i],","), sub_list$MP[i])
-      hp[i]<-gsub(sub_list$HP[i], paste0(",",sub_list$HP[i]), sub_list$HP[i])
-      counts[i]<-count_reg[which(as.character(count_reg$region) %in% as.character(sub_list$`sub continents`[i])),"number_species"]
-      counts[i]<-gsub(counts[i], paste0(counts[i],"],"), counts[i])
-      #cont[[i]]<-subset(regions, as.character(regions$SUBREGIONS) %in% as.character(sub_list$`sub continents`[i]))
-      #cont1[i]<-unique(as.character(cont[[i]]$continent))
-      #cont1[i]<-gsub(cont1[i], paste0("'",cont1[i],"'],"), cont1[i])
-      
-      
-    }
-    
-    counts[22]<-gsub("],", "]];", counts[22])
-    sub_list<-cbind(r,sub_list,hp,mp,lp)
-    sub_list<-cbind(sub_list,counts)
-    sub_list<-sub_list[,-c(2,3,4,5,6)]
-    colnames(sub_list)<-c("var data=[['Sub-continent',","'HP',", "'MP',", "'LP_SC',","'Richness'],")
-    
-    write.table(sub_list,paste(sub_dir,"/to_graph/all_cat_",name_f, ".js", sep=""),row.names=F,quote=F,na="") #change acording to mean, min, max,exsitu or insitu score you want to analyze
-    
-    
-    
-  }}
   
   
-}
-
-
-
-#### TEST THE FUNCTION ######
-
-#sub_dir<-paste0(root,"/indicator/subregions")
-#item(sub_dir, date="2018-04-30", feature=1, priority=c("P_HP","P_MP","P_LP_SC"), folder = "ALL", name_f = "min", richness = T)
-
-
-
-
-
-
-
-
-
+  
+  for(k in 1:length(component)){
+    
+    
+    if(!file.exists(paste0(ind_dir,"/subregions/to_graph/",date))){ dir.create(paste0(ind_dir,"/subregions/to_graph/",date))}
+    if(!file.exists(paste0(ind_dir,"/subregions/to_graph/",date, "/", component[k]))){dir.create(paste0(ind_dir,"/subregions/to_graph/",date, "/", component[k]))}
+    
+    
+    
+    CSV<-lapply(1:length(for_uses), function(h){
+      
+      
+      CSV<-for_uses[[h]][[2]][[which(names(for_uses[[h]][[2]]) %in% component[k])]]
+      
+      return(CSV)
+      
+    })
+    
+    
+    CSV<-do.call(rbind, CSV)
+    
+    cat(paste0("Writing the csv file"), "\n")
+    
+    
+    write.csv(CSV,paste0(ind_dir,"/subregions/to_graph/",date, "/", component[k],"/indicator", ".csv"),row.names=F,quote=F,na="")
+    
+    
+    
+    
+    JS<-lapply(1:length(for_uses), function(h){
+      
+      
+      JS<-for_uses[[h]][[1]]
+      
+      return(JS)
+      
+    })
+    
+    
+    JS<-do.call(rbind, JS)
+    JS[nrow(JS),ncol(JS)]<-gsub("],", "]];", JS[nrow(JS),ncol(JS)])
+    
+    
+    
+    cat(paste0("Writing the json file"), "\n")
+    
+    
+    write.table(JS,paste0(ind_dir,"/subregions/to_graph/",date, "/combined_indicator", ".js"),row.names=F,quote=F,na="")
+    
+    
+    
+  }
+  
+  
+  
+  
+  }
+  
 
 
 
