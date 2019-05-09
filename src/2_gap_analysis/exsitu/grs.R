@@ -25,13 +25,13 @@ grs_exsitu <- function(species, debug=F) {
     #load occurrence points
     occ_data <- read.csv(paste(occ_dir,"/no_sea/",species,".csv",sep=""),header=T)
     
+    
+    if(file.exists(paste(sp_dir,"/bioclim/narea_mask.tif",sep=""))){
+    
     #load native area shapefile
     msk <- raster(paste(sp_dir,"/bioclim/narea_mask.tif",sep=""))
-    
+         
     #load maxent metrics file
-    
-    if(file.exists(paste(sp_dir,"/modeling/alternatives/ca50_total_narea.tif",sep=""))){
-       
     mx_metrics <- read.csv(paste(sp_dir,"/modeling/maxent/eval_metrics.csv",sep=""),header=T)
     if (mx_metrics$VALID) {
       pa_spp <- raster(paste(sp_dir,"/modeling/maxent/spdist_thrsld.tif",sep=""))
