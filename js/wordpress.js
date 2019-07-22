@@ -2,6 +2,7 @@
 
 google.charts.load('current', { 'packages': ['geochart'] });
 google.charts.load('current', { packages: ['corechart', 'bar'] });
+google.charts.load('current', { 'packages': ['table'] });
 
 var font_name = 'Open Sans';
 var font_size = 12;
@@ -197,7 +198,68 @@ function drawCountriesTaxaMap() {
     chart.draw(gdata, options);
 }
 
+function drawCountriesMeanTable() {
+    var gdata = google.visualization.arrayToDataTable(countries_mean);
 
+    var formatter = new google.visualization.NumberFormat(
+        { pattern: number_format });
+
+    formatter.format(gdata, 2);
+
+    var options = {
+        resolution: 'country',
+        legend: { textStyle: { fontName: font_name } },
+        tooltip: { textStyle: { fontName: font_name, fontSize: font_size } },
+        colors: [color_red, color_yellow, color_green_soft, color_green]
+    };
+
+    var chart = new google.visualization.Table(document.getElementById('countries_mean_table_div'));
+
+    chart.draw(gdata, options);
+}
+
+
+function drawCountriesInSituTable() {
+    var gdata = google.visualization.arrayToDataTable(countries_insitu);
+
+    var formatter = new google.visualization.NumberFormat(
+        { pattern: number_format });
+
+    formatter.format(gdata, 2);
+
+    var options = {
+        resolution: 'country',
+        legend: { textStyle: { fontName: font_name } },
+        tooltip: { textStyle: { fontName: font_name, fontSize: font_size } },
+        colors: [color_red, color_yellow, color_green_soft, color_green]
+    };
+
+    var chart = new google.visualization.Table(document.getElementById('countries_insitu_table_div'));
+
+    chart.draw(gdata, options);
+}
+
+google.charts.setOnLoadCallback(drawCountriesExSituMap);
+
+function drawCountriesExSituTable() {
+    var gdata = google.visualization.arrayToDataTable(countries_exsitu);
+
+    var formatter = new google.visualization.NumberFormat(
+        { pattern: number_format });
+
+    formatter.format(gdata, 2);
+
+    var options = {
+        resolution: 'country',
+        legend: { textStyle: { fontName: font_name } },
+        tooltip: { textStyle: { fontName: font_name, fontSize: font_size } },
+        colors: [color_red, color_yellow, color_green_soft, color_green]
+    };
+
+    var chart = new google.visualization.Table(document.getElementById('countries_exsitu_table_div'));
+
+    chart.draw(gdata, options);
+}
 
 
 function drawSpeciesTable() {

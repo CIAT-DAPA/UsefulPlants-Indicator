@@ -6,15 +6,15 @@
     <script type="text/javascript" src="../js/colors.js"></script>
     <script type="text/javascript" src="../js/google_geochart_mean.js"></script>
     <script type="text/javascript">
-    google.charts.load('current', {'packages':['geochart']});
+    google.charts.load('current', {'packages':['table']});
 
     var font_name= 'Verdana';
     var font_size = 12;
     var number_format = '##0.0'
     
-    google.charts.setOnLoadCallback(drawCountriesMeanMap);
+    google.charts.setOnLoadCallback(drawCountriesMeanTable);
 
-    function drawCountriesMeanMap() {
+    function drawCountriesMeanTable() {
         var gdata = google.visualization.arrayToDataTable(countries_mean);
 
         var formatter = new google.visualization.NumberFormat(
@@ -29,7 +29,7 @@
             colors: [color_red, color_yellow, color_green_soft, color_green]
         };
 
-        var chart = new google.visualization.GeoChart(document.getElementById('countries_mean_div'));
+        var chart = new google.visualization.Table(document.getElementById('countries_mean_div'));
 
         chart.draw(gdata, options);
     }
