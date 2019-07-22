@@ -210,10 +210,9 @@ function drawCountriesMeanTable() {
     formatter.format(gdata, 2);
 
     var options = {
-        resolution: 'country',
-        legend: { textStyle: { fontName: font_name } },
-        tooltip: { textStyle: { fontName: font_name, fontSize: font_size } },
-        colors: [color_red, color_yellow, color_green_soft, color_green]
+        page: 'enabled',
+        pageSize: 10,
+        width: '90%'
     };
 
     var chart = new google.visualization.Table(document.getElementById('countries_mean_table_div'));
@@ -232,10 +231,9 @@ function drawCountriesInSituTable() {
     formatter.format(gdata, 2);
 
     var options = {
-        resolution: 'country',
-        legend: { textStyle: { fontName: font_name } },
-        tooltip: { textStyle: { fontName: font_name, fontSize: font_size } },
-        colors: [color_red, color_yellow, color_green_soft, color_green]
+        page: 'enabled',
+        pageSize: 10,
+        width: '90%'
     };
 
     var chart = new google.visualization.Table(document.getElementById('countries_insitu_table_div'));
@@ -254,10 +252,9 @@ function drawCountriesExSituTable() {
     formatter.format(gdata, 2);
 
     var options = {
-        resolution: 'country',
-        legend: { textStyle: { fontName: font_name } },
-        tooltip: { textStyle: { fontName: font_name, fontSize: font_size } },
-        colors: [color_red, color_yellow, color_green_soft, color_green]
+        page: 'enabled',
+        pageSize: 10,
+        width: '90%'
     };
 
     var chart = new google.visualization.Table(document.getElementById('countries_exsitu_table_div'));
