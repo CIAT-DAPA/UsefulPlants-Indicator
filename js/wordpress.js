@@ -198,6 +198,25 @@ function drawCountriesTaxaMap() {
     chart.draw(gdata, options);
 }
 
+var cssClassNames = {
+    'headerRow': '',
+    'tableRow': '',
+    'oddTableRow': 'beige-background',
+    'selectedTableRow': 'orange-background large-font',
+    'hoverTableRow': '',
+    'headerCell': 'gold-border',
+    'tableCell': '',
+    'rowNumberCell': 'underline-blue-font'
+};
+
+var tableOptions = {
+    allowHtml: true,
+    page: 'enabled',
+    pageSize: 10,
+    width: '90%',
+    'cssClassNames': cssClassNames
+};
+
 
 google.charts.setOnLoadCallback(drawCountriesMeanTable);
 
@@ -209,17 +228,9 @@ function drawCountriesMeanTable() {
 
     formatter.format(gdata, 2);
 
-    var options = {
-        allowHtml: true,
-        page: 'enabled',
-        pageSize: 10,
-        width: '90%'
-    };
-
-
     var chart = new google.visualization.Table(document.getElementById('countries_mean_table_div'));
 
-    chart.draw(gdata, options);
+    chart.draw(gdata, tableOptions);
 }
 
 google.charts.setOnLoadCallback(drawCountriesInSituTable);
@@ -232,16 +243,9 @@ function drawCountriesInSituTable() {
 
     formatter.format(gdata, 2);
 
-    var options = {
-        allowHtml: true,
-        page: 'enabled',
-        pageSize: 10,
-        width: '90%'
-    };
-
     var chart = new google.visualization.Table(document.getElementById('countries_insitu_table_div'));
 
-    chart.draw(gdata, options);
+    chart.draw(gdata, tableOptions);
 }
 
 google.charts.setOnLoadCallback(drawCountriesExSituTable);
@@ -253,17 +257,10 @@ function drawCountriesExSituTable() {
         { pattern: number_format });
 
     formatter.format(gdata, 2);
-    
-    var options = {
-        allowHtml: true,
-        page: 'enabled',
-        pageSize: 10,
-        width: '90%'
-    };
 
     var chart = new google.visualization.Table(document.getElementById('countries_exsitu_table_div'));
 
-    chart.draw(gdata, options);
+    chart.draw(gdata, tableOptions);
 }
 
 
