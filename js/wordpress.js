@@ -210,10 +210,12 @@ function drawCountriesMeanTable() {
     formatter.format(gdata, 2);
 
     var options = {
+        allowHtml: true,
         page: 'enabled',
         pageSize: 10,
         width: '90%'
     };
+
 
     var chart = new google.visualization.Table(document.getElementById('countries_mean_table_div'));
 
@@ -231,6 +233,7 @@ function drawCountriesInSituTable() {
     formatter.format(gdata, 2);
 
     var options = {
+        allowHtml: true,
         page: 'enabled',
         pageSize: 10,
         width: '90%'
@@ -250,8 +253,9 @@ function drawCountriesExSituTable() {
         { pattern: number_format });
 
     formatter.format(gdata, 2);
-
+    
     var options = {
+        allowHtml: true,
         page: 'enabled',
         pageSize: 10,
         width: '90%'
