@@ -198,6 +198,9 @@ function drawCountriesTaxaMap() {
     chart.draw(gdata, options);
 }
 
+
+google.charts.setOnLoadCallback(drawCountriesMeanTable);
+
 function drawCountriesMeanTable() {
     var gdata = google.visualization.arrayToDataTable(countries_mean);
 
@@ -218,6 +221,7 @@ function drawCountriesMeanTable() {
     chart.draw(gdata, options);
 }
 
+google.charts.setOnLoadCallback(drawCountriesInSituTable);
 
 function drawCountriesInSituTable() {
     var gdata = google.visualization.arrayToDataTable(countries_insitu);
@@ -239,7 +243,7 @@ function drawCountriesInSituTable() {
     chart.draw(gdata, options);
 }
 
-google.charts.setOnLoadCallback(drawCountriesExSituMap);
+google.charts.setOnLoadCallback(drawCountriesExSituTable);
 
 function drawCountriesExSituTable() {
     var gdata = google.visualization.arrayToDataTable(countries_exsitu);
