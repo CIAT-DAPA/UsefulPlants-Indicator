@@ -250,6 +250,7 @@ function drawCountriesDataTable() {
             { title: "Indicator <br> (<i>in situ</i>)", searchable: false, render: $.fn.dataTable.render.number(',', '.', 1, '') },
         ]
     });
+}
 
 
 function drawSpeciesTable() {
