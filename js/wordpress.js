@@ -223,7 +223,7 @@ google.charts.setOnLoadCallback(drawCountriesTableSummary);
 function drawCountriesTableSummary() {
     var gdata = google.visualization.arrayToDataTable(countries_table_summary);
 
-    var formatter = new google.visualization.TableNumberFormat(
+    var formatter = new google.visualization.NumberFormat(
         { pattern: number_format });
 
     formatter.format(gdata, 2);
