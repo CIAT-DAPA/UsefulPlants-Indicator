@@ -235,7 +235,21 @@ function drawCountriesTableSummary() {
     chart.draw(gdata, tableOptions);
 }
 
+function drawCountriesDataTable() {
 
+    $('#countries_datatable').DataTable({
+        data: countries_datatable,
+        dom: 'Bfrtip',
+        buttons: ['csv'],
+        columns: [
+
+            { title: "ISO2", searchable: false, visible: false },
+            { title: "Country", searchable: true },
+            { title: "Indicator (combined)", searchable: false, render: $.fn.dataTable.render.number(',', '.', 1, '') },
+            { title: "Indicator <br> (<i>ex situ</i>)", searchable: false, decimalPlaces: 1, render: $.fn.dataTable.render.number(',', '.', 1, '') },
+            { title: "Indicator <br> (<i>in situ</i>)", searchable: false, render: $.fn.dataTable.render.number(',', '.', 1, '') },
+        ]
+    });
 
 
 function drawSpeciesTable() {
@@ -287,6 +301,7 @@ function drawSpeciesTable() {
 
 $(document).ready(function () {
     drawSpeciesTable();
+    drawCountriesDataTable();
 });
 
 
