@@ -2,7 +2,6 @@
 
 google.charts.load('current', { 'packages': ['geochart'] });
 google.charts.load('current', { packages: ['corechart', 'bar'] });
-google.charts.load('current', { 'packages': ['table'] });
 
 var font_name = 'Open Sans';
 var font_size = 12;
@@ -218,22 +217,6 @@ var tableOptions = {
 };
 
 
-google.charts.setOnLoadCallback(drawCountriesTableSummary);
-
-function drawCountriesTableSummary() {
-    var gdata = google.visualization.arrayToDataTable(countries_table_summary);
-
-    var formatter = new google.visualization.NumberFormat(
-        { pattern: number_format });
-
-    formatter.format(gdata, 2);
-    formatter.format(gdata, 3);
-    formatter.format(gdata, 4);
-
-    var chart = new google.visualization.Table(document.getElementById('countries_mean_table_div'));
-
-    chart.draw(gdata, tableOptions);
-}
 
 function drawCountriesDataTable() {
 
