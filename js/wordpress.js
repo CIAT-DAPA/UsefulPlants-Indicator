@@ -218,10 +218,10 @@ var tableOptions = {
 };
 
 
-google.charts.setOnLoadCallback(drawCountriesMeanTable);
+google.charts.setOnLoadCallback(drawCountriesTableSummary);
 
-function drawCountriesMeanTable() {
-    var gdata = google.visualization.arrayToDataTable(countries_mean);
+function drawCountriesTableSummary() {
+    var gdata = google.visualization.arrayToDataTable(countries_table_summary);
 
     var formatter = new google.visualization.NumberFormat(
         { pattern: number_format });
@@ -233,35 +233,7 @@ function drawCountriesMeanTable() {
     chart.draw(gdata, tableOptions);
 }
 
-google.charts.setOnLoadCallback(drawCountriesInSituTable);
 
-function drawCountriesInSituTable() {
-    var gdata = google.visualization.arrayToDataTable(countries_insitu);
-
-    var formatter = new google.visualization.NumberFormat(
-        { pattern: number_format });
-
-    formatter.format(gdata, 2);
-
-    var chart = new google.visualization.Table(document.getElementById('countries_insitu_table_div'));
-
-    chart.draw(gdata, tableOptions);
-}
-
-google.charts.setOnLoadCallback(drawCountriesExSituTable);
-
-function drawCountriesExSituTable() {
-    var gdata = google.visualization.arrayToDataTable(countries_exsitu);
-
-    var formatter = new google.visualization.NumberFormat(
-        { pattern: number_format });
-
-    formatter.format(gdata, 2);
-
-    var chart = new google.visualization.Table(document.getElementById('countries_exsitu_table_div'));
-
-    chart.draw(gdata, tableOptions);
-}
 
 
 function drawSpeciesTable() {
@@ -326,6 +298,7 @@ $(document).ready(function () {
         drawUses();
         drawRegions();
         drawCountriesTaxaMap();
+        drawCountriesTableSummary();
     });
 });
 
