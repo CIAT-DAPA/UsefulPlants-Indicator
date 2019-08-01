@@ -1,4 +1,4 @@
-var countries_table_summary=[['ISO2', 'Country', 'Indicator (combined)' 'Indicator (exsitu)' 'Indicator (insitu)'
+var countries_table_summary = [['ISO2', 'Country', 'Indicator (combined)', 'Indicator (exsitu)', 'Indicator (insitu)'],
 ['AW', "Aruba", 0, 0, 33.3333333333333],
 ['AF', "Afghanistan", 2.29007633587786, 3.30788804071247, 39.6946564885496],
 ['AO', "Angola", 2.67062314540059, 2.37388724035608, 48.9614243323442],
@@ -36,7 +36,7 @@ var countries_table_summary=[['ISO2', 'Country', 'Indicator (combined)' 'Indicat
 ['CH', "Switzerland", 0, 0, 92.1259842519685],
 ['CL', "Chile", 6.4, 5.6, 47.2],
 ['CN', "China", 0.925449871465296, 1.90231362467866, 17.5835475578406],
-['CI', "Côte d'Ivoire", 1.52905198776758, 1.52905198776758, 51.6819571865443],
+['CI', "Cï¿½te d'Ivoire", 1.52905198776758, 1.52905198776758, 51.6819571865443],
 ['CM', "Cameroon", 1.75879396984925, 1.75879396984925, 48.7437185929648],
 ['CD', "Democratic Republic of the Congo", 2.7431421446384, 2.24438902743142, 52.3690773067332],
 ['CG', "Congo", 2.38095238095238, 2.38095238095238, 54.7619047619048],
@@ -169,7 +169,7 @@ var countries_table_summary=[['ISO2', 'Country', 'Indicator (combined)' 'Indicat
 ['PS', "State of Palestine", 0, 0, 0],
 ['PF', "French Polynesia", 0, 0, 12.5],
 ['QA', "Qatar", 0, 0, 21.4285714285714],
-['RE', "Réunion", 0, 0, 37.2549019607843],
+['RE', "Rï¿½union", 0, 0, 37.2549019607843],
 ['RO', "Romania", 0.483091787439614, 0.483091787439614, 82.6086956521739],
 ['RU', "Russian Federation", 1.87590187590188, 3.75180375180375, 50.2164502164502],
 ['RW', "Rwanda", 2.73972602739726, 2.73972602739726, 47.945205479452],
