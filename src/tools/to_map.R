@@ -17,6 +17,7 @@ require(raster);require(countrycode);require(maptools);require(rgdal); require(r
 
 base_dir = "//dapadfs"
 repo_dir = "//dapadfs/Workspace_cluster_9/Aichi13/runs/src"
+config(dirs = T)
 
 
 countries<-function(shape = countries_sh){
@@ -56,10 +57,10 @@ countries<-function(shape = countries_sh){
                    ifelse(component == "max", 2, 
                           ifelse(component == "mean", 3,
                                  ifelse(component == "exsitu", 4,
-                                        ifelse(component == "insitu", 5, NA
-                                               )))))
+                                        ifelse(component == "insitu", 5, NA)))))
  
-   
+  if(is.na(feature)){feature = c(3,4,5)}
+  
   cat(paste0("Organizing indicator values per country"), "\n")
   
   
@@ -72,14 +73,21 @@ countries<-function(shape = countries_sh){
       x<-x[feature,priority]
       x<-t(x)
       x<-base::as.data.frame(cbind(as.character(ind_countries_iso2[[i]]),x))
-      colnames(x)<-c("iso2","indicator")
-   
+      
+      if(ncol(x) > 1){
+        colnames(x) <- c("ISO2", "Indicator (combined)", "Indicator (exsitu)", "Indicator (insitu)")
+        
+      }else{
+        
+      colnames(x)<-c("ISO2","indicator")
+      }
+      
     return(x)
     
   })  
   
   count_list<-do.call(rbind,countries)
-  coun2<-merge(shape,count_list,by.x="ISO2",by.y="iso2") 
+  coun2<-merge(shape,count_list,by.x="ISO2",by.y="ISO2") 
   
   
   cat(paste0("Writing the csv file"), "\n")
@@ -88,7 +96,7 @@ countries<-function(shape = countries_sh){
  if(!file.exists(paste0(ind_dir,"/countries/to_graph/",date, "/", component))){dir.create(paste0(ind_dir,"/countries/to_graph/",date, "/", component))}
   
   
-  write.csv(coun2@data,paste0(ind_dir,"/countries/to_graph/",date, "/", component,"/countries_",component,"_",Sys.Date(),".csv"),row.names=F,quote=F,na="")
+  write.csv(coun2@data[,-2],paste0(ind_dir,"/countries/to_graph/",date, "/", component,"/countries_",component,"_",Sys.Date(),".csv"),row.names=F,quote=F,na="")
     
     
     
@@ -106,7 +114,10 @@ countries<-function(shape = countries_sh){
       
 
       a<-gsub(base$ISO2[i], paste0("['",base$ISO2[i],"',"), base$ISO2[i])
-      b<-gsub(base$indicator[i], paste0(base$indicator[i],"],"), base$indicator[i])
+      b<-gsub(base[i,2], paste0(base[i,2],","), base[i,2])
+      b1<-gsub(base[i,3], paste0(base[i,3],","), base[i,3])
+      b2<-gsub(base[i,4], paste0(base[i,4],"],"), base[i,4])
+      
       
       if(base$ISO2[i] %in% regions$ISO2){
         
@@ -119,13 +130,22 @@ countries<-function(shape = countries_sh){
       
       if(i == nrow(base)){
         
-        d<-gsub("],", "]];",  d)
+        b2<-gsub("],", "]];",  b2)
         
       }
       
-      base<-data.frame(a,c,b)
+      base<-data.frame(a,c,b, b1, b2)
       
-      colnames(base)<-c("var data=[['ISO2',", "'Country',",  paste0("'", priority, "'],")) 
+      if(ncol(base)>3){
+        
+        colnames(base)<-c("var data=[['ISO2',", "'Country',", "'Indicator (combined)'", "'Indicator (exsitu)'", "'Indicator (insitu)'")
+        
+      }else{
+        
+        colnames(base)<-c("var data=[['ISO2',", "'Country',",  paste0("'", priority, "'],")) 
+        
+      }
+      
       
       
       return(base)
@@ -145,7 +165,7 @@ countries<-function(shape = countries_sh){
     cat(paste0("Writing the json file"), "\n")
     
     
-    write.table(data,paste0(ind_dir,"/countries/to_graph/",date, "/", component,"/countries_",component,".js"),row.names=F,quote=F,na="", qmethod = "double")
+    write.table(data,paste0(ind_dir,"/countries/to_graph/",date, "/", component,"/countries_",component,"_",Sys.Date(),".js"),row.names=F,quote=F,na="", qmethod = "double")
     
     
     
