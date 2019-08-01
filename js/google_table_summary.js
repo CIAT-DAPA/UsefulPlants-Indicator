@@ -1,4 +1,4 @@
-var countries_table_summary = [['ISO2', 'Country', 'Indicator (combined)', 'Indicator (exsitu)', 'Indicator (insitu)'],
+var countries_table_summary = [['ISO2', 'Country', 'Indicator (combined)', 'Indicator (<i>ex situ</i>)', 'Indicator (<i>in situ</i>)'],
 ['AW', "Aruba", 0, 0, 33.3333333333333],
 ['AF', "Afghanistan", 2.29007633587786, 3.30788804071247, 39.6946564885496],
 ['AO', "Angola", 2.67062314540059, 2.37388724035608, 48.9614243323442],
