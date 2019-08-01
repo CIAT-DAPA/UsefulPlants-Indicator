@@ -201,7 +201,7 @@ function drawCountriesDataTable() {
 
     $('#countries_datatable').DataTable({
         data: countries_datatable,
-        "dom": '<"pull-left"f><"pull-right"l>tip',
+        dom: 'Bfrtip',
         buttons: ['csv'],
         columns: [
 
@@ -213,6 +213,16 @@ function drawCountriesDataTable() {
         ]
     });
 
+    $("#countries_datatable_filter").hide();
+
+    $("#countries_search").change(function () {
+        console.log("country: " + $(this).val());
+
+        $('#countries_datatable').DataTable()
+            .columns(2)
+            .search($(this).val())
+            .draw();
+    });
 
 }
 
