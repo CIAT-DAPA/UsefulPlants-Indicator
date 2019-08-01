@@ -219,7 +219,7 @@ function drawCountriesDataTable() {
         console.log("country: " + $(this).val());
 
         $('#countries_datatable').DataTable()
-            .columns(2)
+            .columns(1)
             .search($(this).val())
             .draw();
     });
