@@ -197,32 +197,11 @@ function drawCountriesTaxaMap() {
     chart.draw(gdata, options);
 }
 
-var cssClassNames = {
-    'headerRow': '',
-    'tableRow': '',
-    'oddTableRow': 'beige-background',
-    'selectedTableRow': 'orange-background large-font',
-    'hoverTableRow': '',
-    'headerCell': 'gold-border',
-    'tableCell': '',
-    'rowNumberCell': 'underline-blue-font'
-};
-
-var tableOptions = {
-    allowHtml: true,
-    page: 'enabled',
-    pageSize: 10,
-    width: '90%',
-    'cssClassNames': cssClassNames
-};
-
-
-
 function drawCountriesDataTable() {
 
     $('#countries_datatable').DataTable({
         data: countries_datatable,
-        dom: 'Bfrtip',
+        "dom": '<"pull-left"f><"pull-right"l>tip',
         buttons: ['csv'],
         columns: [
 
@@ -233,6 +212,8 @@ function drawCountriesDataTable() {
             { title: "Indicator <br> (<i>in situ</i>)", searchable: false, render: $.fn.dataTable.render.number(',', '.', 1, '') },
         ]
     });
+
+
 }
 
 
