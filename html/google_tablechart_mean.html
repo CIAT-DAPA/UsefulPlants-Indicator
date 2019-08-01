@@ -5,7 +5,7 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js?sensor=false&callback=initialize"></script>
     <script type="text/javascript" src="https://www.google.com/jsapi?sensor=false"></script>
     <script type="text/javascript" src="../js/colors.js"></script>
-    <script type="text/javascript" src="../js/google_geochart_mean.js"></script>
+    <script type="text/javascript" src="../js/google_table_summary.js"></script>
 
 
 
@@ -27,31 +27,34 @@
             'tableCell': '',
             'rowNumberCell': 'underline-blue-font'
         };
+        var tableOptions = {
+            allowHtml: true,
+            page: 'enabled',
+            pageSize: 10,
+            width: '90%',
+            'cssClassNames': cssClassNames
+        };
 
-        google.charts.setOnLoadCallback(drawCountriesMeanTable);
 
-        function drawCountriesMeanTable() {
-            var gdata = google.visualization.arrayToDataTable(countries_mean);
+        google.charts.setOnLoadCallback(drawCountriesTableSummary);
+
+        function drawCountriesTableSummary() {
+            var gdata = google.visualization.arrayToDataTable(countries_table_summary);
 
             var formatter = new google.visualization.NumberFormat(
                 { pattern: number_format });
 
             formatter.format(gdata, 2);
+            formatter.format(gdata, 3);
+            formatter.format(gdata, 4);
 
-            var options = {
-                allowHtml: true,
-                page: 'enabled',
-                pageSize: 10,
-                width: '90%',
-                'cssClassNames': cssClassNames
-            };
+            var chart = new google.visualization.Table(document.getElementById('countries_mean_table_div'));
 
-            var chart = new google.visualization.Table(document.getElementById('countries_mean_div'));
-
-            chart.draw(gdata, options);
+            chart.draw(gdata, tableOptions);
         }
+
     </script>
 </head>
-<div id="countries_mean_div" style="width: 1300px; height: 900px;"></div>
+<div id="countries_mean_table_div" style="width: 1300px; height: 900px;"></div>
 
 </html>
