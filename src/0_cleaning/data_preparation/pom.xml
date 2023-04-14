@@ -15,7 +15,7 @@
 		<maven.eclipse.plugin.version>2.10</maven.eclipse.plugin.version>
 		<maven.jar.plugin.version>3.0.0</maven.jar.plugin.version>
 		<jdk.version>1.8</jdk.version>
-		<json.version>20171018</json.version>
+		<json.version>20230227</json.version>
 	</properties>
 
 
